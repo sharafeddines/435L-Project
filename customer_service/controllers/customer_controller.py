@@ -4,7 +4,7 @@ from services.customer_service import (
     get_all_customers, get_customer_by_username,
     charge_wallet, deduct_wallet, authenticate_customer
 )
-from utils.security import create_token, get_user_from_token
+from utils.security import create_token, get_user_from_token, get_all_user_from_token
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 customer_bp = Blueprint('customer_bp', __name__)
@@ -116,9 +116,9 @@ def login():
 @customer_bp.route('/get_user_from_token', methods=['POST'])
 def get_user_from_token_api():
     try:
-        current_user = get_user_from_token(request)[0]
+        current_user = get_all_user_from_token(request)[0]
         if current_user == None:
             return jsonify({'error': 'Invalid amount provided'}), 400
-        return jsonify(current_user), 200
+        return jsonify(current_user.to_dict()), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500

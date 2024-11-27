@@ -91,3 +91,43 @@ def get_user_from_token(request):
 
     # Serialize the user object
     return user.username, 200
+
+def get_all_user_from_token(request):
+    """
+    Extracts and validates the user from a given token in the request.
+
+    Args:
+        request: The Flask request object containing the authorization header.
+
+    Returns:
+        JSON response containing user information or error message.
+    """
+    # Extract token from request headers
+    token = extract_auth_token(request)
+    if not token:
+        return jsonify({"error": "Token not provided!"}), 499
+
+    try:
+        # Remove 'Bearer ' prefix if present
+        token = token.replace("Bearer ", "")
+        print(token)
+        # Decode the token to get the user identity (usually user_id or username)
+        print("DECODING")
+        user_id = decode_token(token)
+        print('kan')
+        print(user_id)
+        #user_id = decoded_data.get("sub")  # Assuming the user identity is stored in the 'sub' claim
+    except Exception as e:
+        print(e)
+        return jsonify({"error": "Invalid Token!"}), 498
+    try:
+        # Query the database for the user
+        user = Customer.query.filter_by(id=user_id).first()
+    except Exception:
+        abort(500)
+
+    if not user:
+        return jsonify({"error": "Invalid Token!"}), 498
+
+    # Serialize the user object
+    return user, 200
