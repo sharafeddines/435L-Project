@@ -60,7 +60,9 @@ def get_by_username(username):
 
 @customer_bp.route('/charge', methods=['POST'])
 def charge():
+    print("USERRRRR")
     current_user = get_user_from_token(request)[0]
+    print("USERRRRR")
     print(current_user)
     # Ensure the token identity matches the username in the request
     
@@ -69,7 +71,7 @@ def charge():
     if amount is None or amount <= 0:
         return jsonify({'error': 'Invalid amount.'}), 400
     try:
-        new_balance = charge_wallet(current_user["username"], amount)
+        new_balance = charge_wallet(current_user, amount)
         return jsonify({'new_balance': new_balance}), 200
     except ValueError as e:
         return jsonify({'error': str(e)}), 404
@@ -86,7 +88,7 @@ def deduct():
         if amount is None or amount <= 0:
             return jsonify({'error': 'Invalid amount provided'}), 400
 
-        updated_wallet = deduct_wallet(current_user["username"], amount)
+        updated_wallet = deduct_wallet(current_user, amount)
         return jsonify({'message': 'Amount deducted successfully', 'wallet_balance': updated_wallet}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -112,7 +114,7 @@ def login():
         return jsonify({'error': str(e)}), 500
 
 @customer_bp.route('/get_user_from_token', methods=['POST'])
-def get_user_from_token():
+def get_user_from_token_api():
     try:
         current_user = get_user_from_token(request)[0]
         if current_user == None:
