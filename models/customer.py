@@ -7,7 +7,7 @@ class Customer(db.Model):
     id = Column(Integer, primary_key=True)
     full_name = Column(String(100), nullable=False)
     username = Column(String(50), unique=True, nullable=False)
-    password_hash = Column(String(128), nullable=False)
+    password_hash = Column(String(255), nullable=False)
     age = Column(Integer)
     address = Column(String(200))
     gender = Column(String(10))
