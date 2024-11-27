@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from services.inventory_service import add_goods, deduct_goods, update_goods
+from services.inventory_service import add_goods, deduct_goods, update_goods, get_all_inventory
 from models.inventory import Inventory
 
 inventory_bp = Blueprint("inventory", __name__)
@@ -31,3 +31,8 @@ def update_goods_route(item_id):
         return jsonify({"message": "Goods updated successfully", "goods": updated_goods.to_dict()}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 400
+
+@inventory_bp.route('/', methods=['GET'])
+def get_all():
+    inventories = get_all_inventory()
+    return jsonify([inventory.to_dict() for inventory in inventories]), 200
