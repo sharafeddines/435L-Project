@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from services.inventory_service import add_goods, deduct_goods, update_goods
-from models.inventory import Goods
+from models.inventory import Inventory
 
 inventory_bp = Blueprint("inventory", __name__)
 

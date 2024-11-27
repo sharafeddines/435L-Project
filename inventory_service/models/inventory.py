@@ -1,7 +1,7 @@
 from utils.database import db
 
-class Goods(db.Model):
-    __tablename__ = "goods"
+class Inventory(db.Model):
+    __tablename__ = "inventory"
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)

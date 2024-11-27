@@ -1,8 +1,8 @@
-from models.inventory import Goods
+from models.inventory import Inventory
 from utils.database import db
 
 def add_goods(data):
-    new_goods = Goods(
+    new_goods = Inventory(
         name=data["name"],
         category=data["category"],
         price_per_item=data["price_per_item"],
@@ -14,7 +14,7 @@ def add_goods(data):
     return new_goods
 
 def deduct_goods(item_id, count):
-    goods = Goods.query.get(item_id)
+    goods = Inventory.query.get(item_id)
     if not goods:
         raise ValueError("Item not found")
     if goods.count_in_stock < count:
@@ -24,7 +24,7 @@ def deduct_goods(item_id, count):
     return goods
 
 def update_goods(item_id, update_data):
-    goods = Goods.query.get(item_id)
+    goods = Inventory.query.get(item_id)
     if not goods:
         raise ValueError("Item not found")
 
