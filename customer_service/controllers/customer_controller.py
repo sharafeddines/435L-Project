@@ -58,39 +58,35 @@ def get_by_username(username):
     else:
         return jsonify({'error': 'Customer not found.'}), 404
 
-@customer_bp.route('/<username>/charge', methods=['POST'])
-def charge(username):
+@customer_bp.route('/charge', methods=['POST'])
+def charge():
     current_user = get_user_from_token(request)[0]
     print(current_user)
     # Ensure the token identity matches the username in the request
-    if current_user != username:
-        return jsonify({'error': 'Access denied: Unauthorized user.'}), 403
-
+    
     data = request.get_json()
     amount = data.get('amount')
     if amount is None or amount <= 0:
         return jsonify({'error': 'Invalid amount.'}), 400
     try:
-        new_balance = charge_wallet(username, amount)
+        new_balance = charge_wallet(current_user["username"], amount)
         return jsonify({'new_balance': new_balance}), 200
     except ValueError as e:
         return jsonify({'error': str(e)}), 404
 
-@customer_bp.route('/<username>/deduct', methods=['POST'])
-def deduct(username):
+@customer_bp.route('/deduct', methods=['POST'])
+def deduct():
     try:
         current_user = get_user_from_token(request)[0]
         print(current_user)
         # Ensure the token identity matches the username in the request
-        if current_user != username:
-            return jsonify({'error': 'Access denied: Unauthorized user.'}), 403
         data = request.get_json()
         amount = data.get('amount')
 
         if amount is None or amount <= 0:
             return jsonify({'error': 'Invalid amount provided'}), 400
 
-        updated_wallet = deduct_wallet(username, amount)
+        updated_wallet = deduct_wallet(current_user["username"], amount)
         return jsonify({'message': 'Amount deducted successfully', 'wallet_balance': updated_wallet}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -112,5 +108,15 @@ def login():
         access_token = create_token(customer.id)
         return jsonify({'access_token': access_token}), 200
 
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@customer_bp.route('/get_user_from_token', methods=['POST'])
+def get_user_from_token():
+    try:
+        current_user = get_user_from_token(request)[0]
+        if current_user == None:
+            return jsonify({'error': 'Invalid amount provided'}), 400
+        return jsonify(current_user), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
