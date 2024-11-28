@@ -8,7 +8,7 @@ class Review(db.Model):
     product_id = db.Column(db.Integer, nullable=False)
     rating = db.Column(db.Integer, nullable=False)
     description = db.Column(db.String(255), nullable=True)
-    flagged = db.Column(db.Boolean, nullable=False)
+    flagged = db.Column(db.Boolean, default=False, nullable=False)
 
     def to_dict(self):
         return {
