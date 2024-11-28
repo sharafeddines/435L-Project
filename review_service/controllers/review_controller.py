@@ -7,8 +7,8 @@ review_bp = Blueprint("review", __name__)
 
 @review_bp.route("/add", methods=["POST"])
 def add_review_route():
-    url_inventory = "http://172.17.0.4:5002/inventory/"
-    url_customers = "http://172.17.0.3:5001/customers/get_user_from_token"
+    url_inventory = "http://172.17.0.4:5000/inventory/"
+    url_customers = "http://172.17.0.3:5000/customers/get_user_from_token"
     try:
         data = request.get_json()
         data_items_request = requests.get(url_inventory)
