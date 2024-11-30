@@ -38,29 +38,33 @@ def get_details_of_item(item_name):
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
-@sales_bp.route("/make_sale/<string:item_name>", methods=["POST"])
-def make_sale(item_name):
+@sales_bp.route('/make_sale', methods=['POST'])
+def make_sale():
     try:
+        data = request.get_json()
+        item_name = data.get("item_name")
+        quantity = data.get("quantity")
         response_get_item = requests.get(url_inventory)
         if response_get_item.status_code == 200:
             data = response_get_item.json()  # Parse the JSON response
             item = next((item for item in data if item.get('name') == item_name), None)
+            print(item)
             if (item == None):
                 raise ValueError("Item not found")
-            if item["count_in_stock"]<0:
-                raise ValueError("Item out of stock")
+            if item["count_in_stock"]<0 or item["count_in_stock"]<quantity:
+                raise ValueError(f"Item out of stock or there is not this much of product {item_name}")
         else:
             raise ValueError("An error has occured")
         print(item)
         url_deduct = url_inventory+"goods/"+str(item["id"])+"/deduct"
         print(url_deduct)
-        response_deduct_quantity = requests.post(url_deduct, json={"count":1})
+        response_deduct_quantity = requests.post(url_deduct, json={"count":quantity})
         if(response_deduct_quantity.status_code != 200):
             raise ValueError("Unable to deduct items from inventory")
 
         response = requests.post(url_customer, headers=request.headers, 
                                  json={
-                                    "amount":item["price_per_item"]    
+                                    "amount":item["price_per_item"]*quantity   
                                  }
                                  )
         print("response.json()")
@@ -76,7 +80,7 @@ def make_sale(item_name):
         data = {
             "customer_id":customer["id"],
             "product_id":item['id'],
-            "quantity":1
+            "quantity":quantity
         }
         sale = add_sale(data)
         return jsonify(sale.to_dict()), 200
