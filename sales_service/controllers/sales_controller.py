@@ -82,3 +82,21 @@ def make_sale(item_name):
         return jsonify(sale.to_dict()), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 400
+
+@sales_bp.route('/sales', methods=['GET'])
+def get_all_sales():
+    try:
+        all_sales = Sales.query.all()  # Fetches all sales records from the database
+        sales_data = [sale.to_dict() for sale in all_sales]  # Convert to dictionary
+        return jsonify({'status': 'success', 'data': sales_data}), 200
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+@sales_bp.route('/sales/customer/<int:customer_id>', methods=['GET'])
+def get_sales_by_customer(customer_id):
+    try:
+        customer_sales = Sales.query.filter_by(customer_id=customer_id).all()  # Fetch sales for a specific customer
+        sales_data = [sale.to_dict() for sale in customer_sales]  # Convert to dictionary
+        return jsonify({'status': 'success', 'data': sales_data}), 200
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
