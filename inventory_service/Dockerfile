@@ -22,4 +22,4 @@ RUN pip install -r requirements.txt
 EXPOSE 5002
 COPY . /app
 WORKDIR /app
-CMD ["python3","inventory_service.py"]
+CMD ["sh", "-c", "sleep 60 && python3 inventory_service.py"]

@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+  mssql:
+    image: mssql-custom
+    build:
+      context: docker_files
+      dockerfile: Dockerfile
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=SO@12345
+    ports:
+      - "1433:1433"
+    networks:
+      custom_network:
+        ipv4_address: 192.168.1.2
+
+  customer_service:
+    image: customer_service
+    build:
+      context: customer_service
+      dockerfile: Dockerfile
+    depends_on:
+      - mssql
+    ports:
+      - "5001:5000"
+    networks:
+      custom_network:
+        ipv4_address: 192.168.1.3
+
+  inventory_service:
+    image: inventory_service
+    build:
+      context: inventory_service
+      dockerfile: Dockerfile
+    depends_on:
+      - mssql
+    ports:
+      - "5002:5000"
+    networks:
+      custom_network:
+        ipv4_address: 192.168.1.4
+
+  sale_service:
+    image: sale_service
+    build:
+      context: sales_service
+      dockerfile: Dockerfile
+    depends_on:
+      - mssql
+    ports:
+      - "5003:5000"
+    networks:
+      custom_network:
+        ipv4_address: 192.168.1.5
+
+  review_service:
+    image: review_service
+    build:
+      context: review_service
+      dockerfile: Dockerfile
+    depends_on:
+      - mssql
+    ports:
+      - "5004:5000"
+    networks:
+      custom_network:
+        ipv4_address: 192.168.1.6
+
+networks:
+  custom_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.1.0/24

@@ -22,4 +22,4 @@ RUN pip install -r requirements.txt
 EXPOSE 5004
 COPY . /app
 WORKDIR /app
-CMD ["python3","review_service.py"]
+CMD ["sh", "-c", "sleep 60 && python3 review_service.py"]

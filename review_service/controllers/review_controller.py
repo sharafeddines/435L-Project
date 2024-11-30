@@ -22,6 +22,9 @@ limiter = Limiter(
     storage_uri="memory://",  
 )
 
+url_inventory = "http://192.168.1.4:5000/inventory/"
+url_customers = "http://192.168.1.3:5000/customers/get_user_from_token"
+
 @review_bp.route('/health')
 def health_check():
     results = check_db_connection()
@@ -38,8 +41,6 @@ def health_check():
 @review_bp.route("/add", methods=["POST"])
 @limiter.limit("5 per minute") 
 def add_review_route():
-    url_inventory = "http://172.17.0.4:5000/inventory/"
-    url_customers = "http://172.17.0.3:5000/customers/get_user_from_token"
     try:
         data = request.get_json()
         try:
@@ -90,8 +91,6 @@ def add_review_route():
 @review_bp.route("/update", methods=["PUT"])
 @limiter.limit("5 per minute") 
 def update_review_route():
-    url_inventory = "http://172.17.0.4:5000/inventory/"
-    url_customers = "http://172.17.0.3:5000/customers/get_user_from_token"
     try:
         data = request.get_json()
         data_items_request = requests.get(url_inventory)
@@ -116,8 +115,6 @@ def update_review_route():
 @review_bp.route("/delete", methods=["DELETE"])
 @limiter.limit("5 per minute") 
 def delete_review_route():
-    url_inventory = "http://172.17.0.4:5000/inventory/"
-    url_customers = "http://172.17.0.3:5000/customers/get_user_from_token"
     try:
         data = request.get_json()
         try:
@@ -153,7 +150,6 @@ def delete_review_route():
 @review_bp.route('/get/all_by_customer', methods=['GET'])
 @limiter.limit("10 per minute") 
 def get_all_by_customer():
-    url_customers = "http://172.17.0.3:5000/customers/get_user_from_token"
     try:
         try:
             data_customer_request = customers_breaker.call(requests.post, url_customers, headers=request.headers)
@@ -201,8 +197,6 @@ def get_all_by_product():
 @review_bp.route("/get/specific", methods=["GET"])
 @limiter.limit("10 per minute") 
 def get_specific_review():
-    url_inventory = "http://172.17.0.4:5000/inventory/"
-    url_customers = "http://172.17.0.3:5000/customers/"
     try:
         data = request.get_json()
         if not data:
@@ -241,7 +235,6 @@ def get_specific_review():
 
 @review_bp.route("/flag", methods=["POST"])
 def flag_review_route():
-    url_customers = "http://172.17.0.3:5000/customers/get_user_from_token"
     try:
         data = request.get_json()
         try:

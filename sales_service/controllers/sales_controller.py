@@ -7,8 +7,8 @@ from utils.database import check_db_connection
 
 sales_bp = Blueprint("sales", __name__)
 
-url_customer = "http://172.17.0.3:5000/customers/deduct"
-url_inventory = "http://172.17.0.4:5000/inventory/"
+url_customer = "http://192.168.1.3:5000/customers/deduct"
+url_inventory = "http://192.168.1.4:5000/inventory/"
 
 customers_breaker = pybreaker.CircuitBreaker(fail_max=3, reset_timeout=6)
 inventory_breaker = pybreaker.CircuitBreaker(fail_max=3, reset_timeout=6)
@@ -134,7 +134,7 @@ def make_sale():
         try:
             response_get_customer = customers_breaker.call(
                 requests.post,
-                "http://172.17.0.3:5000/customers/get_user_from_token",
+                "http://192.168.1.3:5000/customers/get_user_from_token",
                 headers=request.headers,
             )
             if response_get_customer.status_code != 200:
