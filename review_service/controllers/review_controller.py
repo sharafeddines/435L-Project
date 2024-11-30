@@ -13,6 +13,15 @@ sales_breaker = pybreaker.CircuitBreaker(fail_max=3, reset_timeout=6)
 
 review_bp = Blueprint("review", __name__)
 
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+
+limiter = Limiter(
+    get_remote_address,
+    default_limits=["200 per day", "50 per hour"], 
+    storage_uri="memory://",  
+)
+
 @review_bp.route('/health')
 def health_check():
     results = check_db_connection()
@@ -27,6 +36,7 @@ def health_check():
     return jsonify(status), 200 if db_status else 503
 
 @review_bp.route("/add", methods=["POST"])
+@limiter.limit("5 per minute") 
 def add_review_route():
     url_inventory = "http://172.17.0.4:5000/inventory/"
     url_customers = "http://172.17.0.3:5000/customers/get_user_from_token"
@@ -78,6 +88,7 @@ def add_review_route():
         return jsonify({"error": str(e)}), 400
 
 @review_bp.route("/update", methods=["PUT"])
+@limiter.limit("5 per minute") 
 def update_review_route():
     url_inventory = "http://172.17.0.4:5000/inventory/"
     url_customers = "http://172.17.0.3:5000/customers/get_user_from_token"
@@ -103,6 +114,7 @@ def update_review_route():
         return jsonify({"error": str(e)}), 400
 
 @review_bp.route("/delete", methods=["DELETE"])
+@limiter.limit("5 per minute") 
 def delete_review_route():
     url_inventory = "http://172.17.0.4:5000/inventory/"
     url_customers = "http://172.17.0.3:5000/customers/get_user_from_token"
@@ -139,6 +151,7 @@ def delete_review_route():
 
 
 @review_bp.route('/get/all_by_customer', methods=['GET'])
+@limiter.limit("10 per minute") 
 def get_all_by_customer():
     url_customers = "http://172.17.0.3:5000/customers/get_user_from_token"
     try:
@@ -161,6 +174,7 @@ def get_all_by_customer():
         return jsonify({"error": str(e)}), 400
 
 @review_bp.route('/get/all_by_product', methods=['GET'])
+@limiter.limit("10 per minute") 
 def get_all_by_product():
     url_inventory = "http://172.17.0.4:5000/inventory/"
     try:
@@ -185,6 +199,7 @@ def get_all_by_product():
         return jsonify({"error": str(e)}), 400
 
 @review_bp.route("/get/specific", methods=["GET"])
+@limiter.limit("10 per minute") 
 def get_specific_review():
     url_inventory = "http://172.17.0.4:5000/inventory/"
     url_customers = "http://172.17.0.3:5000/customers/"

@@ -13,6 +13,15 @@ url_inventory = "http://172.17.0.4:5000/inventory/"
 customers_breaker = pybreaker.CircuitBreaker(fail_max=3, reset_timeout=6)
 inventory_breaker = pybreaker.CircuitBreaker(fail_max=3, reset_timeout=6)
 
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+
+limiter = Limiter(
+    get_remote_address,
+    default_limits=["200 per day", "50 per hour"], 
+    storage_uri="memory://",  
+)
+
 @sales_bp.route('/health')
 def health_check():
     results = check_db_connection()
@@ -27,6 +36,7 @@ def health_check():
     return jsonify(status), 200 if db_status else 503
 
 @sales_bp.route("/display_available_goods", methods=["GET"])
+@limiter.limit("25 per minute") 
 def get_available_goods():
     try:
         try:
@@ -45,6 +55,7 @@ def get_available_goods():
         return jsonify({"error": str(e)}), 400
 
 @sales_bp.route("/get_details/<string:item_name>", methods=["GET"])
+@limiter.limit("20 per minute") 
 def get_details_of_item(item_name):
     try:
         try:
@@ -66,6 +77,7 @@ def get_details_of_item(item_name):
         return jsonify({"error": str(e)}), 400
 
 @sales_bp.route('/make_sale', methods=['POST'])
+@limiter.limit("5 per minute") 
 def make_sale():
     try:
         data = request.get_json()
@@ -146,6 +158,7 @@ def make_sale():
         return jsonify({"error": str(e)}), 400
 
 @sales_bp.route('/sales', methods=['GET'])
+@limiter.limit("20 per minute") 
 def get_all_sales():
     try:
         all_sales = Sales.query.all()  # Fetches all sales records from the database
@@ -155,6 +168,7 @@ def get_all_sales():
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
 @sales_bp.route('/sales/customer/<int:customer_id>', methods=['GET'])
+@limiter.limit("15 per minute") 
 def get_sales_by_customer(customer_id):
     try:
         customer_sales = Sales.query.filter_by(customer_id=customer_id).all()  # Fetch sales for a specific customer
