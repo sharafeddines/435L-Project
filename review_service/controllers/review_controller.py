@@ -20,9 +20,19 @@ def add_review_route():
                 raise ValueError("No such item to review")
             data_customer = data_customer_request.json()
             user_id = data_customer["id"] 
+            url_sales = f"http://172.17.0.5:5000/sales/sales/customer/{user_id}"
+            data_sales_request = requests.get(url_sales)
+            if data_sales_request.status_code == 200:
+                data_sales = data_sales_request.json()["data"]
+                print(data_sales)
+                item_bought =  next((item2 for item2 in data_sales if item2.get('product_id') == item["id"]), None)
+                if not item_bought:
+                    raise ValueError("User hasnt bought this product.")
 
-            new_review = add_review(user_id, item["id"], data)
-            return jsonify({"message": "Review added successfully", "review": new_review.to_dict()}), 201
+                new_review = add_review(user_id, item["id"], data)
+                return jsonify({"message": "Review added successfully", "review": new_review.to_dict()}), 201
+            else:
+                return jsonify({"error": "Request failed"}), 400
         else:
             return jsonify({"error": "Request failed"}), 400
     except Exception as e:
