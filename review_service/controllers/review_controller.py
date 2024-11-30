@@ -2,6 +2,13 @@ from flask import Blueprint, request, jsonify
 from services.review_service import add_review, update_review, get_all_reviews_by_product, delete_review, get_all_reviews_by_customer, get_specific_review_details, flag_review
 import requests
 from models.review import Review
+import pybreaker
+
+# Define circuit breakers
+inventory_breaker = pybreaker.CircuitBreaker(fail_max=3, reset_timeout=6)
+customers_breaker = pybreaker.CircuitBreaker(fail_max=3, reset_timeout=6)
+sales_breaker = pybreaker.CircuitBreaker(fail_max=3, reset_timeout=6)
+
 
 review_bp = Blueprint("review", __name__)
 
@@ -11,8 +18,20 @@ def add_review_route():
     url_customers = "http://172.17.0.3:5000/customers/get_user_from_token"
     try:
         data = request.get_json()
-        data_items_request = requests.get(url_inventory)
-        data_customer_request = requests.post(url_customers, headers = request.headers)
+        try:
+            data_items_request = inventory_breaker.call(requests.get, url_inventory)
+            if data_items_request.status_code != 200:
+                raise ValueError("Failed to fetch inventory data")
+            data_items = data_items_request.json()
+        except pybreaker.CircuitBreakerError:
+            raise ValueError("Inventory service unavailable")
+        try:
+            data_customer_request = customers_breaker.call(requests.post, url_customers, headers=request.headers)
+            if data_customer_request.status_code != 200:
+                raise ValueError("Failed to fetch customer data")
+            data_customer = data_customer_request.json()
+        except pybreaker.CircuitBreakerError:
+            raise ValueError("Customers service unavailable")
         if data_items_request.status_code == 200 and data_customer_request.status_code==200:
             data_items = data_items_request.json()
             item = next((item for item in data_items if item.get('name') == data["product_name"]), None)
@@ -21,7 +40,13 @@ def add_review_route():
             data_customer = data_customer_request.json()
             user_id = data_customer["id"] 
             url_sales = f"http://172.17.0.5:5000/sales/sales/customer/{user_id}"
-            data_sales_request = requests.get(url_sales)
+            try:
+                data_sales_request = sales_breaker.call(requests.get, url_sales)
+                if data_sales_request.status_code != 200:
+                    raise ValueError("Failed to fetch sales data")
+                data_sales = data_sales_request.json()["data"]
+            except pybreaker.CircuitBreakerError:
+                raise ValueError("Sales service unavailable")
             if data_sales_request.status_code == 200:
                 data_sales = data_sales_request.json()["data"]
                 print(data_sales)
@@ -69,8 +94,20 @@ def delete_review_route():
     url_customers = "http://172.17.0.3:5000/customers/get_user_from_token"
     try:
         data = request.get_json()
-        data_items_request = requests.get(url_inventory)
-        data_customer_request = requests.post(url_customers, headers = request.headers)
+        try:
+            data_items_request = inventory_breaker.call(requests.get, url_inventory)
+            if data_items_request.status_code != 200:
+                raise ValueError("Failed to fetch inventory data")
+            data_items = data_items_request.json()
+        except pybreaker.CircuitBreakerError:
+            raise ValueError("Inventory service unavailable")
+        try:
+            data_customer_request = customers_breaker.call(requests.post, url_customers, headers=request.headers)
+            if data_customer_request.status_code != 200:
+                raise ValueError("Failed to fetch customer data")
+            data_customer = data_customer_request.json()
+        except pybreaker.CircuitBreakerError:
+            raise ValueError("Customers service unavailable")
         if data_items_request.status_code == 200 and data_customer_request.status_code==200:
             data_items = data_items_request.json()
             item = next((item for item in data_items if item.get('name') == data["product_name"]), None)
@@ -91,7 +128,13 @@ def delete_review_route():
 def get_all_by_customer():
     url_customers = "http://172.17.0.3:5000/customers/get_user_from_token"
     try:
-        data_customer_request = requests.post(url_customers, headers = request.headers)
+        try:
+            data_customer_request = customers_breaker.call(requests.post, url_customers, headers=request.headers)
+            if data_customer_request.status_code != 200:
+                raise ValueError("Failed to fetch customer data")
+            data_customer = data_customer_request.json()
+        except pybreaker.CircuitBreakerError:
+            raise ValueError("Customers service unavailable")
         if data_customer_request.status_code==200:
             data_customer = data_customer_request.json()
             user_id = data_customer["id"]
@@ -108,7 +151,13 @@ def get_all_by_product():
     url_inventory = "http://172.17.0.4:5000/inventory/"
     try:
         data = request.get_json()
-        data_items_request = requests.get(url_inventory)
+        try:
+            data_items_request = inventory_breaker.call(requests.get, url_inventory)
+            if data_items_request.status_code != 200:
+                raise ValueError("Failed to fetch inventory data")
+            data_items = data_items_request.json()
+        except pybreaker.CircuitBreakerError:
+            raise ValueError("Inventory service unavailable")
         if data_items_request.status_code==200:
             data_items = data_items_request.json()
             item = next((item for item in data_items if item.get('name') == data["product_name"]), None)
@@ -133,8 +182,20 @@ def get_specific_review():
         review = Review.query.filter_by(id = data["review_id"]).first()
         if not review:
             raise ValueError("No such review exists.")
-        data_items_request = requests.get(url_inventory)
-        data_customer_request = requests.get(url_customers)
+        try:
+            data_items_request = inventory_breaker.call(requests.get, url_inventory)
+            if data_items_request.status_code != 200:
+                raise ValueError("Failed to fetch inventory data")
+            data_items = data_items_request.json()
+        except pybreaker.CircuitBreakerError:
+            raise ValueError("Inventory service unavailable")
+        try:
+            data_customer_request = customers_breaker.call(requests.get, url_customers)
+            if data_customer_request.status_code != 200:
+                raise ValueError("Failed to fetch customer data")
+            data_customer = data_customer_request.json()
+        except pybreaker.CircuitBreakerError:
+            raise ValueError("Customers service unavailable")
         if data_items_request.status_code == 200 and data_customer_request.status_code==200:
             data_items = data_items_request.json()
             item = next((item for item in data_items if item.get('id') == review.product_id), None)
@@ -154,7 +215,13 @@ def flag_review_route():
     url_customers = "http://172.17.0.3:5000/customers/get_user_from_token"
     try:
         data = request.get_json()
-        data_customer_request = requests.post(url_customers, headers = request.headers)
+        try:
+            data_customer_request = customers_breaker.call(requests.post, url_customers, headers=request.headers)
+            if data_customer_request.status_code != 200:
+                raise ValueError("Failed to fetch customer data")
+            data_customer = data_customer_request.json()
+        except pybreaker.CircuitBreakerError:
+            raise ValueError("Customers service unavailable")
         if data_customer_request.status_code==200:
             data_customer = data_customer_request.json()
             user_id = data_customer["id"]
