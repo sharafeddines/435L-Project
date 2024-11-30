@@ -1,10 +1,18 @@
 from flask import Blueprint, request, jsonify
 from services.inventory_service import add_goods, deduct_goods, update_goods, get_all_inventory
 from models.inventory import Inventory
-
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 inventory_bp = Blueprint("inventory", __name__)
 
+limiter = Limiter(
+    get_remote_address,
+    default_limits=["200 per day", "50 per hour"], 
+    storage_uri="memory://",  
+)
+
 @inventory_bp.route("/goods", methods=["POST"])
+@limiter.limit("20 per minute")  
 def add_goods_route():
     try:
         data = request.get_json()
@@ -14,6 +22,7 @@ def add_goods_route():
         return jsonify({"error": str(e)}), 400
 
 @inventory_bp.route("/goods/<int:item_id>/deduct", methods=["POST"])
+@limiter.limit("20 per minute")  
 def deduct_goods_route(item_id):
     try:
         data = request.get_json()
@@ -24,6 +33,7 @@ def deduct_goods_route(item_id):
         return jsonify({"error": str(e)}), 400
 
 @inventory_bp.route("/goods/<int:item_id>", methods=["PUT"])
+@limiter.limit("10 per minute")  
 def update_goods_route(item_id):
     try:
         data = request.get_json()
@@ -33,6 +43,7 @@ def update_goods_route(item_id):
         return jsonify({"error": str(e)}), 400
 
 @inventory_bp.route('/', methods=['GET'])
+@limiter.limit("20 per minute")  
 def get_all():
     inventories = get_all_inventory()
     return jsonify([inventory.to_dict() for inventory in inventories]), 200

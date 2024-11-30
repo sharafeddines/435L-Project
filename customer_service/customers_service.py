@@ -1,10 +1,12 @@
 from flask import Flask
-from controllers.customer_controller import customer_bp
+from controllers.customer_controller import customer_bp, limiter
+
 
 from utils.database import db, init_db
+
+
 def create_app():
     app = Flask(__name__)
-
     print("attempting connection")
     # Initialize database
     init_db(app)
@@ -15,4 +17,5 @@ def create_app():
 
 if __name__ == '__main__':
     app = create_app()
+    limiter.init_app(app)
     app.run(debug=True, host ="0.0.0.0")
