@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from services.review_service import add_review, update_review, get_all_reviews_by_product, delete_review, get_all_reviews_by_customer, get_specific_review_details, flag_review
+from services.review_service import add_review, update_review, get_all_reviews_by_product, delete_review, get_all_reviews_by_customer, get_specific_review_details, flag_review, delete_review_admin
 import requests
 from models.review import Review
 import pybreaker
@@ -240,6 +240,7 @@ def get_specific_review():
         return jsonify({"error": str(e)}), 400
 
 @review_bp.route("/flag", methods=["POST"])
+@limiter.limit("10 per minute") 
 def flag_review_route():
     url_customers = "http://172.17.0.3:5000/customers/get_user_from_token"
     try:
@@ -254,8 +255,9 @@ def flag_review_route():
         if data_customer_request.status_code==200:
             data_customer = data_customer_request.json()
             user_id = data_customer["id"]
-            # here can check if admin
-            
+            is_admin = data_customer["is_admin"]
+            if not is_admin:
+                raise ValueError("Action not allowed")
             review = flag_review(data["review_id"])
 
             return jsonify({"message": "Review flagged successfully", "review": review.to_dict()}), 201
@@ -264,3 +266,32 @@ def flag_review_route():
             return jsonify({"error": "Request failed"}), 400
     except Exception as e:
         return jsonify({"error": str(e)}), 400
+
+@review_bp.route("/delete_admin", methods=["DELETE"])
+@limiter.limit("10 per minute") 
+def delete_review_admin_route():
+    url_customers = "http://172.17.0.3:5000/customers/get_user_from_token"
+    try:
+        data = request.get_json()
+        try:
+            data_customer_request = customers_breaker.call(requests.post, url_customers, headers=request.headers)
+            if data_customer_request.status_code != 200:
+                raise ValueError("Failed to fetch customer data")
+            data_customer = data_customer_request.json()
+        except pybreaker.CircuitBreakerError:
+            raise ValueError("Customers service unavailable")
+        if data_customer_request.status_code==200:
+            data_customer = data_customer_request.json()
+            user_id = data_customer["id"]
+            is_admin = data_customer["is_admin"]
+            if not is_admin:
+                raise ValueError("Action not allowed")
+            review = delete_review_admin(data["review_id"])
+
+            return jsonify({"message": "Review deleted successfully"}), 201
+
+        else:
+            return jsonify({"error": "Request failed"}), 400
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+

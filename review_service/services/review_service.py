@@ -73,3 +73,10 @@ def flag_review(review_id):
     db.session.commit()
     return review
 
+def delete_review_admin(review_id):
+    review = Review.query.filter_by(id = review_id).first()
+    if not review:
+        raise ValueError("No such review exists.")
+    db.session.delete(review)
+    db.session.commit()
+

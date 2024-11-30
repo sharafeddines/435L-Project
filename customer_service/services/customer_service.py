@@ -2,7 +2,7 @@ from models.customer import Customer
 from utils.database import db
 from utils.security import hash_password, verify_password
 
-def register_customer(data):
+def register_customer(data, is_admin=False):
     if Customer.query.filter_by(username=data['username']).first():
         raise ValueError('Username already exists.')
 
@@ -16,6 +16,7 @@ def register_customer(data):
         gender=data.get('gender'),
         marital_status=data.get('marital_status')
     )
+    new_customer.is_admin = is_admin
     db.session.add(new_customer)
     db.session.commit()
     return new_customer
