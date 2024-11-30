@@ -28,7 +28,7 @@ def health_check():
     db_status = results[0]
     elapsed_time = results[1]
     status = {
-        "service": "backend-service-1",
+        "service": "sales-service",
         "status": "healthy" if db_status else "unhealthy",
         "db_connection": db_status,
         "uptime": elapsed_time
