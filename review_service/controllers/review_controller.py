@@ -3,6 +3,7 @@ from services.review_service import add_review, update_review, get_all_reviews_b
 import requests
 from models.review import Review
 import pybreaker
+from utils.database import check_db_connection
 
 # Define circuit breakers
 inventory_breaker = pybreaker.CircuitBreaker(fail_max=3, reset_timeout=6)
@@ -11,6 +12,19 @@ sales_breaker = pybreaker.CircuitBreaker(fail_max=3, reset_timeout=6)
 
 
 review_bp = Blueprint("review", __name__)
+
+@review_bp.route('/health')
+def health_check():
+    results = check_db_connection()
+    db_status = results[0]
+    elapsed_time = results[1]
+    status = {
+        "service": "backend-service-1",
+        "status": "healthy" if db_status else "unhealthy",
+        "db_connection": db_status,
+        "uptime": elapsed_time
+    }
+    return jsonify(status), 200 if db_status else 503
 
 @review_bp.route("/add", methods=["POST"])
 def add_review_route():

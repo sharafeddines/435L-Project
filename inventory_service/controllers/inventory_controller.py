@@ -1,8 +1,22 @@
 from flask import Blueprint, request, jsonify
 from services.inventory_service import add_goods, deduct_goods, update_goods, get_all_inventory
+from utils.database import check_db_connection
 from models.inventory import Inventory
 
 inventory_bp = Blueprint("inventory", __name__)
+
+@inventory_bp.route('/health')
+def health_check():
+    results = check_db_connection()
+    db_status = results[0]
+    elapsed_time = results[1]
+    status = {
+        "service": "backend-service-1",
+        "status": "healthy" if db_status else "unhealthy",
+        "db_connection": db_status,
+        "uptime": elapsed_time
+    }
+    return jsonify(status), 200 if db_status else 503
 
 @inventory_bp.route("/goods", methods=["POST"])
 def add_goods_route():

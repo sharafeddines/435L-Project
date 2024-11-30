@@ -5,9 +5,24 @@ from services.customer_service import (
     charge_wallet, deduct_wallet, authenticate_customer
 )
 from utils.security import create_token, get_user_from_token, get_all_user_from_token
+from utils.database import check_db_connection
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 customer_bp = Blueprint('customer_bp', __name__)
+
+@customer_bp.route('/health')
+def health_check():
+    results = check_db_connection()
+    db_status = results[0]
+    elapsed_time = results[1]
+    status = {
+        "service": "backend-service-1",
+        "status": "healthy" if db_status else "unhealthy",
+        "db_connection": db_status,
+        "uptime": elapsed_time
+    }
+    return jsonify(status), 200 if db_status else 503
+
 
 @customer_bp.route('/register', methods=['POST'])
 def register():

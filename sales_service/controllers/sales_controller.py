@@ -3,6 +3,7 @@ import requests
 from services.sales_service import add_sale
 from models.sales import Sales
 import pybreaker
+from utils.database import check_db_connection
 
 sales_bp = Blueprint("sales", __name__)
 
@@ -11,6 +12,19 @@ url_inventory = "http://172.17.0.4:5000/inventory/"
 
 customers_breaker = pybreaker.CircuitBreaker(fail_max=3, reset_timeout=6)
 inventory_breaker = pybreaker.CircuitBreaker(fail_max=3, reset_timeout=6)
+
+@sales_bp.route('/health')
+def health_check():
+    results = check_db_connection()
+    db_status = results[0]
+    elapsed_time = results[1]
+    status = {
+        "service": "backend-service-1",
+        "status": "healthy" if db_status else "unhealthy",
+        "db_connection": db_status,
+        "uptime": elapsed_time
+    }
+    return jsonify(status), 200 if db_status else 503
 
 @sales_bp.route("/display_available_goods", methods=["GET"])
 def get_available_goods():
