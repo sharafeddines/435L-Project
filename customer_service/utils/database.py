@@ -1,12 +1,19 @@
 from flask_sqlalchemy import SQLAlchemy
-
 from sqlalchemy import text
-
+from werkzeug.security import generate_password_hash
 import time
 
 db = SQLAlchemy()
 
 start_time = None
+
+def hash_password(password):
+    """
+    Hashes a plain-text password.
+    :param password: Plain-text password
+    :return: Hashed password
+    """
+    return generate_password_hash(password)
 
 def init_db(app):
     global start_time 
@@ -23,6 +30,27 @@ def init_db(app):
         from models.customer import Customer
 
         db.create_all()  # Create all tables
+        with db.engine.connect() as connection:
+            # Wrap the raw SQL query with `text`
+            try:
+                password_admin = hash_password("admin")
+                result = connection.execute(text("""
+                INSERT INTO Customers (full_name, username, password_hash, age, address, gender, marital_status, is_admin)
+                VALUES (:full_name, :username, :password_hash, :age, :address, :gender, :marital_status, :is_admin)
+                """), {
+                    "full_name": "admin",
+                    "username": "admin",
+                    "password_hash": password_admin,
+                    "age": 0,
+                    "address": "blank",
+                    "gender": "M",
+                    "marital_status": "na",
+                    "is_admin": True
+                })
+                connection.commit()
+            except:
+                pass
+
 
 
 def check_db_connection():

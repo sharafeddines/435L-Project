@@ -67,6 +67,9 @@ def update(username):
 @customer_bp.route('/', methods=['GET'])
 @limiter.limit("20 per minute")
 def get_all():
+    current_user = get_user_from_token(request)[0]
+    if current_user != "admin":
+        return jsonify({"error":"Action not allowed"}),400
     customers = get_all_customers()
     return jsonify([customer.to_dict() for customer in customers]), 200
 

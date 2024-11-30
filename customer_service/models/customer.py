@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Integer, Float
+from sqlalchemy import Column, String, Integer, Float, Boolean
 from utils.database import db
 
 class Customer(db.Model):
@@ -13,6 +13,7 @@ class Customer(db.Model):
     gender = Column(String(10))
     marital_status = Column(String(20))
     wallet_balance = Column(Float, default=0.0)
+    is_admin = Column(Boolean, default=False)
     def to_dict(self):
         """
         Convert the Customer object to a dictionary for serialization.
@@ -25,7 +26,8 @@ class Customer(db.Model):
             'address': self.address,
             'gender': self.gender,
             'marital_status': self.marital_status,
-            'wallet_balance': self.wallet_balance
+            'wallet_balance': self.wallet_balance,
+            "is_admin" : self.is_admin
         }
 
     def __repr__(self):
