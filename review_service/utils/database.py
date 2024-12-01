@@ -8,6 +8,13 @@ db = SQLAlchemy()
 start_time = None
 
 def init_db(app):
+    """
+    Initialize the database with the Flask application.
+
+    :param app: The Flask application instance.
+    :type app: flask.Flask
+    :raises Exception: If the database URI configuration fails.
+    """
     global start_time 
     start_time = time.time()
     try:
@@ -24,6 +31,12 @@ def init_db(app):
         db.create_all()  # Create all tables
 
 def check_db_connection():
+    """
+    Check the database connection and measure uptime since initialization.
+
+    :return: A tuple with the connection status (True/False) and elapsed time since initialization.
+    :rtype: tuple(bool, float or None)
+    """
     try:
         elapsed_time = time.time() - start_time
         # Create a connection from the engine

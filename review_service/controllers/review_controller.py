@@ -27,6 +27,12 @@ url_customers = "http://192.168.1.3:5000/customers/get_user_from_token"
 
 @review_bp.route('/health')
 def health_check():
+    """
+    Check the health of the review service.
+
+    :return: JSON response indicating service health and database connection status.
+    :rtype: tuple
+    """
     results = check_db_connection()
     db_status = results[0]
     elapsed_time = results[1]
@@ -41,6 +47,12 @@ def health_check():
 @review_bp.route("/add", methods=["POST"])
 @limiter.limit("5 per minute") 
 def add_review_route():
+    """
+    Add a review for a product.
+
+    :return: JSON response with review details if successful or an error message.
+    :rtype: tuple
+    """
     try:
         data = request.get_json()
         try:
@@ -91,6 +103,12 @@ def add_review_route():
 @review_bp.route("/update", methods=["PUT"])
 @limiter.limit("5 per minute") 
 def update_review_route():
+    """
+    Update an existing review.
+
+    :return: JSON response with updated review details or an error message.
+    :rtype: tuple
+    """
     try:
         data = request.get_json()
         data_items_request = requests.get(url_inventory)
@@ -115,6 +133,12 @@ def update_review_route():
 @review_bp.route("/delete", methods=["DELETE"])
 @limiter.limit("5 per minute") 
 def delete_review_route():
+    """
+    Delete a user's review for a product.
+
+    :return: JSON response indicating success or an error message.
+    :rtype: tuple
+    """
     try:
         data = request.get_json()
         try:
@@ -150,6 +174,12 @@ def delete_review_route():
 @review_bp.route('/get/all_by_customer', methods=['GET'])
 @limiter.limit("10 per minute") 
 def get_all_by_customer():
+    """
+    Retrieve all reviews created by a specific customer.
+
+    :return: JSON response with a list of reviews or an error message.
+    :rtype: tuple
+    """
     try:
         try:
             data_customer_request = customers_breaker.call(requests.post, url_customers, headers=request.headers)
@@ -172,6 +202,12 @@ def get_all_by_customer():
 @review_bp.route('/get/all_by_product', methods=['GET'])
 @limiter.limit("10 per minute") 
 def get_all_by_product():
+    """
+    Retrieve all reviews for a specific product.
+
+    :return: JSON response with a list of reviews or an error message.
+    :rtype: tuple
+    """
     url_inventory = "http://172.17.0.4:5000/inventory/"
     try:
         data = request.get_json()
@@ -197,6 +233,12 @@ def get_all_by_product():
 @review_bp.route("/get/specific", methods=["GET"])
 @limiter.limit("10 per minute") 
 def get_specific_review():
+    """
+    Retrieve specific review details including customer and product information.
+
+    :return: JSON response with review details or an error message.
+    :rtype: tuple
+    """
     try:
         data = request.get_json()
         if not data:
@@ -236,6 +278,12 @@ def get_specific_review():
 @review_bp.route("/flag", methods=["POST"])
 @limiter.limit("10 per minute") 
 def flag_review_route():
+    """
+    Flag a review for administrative attention.
+
+    :return: JSON response indicating success or an error message.
+    :rtype: tuple
+    """
     try:
         data = request.get_json()
         try:
@@ -263,6 +311,12 @@ def flag_review_route():
 @review_bp.route("/delete_admin", methods=["DELETE"])
 @limiter.limit("10 per minute") 
 def delete_review_admin_route():
+    """
+    Delete a review as an administrator.
+
+    :return: JSON response indicating success or an error message.
+    :rtype: tuple
+    """
     url_customers = "http://172.17.0.3:5000/customers/get_user_from_token"
     try:
         data = request.get_json()
