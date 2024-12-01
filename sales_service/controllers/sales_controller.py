@@ -24,6 +24,12 @@ limiter = Limiter(
 
 @sales_bp.route('/health')
 def health_check():
+    """
+    Check the health of the sales service.
+
+    :return: JSON response indicating service health and database connection status.
+    :rtype: tuple
+    """
     results = check_db_connection()
     db_status = results[0]
     elapsed_time = results[1]
@@ -38,6 +44,12 @@ def health_check():
 @sales_bp.route("/display_available_goods", methods=["GET"])
 @limiter.limit("25 per minute") 
 def get_available_goods():
+    """
+    Fetch a list of available goods in the inventory.
+
+    :return: JSON response with a list of available goods or an error message.
+    :rtype: tuple
+    """
     try:
         try:
             response = inventory_breaker.call(requests.get, url_inventory)
@@ -57,6 +69,14 @@ def get_available_goods():
 @sales_bp.route("/get_details/<string:item_name>", methods=["GET"])
 @limiter.limit("20 per minute") 
 def get_details_of_item(item_name):
+    """
+    Fetch details for a specific item.
+
+    :param item_name: The name of the item.
+    :type item_name: str
+    :return: JSON response with item details or an error message.
+    :rtype: tuple
+    """
     try:
         try:
             response = inventory_breaker.call(requests.get, url_inventory)
@@ -79,6 +99,12 @@ def get_details_of_item(item_name):
 @sales_bp.route('/make_sale', methods=['POST'])
 @limiter.limit("5 per minute") 
 def make_sale():
+    """
+    Process a sale by deducting inventory and charging the customer.
+
+    :return: JSON response with sale details or an error message.
+    :rtype: tuple
+    """
     try:
         data = request.get_json()
         item_name = data.get("item_name")
@@ -160,6 +186,12 @@ def make_sale():
 @sales_bp.route('/sales', methods=['GET'])
 @limiter.limit("20 per minute") 
 def get_all_sales():
+    """
+    Fetch all sales records.
+
+    :return: JSON response with all sales data or an error message.
+    :rtype: tuple
+    """
     try:
         all_sales = Sales.query.all()  # Fetches all sales records from the database
         sales_data = [sale.to_dict() for sale in all_sales]  # Convert to dictionary
@@ -170,6 +202,14 @@ def get_all_sales():
 @sales_bp.route('/sales/customer/<int:customer_id>', methods=['GET'])
 @limiter.limit("15 per minute") 
 def get_sales_by_customer(customer_id):
+    """
+    Fetch all sales records for a specific customer.
+
+    :param customer_id: The ID of the customer.
+    :type customer_id: int
+    :return: JSON response with sales data for the customer or an error message.
+    :rtype: tuple
+    """
     try:
         customer_sales = Sales.query.filter_by(customer_id=customer_id).all()  # Fetch sales for a specific customer
         sales_data = [sale.to_dict() for sale in customer_sales]  # Convert to dictionary
