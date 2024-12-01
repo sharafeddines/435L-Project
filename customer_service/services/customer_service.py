@@ -3,6 +3,20 @@ from utils.database import db
 from utils.security import hash_password, verify_password
 
 def register_customer(data, is_admin=False):
+    """
+    Register a new customer.
+
+    Args:
+        data (dict): A dictionary containing customer details such as full_name, 
+            username, password, age, address, gender, and marital_status.
+        is_admin (bool, optional): Specifies if the customer is an admin. Defaults to False.
+
+    Raises:
+        ValueError: If a customer with the provided username already exists.
+
+    Returns:
+        Customer: The newly registered customer object.
+    """
     if Customer.query.filter_by(username=data['username']).first():
         raise ValueError('Username already exists.')
 
@@ -22,6 +36,15 @@ def register_customer(data, is_admin=False):
     return new_customer
 
 def delete_customer(username):
+    """
+    Delete a customer by username.
+
+    Args:
+        username (str): The username of the customer to delete.
+
+    Raises:
+        ValueError: If the customer is not found.
+    """
     customer = Customer.query.filter_by(username=username).first()
     if not customer:
         raise ValueError('Customer not found.')
@@ -29,6 +52,19 @@ def delete_customer(username):
     db.session.commit()
 
 def update_customer(username, data):
+    """
+    Update the details of a customer.
+
+    Args:
+        username (str): The username of the customer to update.
+        data (dict): A dictionary containing the fields to update.
+
+    Raises:
+        ValueError: If the customer is not found.
+
+    Returns:
+        Customer: The updated customer object.
+    """
     customer = Customer.query.filter_by(username=username).first()
     if not customer:
         raise ValueError('Customer not found.')
@@ -42,22 +78,63 @@ def update_customer(username, data):
     return customer
 
 def get_all_customers():
+    """
+    Retrieve all customers.
+
+    Returns:
+        list: A list of all customer objects.
+    """
     return Customer.query.all()
 
 def get_customer_by_username(username):
+    """
+    Retrieve a customer by username.
+
+    Args:
+        username (str): The username of the customer to retrieve.
+
+    Returns:
+        Customer: The customer object if found, else None.
+    """
     return Customer.query.filter_by(username=username).first()
 
 def charge_wallet(username, amount):
+    """
+    Charge a customer's wallet by a specific amount.
+
+    Args:
+        username (str): The username of the customer.
+        amount (float): The amount to add to the wallet.
+
+    Raises:
+        ValueError: If the customer is not found or the amount is invalid.
+
+    Returns:
+        float: The updated wallet balance.
+    """
     customer = Customer.query.filter_by(username=username).first()
     if not customer:
         raise ValueError('Customer not found.')
-    if amount<=0:
+    if amount <= 0:
         raise ValueError('Need to charge a positive amount')
     customer.wallet_balance += amount
     db.session.commit()
     return customer.wallet_balance
 
 def deduct_wallet(username, amount):
+    """
+    Deduct a specific amount from a customer's wallet.
+
+    Args:
+        username (str): The username of the customer.
+        amount (float): The amount to deduct.
+
+    Raises:
+        ValueError: If the customer is not found or the balance is insufficient.
+
+    Returns:
+        float: The updated wallet balance.
+    """
     customer = Customer.query.filter_by(username=username).first()
     if not customer:
         raise ValueError('Customer not found.')
@@ -68,7 +145,16 @@ def deduct_wallet(username, amount):
     return customer.wallet_balance
 
 def authenticate_customer(username, password):
-    print("authentication")
+    """
+    Authenticate a customer using username and password.
+
+    Args:
+        username (str): The customer's username.
+        password (str): The customer's password.
+
+    Returns:
+        Customer: The customer object if authentication is successful, else None.
+    """
     customer = Customer.query.filter_by(username=username).first()
     if not customer or not verify_password(password, customer.password_hash):
         return None

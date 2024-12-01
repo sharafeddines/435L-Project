@@ -1,6 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
-
 import time
 
 db = SQLAlchemy()
@@ -8,11 +7,23 @@ db = SQLAlchemy()
 start_time = None
 
 def init_db(app):
-    global start_time 
+    """
+    Initialize the database connection and create tables.
+
+    This function configures the SQLAlchemy database URI, initializes the app context 
+    for SQLAlchemy, and creates all required tables in the database.
+
+    Args:
+        app (Flask): The Flask application instance.
+
+    Note:
+        The database is assumed to be a Microsoft SQL Server instance configured via SQLAlchemy.
+    """
+    global start_time
     start_time = time.time()
     try:
         app.config['SQLALCHEMY_DATABASE_URI'] = 'mssql+pyodbc://sa:SO%4012345@192.168.1.2:1433/application?driver=ODBC+Driver+17+for+SQL+Server'
-    except:
+    except Exception:
         pass
     print("connected")
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -23,8 +34,18 @@ def init_db(app):
 
         db.create_all()  # Create all tables
 
-
 def check_db_connection():
+    """
+    Check the database connection and uptime.
+
+    This function attempts to execute a simple query on the database to verify the connection. 
+    It also calculates the elapsed time since the application started.
+
+    Returns:
+        tuple: A tuple containing:
+            - bool: True if the database connection is successful, False otherwise.
+            - float or None: The elapsed time since the application started (in seconds), or None if the connection failed.
+    """
     try:
         elapsed_time = time.time() - start_time
         # Create a connection from the engine

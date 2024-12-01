@@ -22,6 +22,21 @@ def verify_password(password, hashed_password):
 SECRET_KEY = "b'|\xe7\xbfU3`\xc4\xec\xa7\xa9zf:}\xb5\xc7\xb9\x139^3@Dv'"
 
 def create_token(user_id):
+    """
+    Create a JSON Web Token (JWT) for a user.
+
+    Args:
+        user_id (str): The unique identifier of the user.
+
+    Returns:
+        str: A JWT encoded as a string.
+
+    Note:
+        The token includes:
+        - `exp`: Expiration time (4 days from now).
+        - `iat`: Issued at time (10 hours earlier than the current time).
+        - `sub`: The subject, representing the user's ID.
+    """
     payload = {
         'exp': datetime.datetime.now() + datetime.timedelta(days=4),
         'iat': datetime.datetime.now() - datetime.timedelta(hours=10),
@@ -34,6 +49,15 @@ def create_token(user_id):
     )
 
 def extract_auth_token(authenticated_request):
+    """
+    Extract the JWT from the `Authorization` header of a request.
+
+    Args:
+        authenticated_request (Request): The authenticated Flask request object.
+
+    Returns:
+        str or None: The JWT if present in the `Authorization` header, else None.
+    """
     auth_header = authenticated_request.headers.get('Authorization')
     if auth_header:
         return auth_header.split(" ")[1]
@@ -41,12 +65,19 @@ def extract_auth_token(authenticated_request):
         return None
 
 def decode_token(token):
-    print("HON")
-    print(type(token))
-    print(SECRET_KEY)
+    """
+    Decode a JWT to extract the user ID.
+
+    Args:
+        token (str): The JWT to decode.
+
+    Returns:
+        str: The user ID (`sub` field) extracted from the token.
+
+    Note:
+        The function assumes the token is encoded using the `HS256` algorithm.
+    """
     payload = jwt.decode(token, str(SECRET_KEY), "HS256")
-    print("EWWW")
-    print("payload")
     return payload['sub']
 
 from flask import jsonify, abort
