@@ -1,0 +1,472 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>controllers.review_controller &mdash; Ecommerce Application - Review Service  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Ecommerce Application - Review Service
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">review_service</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Ecommerce Application - Review Service</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">controllers.review_controller</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for controllers.review_controller</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Blueprint</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">jsonify</span>
+<span class="kn">from</span> <span class="nn">services.review_service</span> <span class="kn">import</span> <span class="n">add_review</span><span class="p">,</span> <span class="n">update_review</span><span class="p">,</span> <span class="n">get_all_reviews_by_product</span><span class="p">,</span> <span class="n">delete_review</span><span class="p">,</span> <span class="n">get_all_reviews_by_customer</span><span class="p">,</span> <span class="n">get_specific_review_details</span><span class="p">,</span> <span class="n">flag_review</span><span class="p">,</span> <span class="n">delete_review_admin</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span> <span class="nn">models.review</span> <span class="kn">import</span> <span class="n">Review</span>
+<span class="kn">import</span> <span class="nn">pybreaker</span>
+<span class="kn">from</span> <span class="nn">utils.database</span> <span class="kn">import</span> <span class="n">check_db_connection</span>
+
+<span class="c1"># Define circuit breakers</span>
+<span class="n">inventory_breaker</span> <span class="o">=</span> <span class="n">pybreaker</span><span class="o">.</span><span class="n">CircuitBreaker</span><span class="p">(</span><span class="n">fail_max</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">reset_timeout</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">customers_breaker</span> <span class="o">=</span> <span class="n">pybreaker</span><span class="o">.</span><span class="n">CircuitBreaker</span><span class="p">(</span><span class="n">fail_max</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">reset_timeout</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">sales_breaker</span> <span class="o">=</span> <span class="n">pybreaker</span><span class="o">.</span><span class="n">CircuitBreaker</span><span class="p">(</span><span class="n">fail_max</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">reset_timeout</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+
+
+<span class="n">review_bp</span> <span class="o">=</span> <span class="n">Blueprint</span><span class="p">(</span><span class="s2">&quot;review&quot;</span><span class="p">,</span> <span class="vm">__name__</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">flask_limiter</span> <span class="kn">import</span> <span class="n">Limiter</span>
+<span class="kn">from</span> <span class="nn">flask_limiter.util</span> <span class="kn">import</span> <span class="n">get_remote_address</span>
+
+<span class="n">limiter</span> <span class="o">=</span> <span class="n">Limiter</span><span class="p">(</span>
+    <span class="n">get_remote_address</span><span class="p">,</span>
+    <span class="n">default_limits</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;200 per day&quot;</span><span class="p">,</span> <span class="s2">&quot;50 per hour&quot;</span><span class="p">],</span> 
+    <span class="n">storage_uri</span><span class="o">=</span><span class="s2">&quot;memory://&quot;</span><span class="p">,</span>  
+<span class="p">)</span>
+
+<span class="n">url_inventory</span> <span class="o">=</span> <span class="s2">&quot;http://192.168.1.4:5000/inventory/&quot;</span>
+<span class="n">url_customers</span> <span class="o">=</span> <span class="s2">&quot;http://192.168.1.3:5000/customers/get_user_from_token&quot;</span>
+
+<div class="viewcode-block" id="health_check">
+<a class="viewcode-back" href="../../controllers.html#controllers.review_controller.health_check">[docs]</a>
+<span class="nd">@review_bp</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/health&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">health_check</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check the health of the review service.</span>
+
+<span class="sd">    :return: JSON response indicating service health and database connection status.</span>
+<span class="sd">    :rtype: tuple</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">check_db_connection</span><span class="p">()</span>
+    <span class="n">db_status</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">elapsed_time</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;service&quot;</span><span class="p">:</span> <span class="s2">&quot;review-service&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;healthy&quot;</span> <span class="k">if</span> <span class="n">db_status</span> <span class="k">else</span> <span class="s2">&quot;unhealthy&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;db_connection&quot;</span><span class="p">:</span> <span class="n">db_status</span><span class="p">,</span>
+        <span class="s2">&quot;uptime&quot;</span><span class="p">:</span> <span class="n">elapsed_time</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">status</span><span class="p">),</span> <span class="mi">200</span> <span class="k">if</span> <span class="n">db_status</span> <span class="k">else</span> <span class="mi">503</span></div>
+
+
+<div class="viewcode-block" id="add_review_route">
+<a class="viewcode-back" href="../../controllers.html#controllers.review_controller.add_review_route">[docs]</a>
+<span class="nd">@review_bp</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/add&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;POST&quot;</span><span class="p">])</span>
+<span class="nd">@limiter</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="s2">&quot;5 per minute&quot;</span><span class="p">)</span> 
+<span class="k">def</span> <span class="nf">add_review_route</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Add a review for a product.</span>
+
+<span class="sd">    :return: JSON response with review details if successful or an error message.</span>
+<span class="sd">    :rtype: tuple</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">get_json</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">data_items_request</span> <span class="o">=</span> <span class="n">inventory_breaker</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">,</span> <span class="n">url_inventory</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">data_items_request</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Failed to fetch inventory data&quot;</span><span class="p">)</span>
+            <span class="n">data_items</span> <span class="o">=</span> <span class="n">data_items_request</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="k">except</span> <span class="n">pybreaker</span><span class="o">.</span><span class="n">CircuitBreakerError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Inventory service unavailable&quot;</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">data_customer_request</span> <span class="o">=</span> <span class="n">customers_breaker</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">,</span> <span class="n">url_customers</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">data_customer_request</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Failed to fetch customer data&quot;</span><span class="p">)</span>
+            <span class="n">data_customer</span> <span class="o">=</span> <span class="n">data_customer_request</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="k">except</span> <span class="n">pybreaker</span><span class="o">.</span><span class="n">CircuitBreakerError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Customers service unavailable&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">data_items_request</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span> <span class="ow">and</span> <span class="n">data_customer_request</span><span class="o">.</span><span class="n">status_code</span><span class="o">==</span><span class="mi">200</span><span class="p">:</span>
+            <span class="n">data_items</span> <span class="o">=</span> <span class="n">data_items_request</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="nb">next</span><span class="p">((</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">data_items</span> <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;product_name&quot;</span><span class="p">]),</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">item</span> <span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No such item to review&quot;</span><span class="p">)</span>
+            <span class="n">data_customer</span> <span class="o">=</span> <span class="n">data_customer_request</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+            <span class="n">user_id</span> <span class="o">=</span> <span class="n">data_customer</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> 
+            <span class="n">url_sales</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;http://172.17.0.5:5000/sales/sales/customer/</span><span class="si">{</span><span class="n">user_id</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">data_sales_request</span> <span class="o">=</span> <span class="n">sales_breaker</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">,</span> <span class="n">url_sales</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">data_sales_request</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Failed to fetch sales data&quot;</span><span class="p">)</span>
+                <span class="n">data_sales</span> <span class="o">=</span> <span class="n">data_sales_request</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+            <span class="k">except</span> <span class="n">pybreaker</span><span class="o">.</span><span class="n">CircuitBreakerError</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Sales service unavailable&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">data_sales_request</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+                <span class="n">data_sales</span> <span class="o">=</span> <span class="n">data_sales_request</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">data_sales</span><span class="p">)</span>
+                <span class="n">item_bought</span> <span class="o">=</span>  <span class="nb">next</span><span class="p">((</span><span class="n">item2</span> <span class="k">for</span> <span class="n">item2</span> <span class="ow">in</span> <span class="n">data_sales</span> <span class="k">if</span> <span class="n">item2</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;product_id&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]),</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">item_bought</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;User hasnt bought this product.&quot;</span><span class="p">)</span>
+
+                <span class="n">new_review</span> <span class="o">=</span> <span class="n">add_review</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">data</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Review added successfully&quot;</span><span class="p">,</span> <span class="s2">&quot;review&quot;</span><span class="p">:</span> <span class="n">new_review</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()}),</span> <span class="mi">201</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Request failed&quot;</span><span class="p">}),</span> <span class="mi">400</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Request failed&quot;</span><span class="p">}),</span> <span class="mi">400</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)}),</span> <span class="mi">400</span></div>
+
+
+<div class="viewcode-block" id="update_review_route">
+<a class="viewcode-back" href="../../controllers.html#controllers.review_controller.update_review_route">[docs]</a>
+<span class="nd">@review_bp</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/update&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;PUT&quot;</span><span class="p">])</span>
+<span class="nd">@limiter</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="s2">&quot;5 per minute&quot;</span><span class="p">)</span> 
+<span class="k">def</span> <span class="nf">update_review_route</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Update an existing review.</span>
+
+<span class="sd">    :return: JSON response with updated review details or an error message.</span>
+<span class="sd">    :rtype: tuple</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">get_json</span><span class="p">()</span>
+        <span class="n">data_items_request</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url_inventory</span><span class="p">)</span>
+        <span class="n">data_customer_request</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url_customers</span><span class="p">,</span> <span class="n">headers</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">data_items_request</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span> <span class="ow">and</span> <span class="n">data_customer_request</span><span class="o">.</span><span class="n">status_code</span><span class="o">==</span><span class="mi">200</span><span class="p">:</span>
+            <span class="n">data_items</span> <span class="o">=</span> <span class="n">data_items_request</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="nb">next</span><span class="p">((</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">data_items</span> <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;product_name&quot;</span><span class="p">]),</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">item</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No such item exists.&quot;</span><span class="p">)</span>
+            <span class="n">data_customer</span> <span class="o">=</span> <span class="n">data_customer_request</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+            <span class="n">user_id</span> <span class="o">=</span> <span class="n">data_customer</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> 
+            <span class="nb">print</span><span class="p">(</span><span class="n">user_id</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+            <span class="n">updated_review</span> <span class="o">=</span> <span class="n">update_review</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">data</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Review updated successfully&quot;</span><span class="p">,</span> <span class="s2">&quot;review&quot;</span><span class="p">:</span> <span class="n">updated_review</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()}),</span> <span class="mi">201</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Request failed&quot;</span><span class="p">}),</span> <span class="mi">400</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)}),</span> <span class="mi">400</span></div>
+
+
+<div class="viewcode-block" id="delete_review_route">
+<a class="viewcode-back" href="../../controllers.html#controllers.review_controller.delete_review_route">[docs]</a>
+<span class="nd">@review_bp</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/delete&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;DELETE&quot;</span><span class="p">])</span>
+<span class="nd">@limiter</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="s2">&quot;5 per minute&quot;</span><span class="p">)</span> 
+<span class="k">def</span> <span class="nf">delete_review_route</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Delete a user&#39;s review for a product.</span>
+
+<span class="sd">    :return: JSON response indicating success or an error message.</span>
+<span class="sd">    :rtype: tuple</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">get_json</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">data_items_request</span> <span class="o">=</span> <span class="n">inventory_breaker</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">,</span> <span class="n">url_inventory</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">data_items_request</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Failed to fetch inventory data&quot;</span><span class="p">)</span>
+            <span class="n">data_items</span> <span class="o">=</span> <span class="n">data_items_request</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="k">except</span> <span class="n">pybreaker</span><span class="o">.</span><span class="n">CircuitBreakerError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Inventory service unavailable&quot;</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">data_customer_request</span> <span class="o">=</span> <span class="n">customers_breaker</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">,</span> <span class="n">url_customers</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">data_customer_request</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Failed to fetch customer data&quot;</span><span class="p">)</span>
+            <span class="n">data_customer</span> <span class="o">=</span> <span class="n">data_customer_request</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="k">except</span> <span class="n">pybreaker</span><span class="o">.</span><span class="n">CircuitBreakerError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Customers service unavailable&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">data_items_request</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span> <span class="ow">and</span> <span class="n">data_customer_request</span><span class="o">.</span><span class="n">status_code</span><span class="o">==</span><span class="mi">200</span><span class="p">:</span>
+            <span class="n">data_items</span> <span class="o">=</span> <span class="n">data_items_request</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="nb">next</span><span class="p">((</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">data_items</span> <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;product_name&quot;</span><span class="p">]),</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">item</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No such item exists.&quot;</span><span class="p">)</span>
+            <span class="n">data_customer</span> <span class="o">=</span> <span class="n">data_customer_request</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+            <span class="n">user_id</span> <span class="o">=</span> <span class="n">data_customer</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> 
+
+            <span class="n">delete_review</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">])</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Review deleted successfully&quot;</span><span class="p">}),</span> <span class="mi">201</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Request failed&quot;</span><span class="p">}),</span> <span class="mi">400</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)}),</span> <span class="mi">400</span></div>
+
+
+
+<div class="viewcode-block" id="get_all_by_customer">
+<a class="viewcode-back" href="../../controllers.html#controllers.review_controller.get_all_by_customer">[docs]</a>
+<span class="nd">@review_bp</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/get/all_by_customer&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">])</span>
+<span class="nd">@limiter</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="s2">&quot;10 per minute&quot;</span><span class="p">)</span> 
+<span class="k">def</span> <span class="nf">get_all_by_customer</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Retrieve all reviews created by a specific customer.</span>
+
+<span class="sd">    :return: JSON response with a list of reviews or an error message.</span>
+<span class="sd">    :rtype: tuple</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">data_customer_request</span> <span class="o">=</span> <span class="n">customers_breaker</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">,</span> <span class="n">url_customers</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">data_customer_request</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Failed to fetch customer data&quot;</span><span class="p">)</span>
+            <span class="n">data_customer</span> <span class="o">=</span> <span class="n">data_customer_request</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="k">except</span> <span class="n">pybreaker</span><span class="o">.</span><span class="n">CircuitBreakerError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Customers service unavailable&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">data_customer_request</span><span class="o">.</span><span class="n">status_code</span><span class="o">==</span><span class="mi">200</span><span class="p">:</span>
+            <span class="n">data_customer</span> <span class="o">=</span> <span class="n">data_customer_request</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+            <span class="n">user_id</span> <span class="o">=</span> <span class="n">data_customer</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
+            
+            <span class="n">reviews_for_customer</span> <span class="o">=</span> <span class="n">get_all_reviews_by_customer</span><span class="p">(</span><span class="n">user_id</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">([</span><span class="n">review</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">review</span> <span class="ow">in</span> <span class="n">reviews_for_customer</span><span class="p">]),</span> <span class="mi">200</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Request failed&quot;</span><span class="p">}),</span> <span class="mi">400</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)}),</span> <span class="mi">400</span></div>
+
+
+<div class="viewcode-block" id="get_all_by_product">
+<a class="viewcode-back" href="../../controllers.html#controllers.review_controller.get_all_by_product">[docs]</a>
+<span class="nd">@review_bp</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/get/all_by_product&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">])</span>
+<span class="nd">@limiter</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="s2">&quot;10 per minute&quot;</span><span class="p">)</span> 
+<span class="k">def</span> <span class="nf">get_all_by_product</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Retrieve all reviews for a specific product.</span>
+
+<span class="sd">    :return: JSON response with a list of reviews or an error message.</span>
+<span class="sd">    :rtype: tuple</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">url_inventory</span> <span class="o">=</span> <span class="s2">&quot;http://172.17.0.4:5000/inventory/&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">get_json</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">data_items_request</span> <span class="o">=</span> <span class="n">inventory_breaker</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">,</span> <span class="n">url_inventory</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">data_items_request</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Failed to fetch inventory data&quot;</span><span class="p">)</span>
+            <span class="n">data_items</span> <span class="o">=</span> <span class="n">data_items_request</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="k">except</span> <span class="n">pybreaker</span><span class="o">.</span><span class="n">CircuitBreakerError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Inventory service unavailable&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">data_items_request</span><span class="o">.</span><span class="n">status_code</span><span class="o">==</span><span class="mi">200</span><span class="p">:</span>
+            <span class="n">data_items</span> <span class="o">=</span> <span class="n">data_items_request</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="nb">next</span><span class="p">((</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">data_items</span> <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;product_name&quot;</span><span class="p">]),</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">item</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No such product exists.&quot;</span><span class="p">)</span>
+            <span class="n">reviews_for_product</span> <span class="o">=</span> <span class="n">get_all_reviews_by_product</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">])</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">([</span><span class="n">review</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">review</span> <span class="ow">in</span> <span class="n">reviews_for_product</span><span class="p">]),</span> <span class="mi">200</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Request failed&quot;</span><span class="p">}),</span> <span class="mi">400</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)}),</span> <span class="mi">400</span></div>
+
+
+<div class="viewcode-block" id="get_specific_review">
+<a class="viewcode-back" href="../../controllers.html#controllers.review_controller.get_specific_review">[docs]</a>
+<span class="nd">@review_bp</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/get/specific&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;GET&quot;</span><span class="p">])</span>
+<span class="nd">@limiter</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="s2">&quot;10 per minute&quot;</span><span class="p">)</span> 
+<span class="k">def</span> <span class="nf">get_specific_review</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Retrieve specific review details including customer and product information.</span>
+
+<span class="sd">    :return: JSON response with review details or an error message.</span>
+<span class="sd">    :rtype: tuple</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">get_json</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid input.&quot;</span><span class="p">)</span> 
+        <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;review_id&quot;</span><span class="p">])</span>
+        <span class="n">review</span> <span class="o">=</span> <span class="n">Review</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="nb">id</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;review_id&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">review</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No such review exists.&quot;</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">data_items_request</span> <span class="o">=</span> <span class="n">inventory_breaker</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">,</span> <span class="n">url_inventory</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">data_items_request</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Failed to fetch inventory data&quot;</span><span class="p">)</span>
+            <span class="n">data_items</span> <span class="o">=</span> <span class="n">data_items_request</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="k">except</span> <span class="n">pybreaker</span><span class="o">.</span><span class="n">CircuitBreakerError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Inventory service unavailable&quot;</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">data_customer_request</span> <span class="o">=</span> <span class="n">customers_breaker</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">,</span> <span class="n">url_customers</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">data_customer_request</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Failed to fetch customer data&quot;</span><span class="p">)</span>
+            <span class="n">data_customer</span> <span class="o">=</span> <span class="n">data_customer_request</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="k">except</span> <span class="n">pybreaker</span><span class="o">.</span><span class="n">CircuitBreakerError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Customers service unavailable&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">data_items_request</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span> <span class="ow">and</span> <span class="n">data_customer_request</span><span class="o">.</span><span class="n">status_code</span><span class="o">==</span><span class="mi">200</span><span class="p">:</span>
+            <span class="n">data_items</span> <span class="o">=</span> <span class="n">data_items_request</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="nb">next</span><span class="p">((</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">data_items</span> <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">review</span><span class="o">.</span><span class="n">product_id</span><span class="p">),</span> <span class="kc">None</span><span class="p">)</span>
+            
+            <span class="n">data_customer</span> <span class="o">=</span> <span class="n">data_customer_request</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+            <span class="n">customer</span> <span class="o">=</span> <span class="nb">next</span><span class="p">((</span><span class="n">cust</span> <span class="k">for</span> <span class="n">cust</span> <span class="ow">in</span> <span class="n">data_customer</span> <span class="k">if</span> <span class="n">cust</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">review</span><span class="o">.</span><span class="n">customer_id</span><span class="p">),</span> <span class="kc">None</span><span class="p">)</span>
+
+            <span class="n">specific_details</span> <span class="o">=</span> <span class="n">get_specific_review_details</span><span class="p">(</span><span class="n">review</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span> <span class="n">customer</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">specific_details</span><span class="p">),</span> <span class="mi">200</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Request failed&quot;</span><span class="p">}),</span> <span class="mi">400</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)}),</span> <span class="mi">400</span></div>
+
+
+<div class="viewcode-block" id="flag_review_route">
+<a class="viewcode-back" href="../../controllers.html#controllers.review_controller.flag_review_route">[docs]</a>
+<span class="nd">@review_bp</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/flag&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;POST&quot;</span><span class="p">])</span>
+<span class="nd">@limiter</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="s2">&quot;10 per minute&quot;</span><span class="p">)</span> 
+<span class="k">def</span> <span class="nf">flag_review_route</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Flag a review for administrative attention.</span>
+
+<span class="sd">    :return: JSON response indicating success or an error message.</span>
+<span class="sd">    :rtype: tuple</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">get_json</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">data_customer_request</span> <span class="o">=</span> <span class="n">customers_breaker</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">,</span> <span class="n">url_customers</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">data_customer_request</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Failed to fetch customer data&quot;</span><span class="p">)</span>
+            <span class="n">data_customer</span> <span class="o">=</span> <span class="n">data_customer_request</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="k">except</span> <span class="n">pybreaker</span><span class="o">.</span><span class="n">CircuitBreakerError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Customers service unavailable&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">data_customer_request</span><span class="o">.</span><span class="n">status_code</span><span class="o">==</span><span class="mi">200</span><span class="p">:</span>
+            <span class="n">data_customer</span> <span class="o">=</span> <span class="n">data_customer_request</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+            <span class="n">user_id</span> <span class="o">=</span> <span class="n">data_customer</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
+            <span class="n">is_admin</span> <span class="o">=</span> <span class="n">data_customer</span><span class="p">[</span><span class="s2">&quot;is_admin&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">is_admin</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Action not allowed&quot;</span><span class="p">)</span>
+            <span class="n">review</span> <span class="o">=</span> <span class="n">flag_review</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;review_id&quot;</span><span class="p">])</span>
+
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Review flagged successfully&quot;</span><span class="p">,</span> <span class="s2">&quot;review&quot;</span><span class="p">:</span> <span class="n">review</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()}),</span> <span class="mi">201</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Request failed&quot;</span><span class="p">}),</span> <span class="mi">400</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)}),</span> <span class="mi">400</span></div>
+
+
+<div class="viewcode-block" id="delete_review_admin_route">
+<a class="viewcode-back" href="../../controllers.html#controllers.review_controller.delete_review_admin_route">[docs]</a>
+<span class="nd">@review_bp</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/delete_admin&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;DELETE&quot;</span><span class="p">])</span>
+<span class="nd">@limiter</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="s2">&quot;10 per minute&quot;</span><span class="p">)</span> 
+<span class="k">def</span> <span class="nf">delete_review_admin_route</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Delete a review as an administrator.</span>
+
+<span class="sd">    :return: JSON response indicating success or an error message.</span>
+<span class="sd">    :rtype: tuple</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">url_customers</span> <span class="o">=</span> <span class="s2">&quot;http://172.17.0.3:5000/customers/get_user_from_token&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">get_json</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">data_customer_request</span> <span class="o">=</span> <span class="n">customers_breaker</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">,</span> <span class="n">url_customers</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">data_customer_request</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Failed to fetch customer data&quot;</span><span class="p">)</span>
+            <span class="n">data_customer</span> <span class="o">=</span> <span class="n">data_customer_request</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="k">except</span> <span class="n">pybreaker</span><span class="o">.</span><span class="n">CircuitBreakerError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Customers service unavailable&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">data_customer_request</span><span class="o">.</span><span class="n">status_code</span><span class="o">==</span><span class="mi">200</span><span class="p">:</span>
+            <span class="n">data_customer</span> <span class="o">=</span> <span class="n">data_customer_request</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+            <span class="n">user_id</span> <span class="o">=</span> <span class="n">data_customer</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
+            <span class="n">is_admin</span> <span class="o">=</span> <span class="n">data_customer</span><span class="p">[</span><span class="s2">&quot;is_admin&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">is_admin</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Action not allowed&quot;</span><span class="p">)</span>
+            <span class="n">review</span> <span class="o">=</span> <span class="n">delete_review_admin</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;review_id&quot;</span><span class="p">])</span>
+
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Review deleted successfully&quot;</span><span class="p">}),</span> <span class="mi">201</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Request failed&quot;</span><span class="p">}),</span> <span class="mi">400</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)}),</span> <span class="mi">400</span></div>
+
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Sharafeddine Sharafeddine - Omar Kandil.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

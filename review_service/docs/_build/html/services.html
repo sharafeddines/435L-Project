@@ -1,0 +1,295 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>services package &mdash; Ecommerce Application - Review Service  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="utils package" href="utils.html" />
+    <link rel="prev" title="review_service module" href="review_service.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Ecommerce Application - Review Service
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">review_service</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="controllers.html">controllers package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html">models package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="review_service.html">review_service module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">services package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-services.review_service">services.review_service module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#services.review_service.add_review"><code class="docutils literal notranslate"><span class="pre">add_review()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#services.review_service.delete_review"><code class="docutils literal notranslate"><span class="pre">delete_review()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#services.review_service.delete_review_admin"><code class="docutils literal notranslate"><span class="pre">delete_review_admin()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#services.review_service.flag_review"><code class="docutils literal notranslate"><span class="pre">flag_review()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#services.review_service.get_all_reviews_by_customer"><code class="docutils literal notranslate"><span class="pre">get_all_reviews_by_customer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#services.review_service.get_all_reviews_by_product"><code class="docutils literal notranslate"><span class="pre">get_all_reviews_by_product()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#services.review_service.get_specific_review_details"><code class="docutils literal notranslate"><span class="pre">get_specific_review_details()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#services.review_service.update_review"><code class="docutils literal notranslate"><span class="pre">update_review()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-services">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="utils.html">utils package</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Ecommerce Application - Review Service</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">review_service</a></li>
+      <li class="breadcrumb-item active">services package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/services.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="services-package">
+<h1>services package<a class="headerlink" href="#services-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-services.review_service">
+<span id="services-review-service-module"></span><h2>services.review_service module<a class="headerlink" href="#module-services.review_service" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="services.review_service.add_review">
+<span class="sig-prename descclassname"><span class="pre">services.review_service.</span></span><span class="sig-name descname"><span class="pre">add_review</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prod_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/services/review_service.html#add_review"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#services.review_service.add_review" title="Link to this definition"></a></dt>
+<dd><p>Add a new review to the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_id</strong> (<em>int</em>) – The ID of the user submitting the review.</p></li>
+<li><p><strong>prod_id</strong> (<em>int</em>) – The ID of the product being reviewed.</p></li>
+<li><p><strong>data</strong> (<em>dict</em>) – A dictionary containing review details, including “rating” and optional “description”.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If required fields are missing or if a database integrity error occurs.</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The newly added review object.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="models.html#models.review.Review" title="models.review.Review">Review</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="services.review_service.delete_review">
+<span class="sig-prename descclassname"><span class="pre">services.review_service.</span></span><span class="sig-name descname"><span class="pre">delete_review</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prod_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/services/review_service.html#delete_review"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#services.review_service.delete_review" title="Link to this definition"></a></dt>
+<dd><p>Delete a review.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_id</strong> (<em>int</em>) – The ID of the user who wrote the review.</p></li>
+<li><p><strong>prod_id</strong> (<em>int</em>) – The ID of the product associated with the review.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the review is not found.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="services.review_service.delete_review_admin">
+<span class="sig-prename descclassname"><span class="pre">services.review_service.</span></span><span class="sig-name descname"><span class="pre">delete_review_admin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">review_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/services/review_service.html#delete_review_admin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#services.review_service.delete_review_admin" title="Link to this definition"></a></dt>
+<dd><p>Delete a review as an administrator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>review_id</strong> (<em>int</em>) – The ID of the review to be deleted.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the review is not found.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="services.review_service.flag_review">
+<span class="sig-prename descclassname"><span class="pre">services.review_service.</span></span><span class="sig-name descname"><span class="pre">flag_review</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">review_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/services/review_service.html#flag_review"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#services.review_service.flag_review" title="Link to this definition"></a></dt>
+<dd><p>Flag a review for administrative attention.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>review_id</strong> (<em>int</em>) – The ID of the review to be flagged.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the review is not found.</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The flagged review object.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="models.html#models.review.Review" title="models.review.Review">Review</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="services.review_service.get_all_reviews_by_customer">
+<span class="sig-prename descclassname"><span class="pre">services.review_service.</span></span><span class="sig-name descname"><span class="pre">get_all_reviews_by_customer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/services/review_service.html#get_all_reviews_by_customer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#services.review_service.get_all_reviews_by_customer" title="Link to this definition"></a></dt>
+<dd><p>Retrieve all unflagged reviews submitted by a specific customer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>customer_id</strong> (<em>int</em>) – The ID of the customer.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A query object containing the reviews.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>sqlalchemy.orm.query.Query</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="services.review_service.get_all_reviews_by_product">
+<span class="sig-prename descclassname"><span class="pre">services.review_service.</span></span><span class="sig-name descname"><span class="pre">get_all_reviews_by_product</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prod_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/services/review_service.html#get_all_reviews_by_product"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#services.review_service.get_all_reviews_by_product" title="Link to this definition"></a></dt>
+<dd><p>Retrieve all unflagged reviews for a specific product.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>prod_id</strong> (<em>int</em>) – The ID of the product.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A query object containing the reviews.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>sqlalchemy.orm.query.Query</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="services.review_service.get_specific_review_details">
+<span class="sig-prename descclassname"><span class="pre">services.review_service.</span></span><span class="sig-name descname"><span class="pre">get_specific_review_details</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">review</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">customer</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/services/review_service.html#get_specific_review_details"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#services.review_service.get_specific_review_details" title="Link to this definition"></a></dt>
+<dd><p>Retrieve detailed information about a specific review.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>review</strong> (<a class="reference internal" href="models.html#models.review.Review" title="models.review.Review"><em>Review</em></a>) – The review object.</p></li>
+<li><p><strong>item</strong> (<em>dict</em>) – A dictionary containing product information.</p></li>
+<li><p><strong>customer</strong> (<em>dict</em>) – A dictionary containing customer information.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary containing detailed review information.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="services.review_service.update_review">
+<span class="sig-prename descclassname"><span class="pre">services.review_service.</span></span><span class="sig-name descname"><span class="pre">update_review</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prod_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/services/review_service.html#update_review"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#services.review_service.update_review" title="Link to this definition"></a></dt>
+<dd><p>Update an existing review.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_id</strong> (<em>int</em>) – The ID of the user updating the review.</p></li>
+<li><p><strong>prod_id</strong> (<em>int</em>) – The ID of the product associated with the review.</p></li>
+<li><p><strong>data</strong> (<em>dict</em>) – A dictionary containing updated review details.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the review is not found or if a database integrity error occurs.</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The updated review object.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="models.html#models.review.Review" title="models.review.Review">Review</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-services">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-services" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="review_service.html" class="btn btn-neutral float-left" title="review_service module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="utils.html" class="btn btn-neutral float-right" title="utils package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Sharafeddine Sharafeddine - Omar Kandil.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
