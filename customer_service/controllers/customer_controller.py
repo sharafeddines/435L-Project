@@ -9,6 +9,7 @@ from utils.database import check_db_connection
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
+
 customer_bp = Blueprint('customer_bp', __name__)
 
 limiter = Limiter(
@@ -19,6 +20,13 @@ limiter = Limiter(
 
 @customer_bp.route('/health')
 def health_check():
+    """
+    Check the health status of the service.
+
+    Returns:
+        Response: A JSON object with the service health status,
+        database connection status, and uptime.
+    """
     results = check_db_connection()
     db_status = results[0]
     elapsed_time = results[1]
@@ -34,6 +42,16 @@ def health_check():
 @customer_bp.route('/register', methods=['POST'])
 @limiter.limit("10 per minute")  
 def register():
+    """
+    Register a new customer.
+
+    Request:
+        JSON object with customer details.
+
+    Returns:
+        Response: A success message on successful registration
+        or an error message on failure.
+    """
     data = request.get_json()
     try:
         customer = register_customer(data)
@@ -44,6 +62,16 @@ def register():
 @customer_bp.route('/<username>', methods=['DELETE'])
 @limiter.limit("5 per minute")
 def delete(username):
+    """
+    Delete a customer by username.
+
+    Args:
+        username (str): The username of the customer to delete.
+
+    Returns:
+        Response: A success message on successful deletion
+        or an error message if the customer is not found.
+    """
     try:
         delete_customer(username)
         return jsonify({'message': 'Customer deleted successfully.'}), 200
@@ -53,6 +81,16 @@ def delete(username):
 @customer_bp.route('/<username>', methods=['PUT'])
 @limiter.limit("5 per minute")
 def update(username):
+    """
+    Update customer details by username.
+
+    Args:
+        username (str): The username of the customer to update.
+
+    Returns:
+        Response: A success message on successful update
+        or an error message on failure.
+    """
     data = request.get_json()
     try:
         current_user = get_user_from_token(request)[0]
@@ -67,6 +105,12 @@ def update(username):
 @customer_bp.route('/', methods=['GET'])
 @limiter.limit("20 per minute")
 def get_all():
+    """
+    Retrieve all customers.
+
+    Returns:
+        Response: A list of all customers in JSON format.
+    """
     current_user = get_user_from_token(request)[0]
     if current_user != "admin":
         return jsonify({"error":"Action not allowed"}),400
@@ -76,6 +120,16 @@ def get_all():
 @customer_bp.route('/<username>', methods=['GET'])
 @limiter.limit("10 per minute")
 def get_by_username(username):
+    """
+    Retrieve customer details by username.
+
+    Args:
+        username (str): The username of the customer.
+
+    Returns:
+        Response: A JSON object with the customer's details
+        or an error message if not found.
+    """
     customer = get_customer_by_username(username)
     if customer:
         return jsonify(customer.to_dict()), 200
@@ -85,6 +139,15 @@ def get_by_username(username):
 @customer_bp.route('/charge', methods=['POST'])
 @limiter.limit("10 per minute")
 def charge():
+    """
+    Charge a customer's wallet.
+
+    Request:
+        JSON object with the amount to charge.
+
+    Returns:
+        Response: The new wallet balance or an error message.
+    """
     current_user = get_user_from_token(request)[0]
     data = request.get_json()
     amount = data.get('amount')
@@ -99,6 +162,16 @@ def charge():
 @customer_bp.route('/deduct', methods=['POST'])
 @limiter.limit("10 per minute")
 def deduct():
+    """
+    Deduct an amount from the customer's wallet.
+
+    Request:
+        JSON object with the amount to deduct.
+
+    Returns:
+        Response: A success message and the updated wallet balance,
+        or an error message on failure.
+    """
     try:
         current_user = get_user_from_token(request)[0]
         data = request.get_json()
@@ -115,6 +188,16 @@ def deduct():
 @customer_bp.route('/login', methods=['POST'])
 @limiter.limit("5 per minute")
 def login():
+    """
+    Authenticate a customer and provide an access token.
+
+    Request:
+        JSON object with username and password.
+
+    Returns:
+        Response: An access token on successful authentication
+        or an error message on failure.
+    """
     try:
         data = request.get_json()
         username = data.get('username')
@@ -132,6 +215,13 @@ def login():
 @customer_bp.route('/get_user_from_token', methods=['POST'])
 @limiter.limit("5 per minute")
 def get_user_from_token_api():
+    """
+    Retrieve user details from a token.
+
+    Returns:
+        Response: A JSON object with the user's details
+        or an error message on failure.
+    """
     try:
         current_user = get_all_user_from_token(request)[0]
         if current_user is None:

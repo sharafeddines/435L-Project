@@ -4,10 +4,19 @@ from services.customer_service import register_customer
 
 from utils.database import db, init_db
 
-
 def create_app():
+    """
+    Create and configure the Flask application.
+
+    This function initializes the Flask application, sets up the database,
+    and registers the necessary blueprints.
+
+    Returns:
+        Flask: The configured Flask application instance.
+    """
     app = Flask(__name__)
     print("attempting connection")
+    
     # Initialize database
     init_db(app)
 
@@ -16,7 +25,14 @@ def create_app():
     return app
 
 if __name__ == '__main__':
+    """
+    Entry point for running the Flask application.
+
+    This block creates the Flask application using `create_app`, initializes
+    the rate limiter, and starts the development server on `0.0.0.0` with
+    debugging enabled.
+    """
     app = create_app()
     limiter.init_app(app)
-    app.run(debug=True, host ="0.0.0.0")
+    app.run(debug=True, host="0.0.0.0")
     

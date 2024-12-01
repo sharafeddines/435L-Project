@@ -10,12 +10,31 @@ start_time = None
 def hash_password(password):
     """
     Hashes a plain-text password.
-    :param password: Plain-text password
-    :return: Hashed password
+
+    Args:
+        password (str): The plain-text password to be hashed.
+
+    Returns:
+        str: The hashed password.
     """
     return generate_password_hash(password)
 
 def init_db(app):
+    """
+    Initialize the database connection and create tables.
+
+    This function configures the SQLAlchemy database URI,
+    initializes the app context for SQLAlchemy, and creates
+    all required tables in the database. It also inserts a
+    default admin user if it doesn't already exist.
+
+    Args:
+        app (Flask): The Flask application instance.
+
+    Note:
+        The database is assumed to be a Microsoft SQL Server
+        instance configured via SQLAlchemy.
+    """
     global start_time 
     start_time = time.time()
     try:
@@ -26,12 +45,10 @@ def init_db(app):
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.init_app(app)
     with app.app_context():
-        # Import models to register them with SQLAlchemy
         from models.customer import Customer
 
         db.create_all()  # Create all tables
         with db.engine.connect() as connection:
-            # Wrap the raw SQL query with `text`
             try:
                 password_admin = hash_password("admin")
                 result = connection.execute(text("""
@@ -51,14 +68,23 @@ def init_db(app):
             except:
                 pass
 
-
-
 def check_db_connection():
+    """
+    Check the database connection and uptime.
+
+    This function attempts to execute a simple query on the
+    database to verify the connection. It also calculates the
+    elapsed time since the application started.
+
+    Returns:
+        tuple: A tuple containing:
+            - bool: True if the database connection is successful, False otherwise.
+            - float or None: The elapsed time since the application started
+              (in seconds), or None if the connection failed.
+    """
     try:
         elapsed_time = time.time() - start_time
-        # Create a connection from the engine
         with db.engine.connect() as connection:
-            # Wrap the raw SQL query with `text`
             result = connection.execute(text("SELECT 1"))
             print(f"Database query result: {result.fetchone()}")
         return True, elapsed_time
