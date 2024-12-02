@@ -1,0 +1,692 @@
+attempting connection
+connected
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\customer_service\services\customer_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+     7     67.4 MiB     67.4 MiB           1   @profile
+     8                                         def register_customer(data, is_admin=False):
+     9                                             """
+    10                                             Register a new customer.
+    11                                         
+    12                                             Args:
+    13                                                 data (dict): A dictionary containing customer details such as full_name, 
+    14                                                     username, password, age, address, gender, and marital_status.
+    15                                                 is_admin (bool, optional): Specifies if the customer is an admin. Defaults to False.
+    16                                         
+    17                                             Raises:
+    18                                                 ValueError: If a customer with the provided username already exists.
+    19                                         
+    20                                             Returns:
+    21                                                 Customer: The newly registered customer object.
+    22                                             """
+    23     67.7 MiB      0.3 MiB           1       if Customer.query.filter_by(username=data['username']).first():
+    24                                                 raise ValueError('Username already exists.')
+    25                                         
+    26     67.7 MiB      0.0 MiB           1       password_hash = hash_password(data['password'])
+    27     67.7 MiB      0.0 MiB           2       new_customer = Customer(
+    28     67.7 MiB      0.0 MiB           1           full_name=data['full_name'],
+    29     67.7 MiB      0.0 MiB           1           username=data['username'],
+    30     67.7 MiB      0.0 MiB           1           password_hash=password_hash,
+    31     67.7 MiB      0.0 MiB           1           age=data.get('age'),
+    32     67.7 MiB      0.0 MiB           1           address=data.get('address'),
+    33     67.7 MiB      0.0 MiB           1           gender=data.get('gender'),
+    34     67.7 MiB      0.0 MiB           1           marital_status=data.get('marital_status')
+    35                                             )
+    36     67.7 MiB      0.0 MiB           1       new_customer.is_admin = is_admin
+    37     67.7 MiB      0.0 MiB           1       db.session.add(new_customer)
+    38     67.9 MiB      0.2 MiB           1       db.session.commit()
+    39     67.9 MiB      0.0 MiB           1       return new_customer
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\customer_service\services\customer_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    85     67.9 MiB     67.9 MiB           1   @profile
+    86                                         def get_all_customers():
+    87                                             """
+    88                                             Retrieve all customers.
+    89                                         
+    90                                             Returns:
+    91                                                 list: A list of all customer objects.
+    92                                             """
+    93     68.0 MiB      0.0 MiB           1       return Customer.query.all()
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\customer_service\services\customer_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    85     68.0 MiB     68.0 MiB           1   @profile
+    86                                         def get_all_customers():
+    87                                             """
+    88                                             Retrieve all customers.
+    89                                         
+    90                                             Returns:
+    91                                                 list: A list of all customer objects.
+    92                                             """
+    93     68.0 MiB      0.0 MiB           1       return Customer.query.all()
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\customer_service\services\customer_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    85     68.0 MiB     68.0 MiB           1   @profile
+    86                                         def get_all_customers():
+    87                                             """
+    88                                             Retrieve all customers.
+    89                                         
+    90                                             Returns:
+    91                                                 list: A list of all customer objects.
+    92                                             """
+    93     68.0 MiB      0.0 MiB           1       return Customer.query.all()
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\customer_service\services\customer_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    85     68.0 MiB     68.0 MiB           1   @profile
+    86                                         def get_all_customers():
+    87                                             """
+    88                                             Retrieve all customers.
+    89                                         
+    90                                             Returns:
+    91                                                 list: A list of all customer objects.
+    92                                             """
+    93     68.0 MiB      0.0 MiB           1       return Customer.query.all()
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\customer_service\services\customer_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    85     68.0 MiB     68.0 MiB           1   @profile
+    86                                         def get_all_customers():
+    87                                             """
+    88                                             Retrieve all customers.
+    89                                         
+    90                                             Returns:
+    91                                                 list: A list of all customer objects.
+    92                                             """
+    93     68.0 MiB      0.0 MiB           1       return Customer.query.all()
+
+
+Memory usage for get_all_customers: [67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125, 67.95703125]
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\customer_service\services\customer_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    95     68.0 MiB     68.0 MiB           1   @profile
+    96                                         def get_customer_by_username(username):
+    97                                             """
+    98                                             Retrieve a customer by username.
+    99                                         
+   100                                             Args:
+   101                                                 username (str): The username of the customer to retrieve.
+   102                                         
+   103                                             Returns:
+   104                                                 Customer: The customer object if found, else None.
+   105                                             """
+   106     68.0 MiB      0.0 MiB           1       return Customer.query.filter_by(username=username).first()
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\customer_service\services\customer_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    95     68.0 MiB     68.0 MiB           1   @profile
+    96                                         def get_customer_by_username(username):
+    97                                             """
+    98                                             Retrieve a customer by username.
+    99                                         
+   100                                             Args:
+   101                                                 username (str): The username of the customer to retrieve.
+   102                                         
+   103                                             Returns:
+   104                                                 Customer: The customer object if found, else None.
+   105                                             """
+   106     68.0 MiB      0.0 MiB           1       return Customer.query.filter_by(username=username).first()
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\customer_service\services\customer_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    95     68.0 MiB     68.0 MiB           1   @profile
+    96                                         def get_customer_by_username(username):
+    97                                             """
+    98                                             Retrieve a customer by username.
+    99                                         
+   100                                             Args:
+   101                                                 username (str): The username of the customer to retrieve.
+   102                                         
+   103                                             Returns:
+   104                                                 Customer: The customer object if found, else None.
+   105                                             """
+   106     68.0 MiB      0.0 MiB           1       return Customer.query.filter_by(username=username).first()
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\customer_service\services\customer_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    95     68.0 MiB     68.0 MiB           1   @profile
+    96                                         def get_customer_by_username(username):
+    97                                             """
+    98                                             Retrieve a customer by username.
+    99                                         
+   100                                             Args:
+   101                                                 username (str): The username of the customer to retrieve.
+   102                                         
+   103                                             Returns:
+   104                                                 Customer: The customer object if found, else None.
+   105                                             """
+   106     68.0 MiB      0.0 MiB           1       return Customer.query.filter_by(username=username).first()
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\customer_service\services\customer_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    95     68.0 MiB     68.0 MiB           1   @profile
+    96                                         def get_customer_by_username(username):
+    97                                             """
+    98                                             Retrieve a customer by username.
+    99                                         
+   100                                             Args:
+   101                                                 username (str): The username of the customer to retrieve.
+   102                                         
+   103                                             Returns:
+   104                                                 Customer: The customer object if found, else None.
+   105                                             """
+   106     68.0 MiB      0.0 MiB           1       return Customer.query.filter_by(username=username).first()
+
+
+Memory usage for get_customer_by_username: [67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875, 67.96875]
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\customer_service\services\customer_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    58     68.0 MiB     68.0 MiB           1   @profile
+    59                                         def update_customer(username, data):
+    60                                             """
+    61                                             Update the details of a customer.
+    62                                         
+    63                                             Args:
+    64                                                 username (str): The username of the customer to update.
+    65                                                 data (dict): A dictionary containing the fields to update.
+    66                                         
+    67                                             Raises:
+    68                                                 ValueError: If the customer is not found.
+    69                                         
+    70                                             Returns:
+    71                                                 Customer: The updated customer object.
+    72                                             """
+    73     68.0 MiB      0.0 MiB           1       customer = Customer.query.filter_by(username=username).first()
+    74     68.0 MiB      0.0 MiB           1       if not customer:
+    75                                                 raise ValueError('Customer not found.')
+    76                                         
+    77     68.0 MiB      0.0 MiB           2       for key, value in data.items():
+    78     68.0 MiB      0.0 MiB           1           if key == 'password':
+    79                                                     setattr(customer, 'password_hash', hash_password(value))
+    80                                                 else:
+    81     68.0 MiB      0.0 MiB           1               setattr(customer, key, value)
+    82     68.0 MiB      0.0 MiB           1       db.session.commit()
+    83     68.0 MiB      0.0 MiB           1       return customer
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\customer_service\services\customer_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    58     68.0 MiB     68.0 MiB           1   @profile
+    59                                         def update_customer(username, data):
+    60                                             """
+    61                                             Update the details of a customer.
+    62                                         
+    63                                             Args:
+    64                                                 username (str): The username of the customer to update.
+    65                                                 data (dict): A dictionary containing the fields to update.
+    66                                         
+    67                                             Raises:
+    68                                                 ValueError: If the customer is not found.
+    69                                         
+    70                                             Returns:
+    71                                                 Customer: The updated customer object.
+    72                                             """
+    73     68.0 MiB      0.0 MiB           1       customer = Customer.query.filter_by(username=username).first()
+    74     68.0 MiB      0.0 MiB           1       if not customer:
+    75                                                 raise ValueError('Customer not found.')
+    76                                         
+    77     68.0 MiB      0.0 MiB           2       for key, value in data.items():
+    78     68.0 MiB      0.0 MiB           1           if key == 'password':
+    79                                                     setattr(customer, 'password_hash', hash_password(value))
+    80                                                 else:
+    81     68.0 MiB      0.0 MiB           1               setattr(customer, key, value)
+    82     68.0 MiB      0.0 MiB           1       db.session.commit()
+    83     68.0 MiB      0.0 MiB           1       return customer
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\customer_service\services\customer_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    58     68.0 MiB     68.0 MiB           1   @profile
+    59                                         def update_customer(username, data):
+    60                                             """
+    61                                             Update the details of a customer.
+    62                                         
+    63                                             Args:
+    64                                                 username (str): The username of the customer to update.
+    65                                                 data (dict): A dictionary containing the fields to update.
+    66                                         
+    67                                             Raises:
+    68                                                 ValueError: If the customer is not found.
+    69                                         
+    70                                             Returns:
+    71                                                 Customer: The updated customer object.
+    72                                             """
+    73     68.0 MiB      0.0 MiB           1       customer = Customer.query.filter_by(username=username).first()
+    74     68.0 MiB      0.0 MiB           1       if not customer:
+    75                                                 raise ValueError('Customer not found.')
+    76                                         
+    77     68.0 MiB      0.0 MiB           2       for key, value in data.items():
+    78     68.0 MiB      0.0 MiB           1           if key == 'password':
+    79                                                     setattr(customer, 'password_hash', hash_password(value))
+    80                                                 else:
+    81     68.0 MiB      0.0 MiB           1               setattr(customer, key, value)
+    82     68.0 MiB      0.0 MiB           1       db.session.commit()
+    83     68.0 MiB      0.0 MiB           1       return customer
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\customer_service\services\customer_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    58     68.0 MiB     68.0 MiB           1   @profile
+    59                                         def update_customer(username, data):
+    60                                             """
+    61                                             Update the details of a customer.
+    62                                         
+    63                                             Args:
+    64                                                 username (str): The username of the customer to update.
+    65                                                 data (dict): A dictionary containing the fields to update.
+    66                                         
+    67                                             Raises:
+    68                                                 ValueError: If the customer is not found.
+    69                                         
+    70                                             Returns:
+    71                                                 Customer: The updated customer object.
+    72                                             """
+    73     68.0 MiB      0.0 MiB           1       customer = Customer.query.filter_by(username=username).first()
+    74     68.0 MiB      0.0 MiB           1       if not customer:
+    75                                                 raise ValueError('Customer not found.')
+    76                                         
+    77     68.0 MiB      0.0 MiB           2       for key, value in data.items():
+    78     68.0 MiB      0.0 MiB           1           if key == 'password':
+    79                                                     setattr(customer, 'password_hash', hash_password(value))
+    80                                                 else:
+    81     68.0 MiB      0.0 MiB           1               setattr(customer, key, value)
+    82     68.0 MiB      0.0 MiB           1       db.session.commit()
+    83     68.0 MiB      0.0 MiB           1       return customer
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\customer_service\services\customer_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    58     68.0 MiB     68.0 MiB           1   @profile
+    59                                         def update_customer(username, data):
+    60                                             """
+    61                                             Update the details of a customer.
+    62                                         
+    63                                             Args:
+    64                                                 username (str): The username of the customer to update.
+    65                                                 data (dict): A dictionary containing the fields to update.
+    66                                         
+    67                                             Raises:
+    68                                                 ValueError: If the customer is not found.
+    69                                         
+    70                                             Returns:
+    71                                                 Customer: The updated customer object.
+    72                                             """
+    73     68.0 MiB      0.0 MiB           1       customer = Customer.query.filter_by(username=username).first()
+    74     68.0 MiB      0.0 MiB           1       if not customer:
+    75                                                 raise ValueError('Customer not found.')
+    76                                         
+    77     68.0 MiB      0.0 MiB           2       for key, value in data.items():
+    78     68.0 MiB      0.0 MiB           1           if key == 'password':
+    79                                                     setattr(customer, 'password_hash', hash_password(value))
+    80                                                 else:
+    81     68.0 MiB      0.0 MiB           1               setattr(customer, key, value)
+    82     68.0 MiB      0.0 MiB           1       db.session.commit()
+    83     68.0 MiB      0.0 MiB           1       return customer
+
+
+Memory usage for update_customer: [68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125, 68.01953125]
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\customer_service\services\customer_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+   108     68.0 MiB     68.0 MiB           1   @profile
+   109                                         def charge_wallet(username, amount):
+   110                                             """
+   111                                             Charge a customer's wallet by a specific amount.
+   112                                         
+   113                                             Args:
+   114                                                 username (str): The username of the customer.
+   115                                                 amount (float): The amount to add to the wallet.
+   116                                         
+   117                                             Raises:
+   118                                                 ValueError: If the customer is not found or the amount is invalid.
+   119                                         
+   120                                             Returns:
+   121                                                 float: The updated wallet balance.
+   122                                             """
+   123     68.0 MiB      0.0 MiB           1       customer = Customer.query.filter_by(username=username).first()
+   124     68.0 MiB      0.0 MiB           1       if not customer:
+   125                                                 raise ValueError('Customer not found.')
+   126     68.0 MiB      0.0 MiB           1       if amount <= 0:
+   127                                                 raise ValueError('Need to charge a positive amount')
+   128     68.0 MiB      0.0 MiB           1       customer.wallet_balance += amount
+   129     68.0 MiB      0.0 MiB           1       db.session.commit()
+   130     68.1 MiB      0.0 MiB           1       return customer.wallet_balance
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\customer_service\services\customer_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+   108     68.1 MiB     68.1 MiB           1   @profile
+   109                                         def charge_wallet(username, amount):
+   110                                             """
+   111                                             Charge a customer's wallet by a specific amount.
+   112                                         
+   113                                             Args:
+   114                                                 username (str): The username of the customer.
+   115                                                 amount (float): The amount to add to the wallet.
+   116                                         
+   117                                             Raises:
+   118                                                 ValueError: If the customer is not found or the amount is invalid.
+   119                                         
+   120                                             Returns:
+   121                                                 float: The updated wallet balance.
+   122                                             """
+   123     68.1 MiB      0.0 MiB           1       customer = Customer.query.filter_by(username=username).first()
+   124     68.1 MiB      0.0 MiB           1       if not customer:
+   125                                                 raise ValueError('Customer not found.')
+   126     68.1 MiB      0.0 MiB           1       if amount <= 0:
+   127                                                 raise ValueError('Need to charge a positive amount')
+   128     68.1 MiB      0.0 MiB           1       customer.wallet_balance += amount
+   129     68.1 MiB      0.0 MiB           1       db.session.commit()
+   130     68.1 MiB      0.0 MiB           1       return customer.wallet_balance
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\customer_service\services\customer_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+   108     68.1 MiB     68.1 MiB           1   @profile
+   109                                         def charge_wallet(username, amount):
+   110                                             """
+   111                                             Charge a customer's wallet by a specific amount.
+   112                                         
+   113                                             Args:
+   114                                                 username (str): The username of the customer.
+   115                                                 amount (float): The amount to add to the wallet.
+   116                                         
+   117                                             Raises:
+   118                                                 ValueError: If the customer is not found or the amount is invalid.
+   119                                         
+   120                                             Returns:
+   121                                                 float: The updated wallet balance.
+   122                                             """
+   123     68.1 MiB      0.0 MiB           1       customer = Customer.query.filter_by(username=username).first()
+   124     68.1 MiB      0.0 MiB           1       if not customer:
+   125                                                 raise ValueError('Customer not found.')
+   126     68.1 MiB      0.0 MiB           1       if amount <= 0:
+   127                                                 raise ValueError('Need to charge a positive amount')
+   128     68.1 MiB      0.0 MiB           1       customer.wallet_balance += amount
+   129     68.1 MiB      0.0 MiB           1       db.session.commit()
+   130     68.1 MiB      0.0 MiB           1       return customer.wallet_balance
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\customer_service\services\customer_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+   108     68.1 MiB     68.1 MiB           1   @profile
+   109                                         def charge_wallet(username, amount):
+   110                                             """
+   111                                             Charge a customer's wallet by a specific amount.
+   112                                         
+   113                                             Args:
+   114                                                 username (str): The username of the customer.
+   115                                                 amount (float): The amount to add to the wallet.
+   116                                         
+   117                                             Raises:
+   118                                                 ValueError: If the customer is not found or the amount is invalid.
+   119                                         
+   120                                             Returns:
+   121                                                 float: The updated wallet balance.
+   122                                             """
+   123     68.1 MiB      0.0 MiB           1       customer = Customer.query.filter_by(username=username).first()
+   124     68.1 MiB      0.0 MiB           1       if not customer:
+   125                                                 raise ValueError('Customer not found.')
+   126     68.1 MiB      0.0 MiB           1       if amount <= 0:
+   127                                                 raise ValueError('Need to charge a positive amount')
+   128     68.1 MiB      0.0 MiB           1       customer.wallet_balance += amount
+   129     68.1 MiB      0.0 MiB           1       db.session.commit()
+   130     68.1 MiB      0.0 MiB           1       return customer.wallet_balance
+
+
+Memory usage for charge_wallet: [68.0546875, 68.0546875, 68.0546875, 68.0546875, 68.0546875]
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\customer_service\services\customer_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+   132     68.1 MiB     68.1 MiB           1   @profile
+   133                                         def deduct_wallet(username, amount):
+   134                                             """
+   135                                             Deduct a specific amount from a customer's wallet.
+   136                                         
+   137                                             Args:
+   138                                                 username (str): The username of the customer.
+   139                                                 amount (float): The amount to deduct.
+   140                                         
+   141                                             Raises:
+   142                                                 ValueError: If the customer is not found or the balance is insufficient.
+   143                                         
+   144                                             Returns:
+   145                                                 float: The updated wallet balance.
+   146                                             """
+   147     68.1 MiB      0.0 MiB           1       customer = Customer.query.filter_by(username=username).first()
+   148     68.1 MiB      0.0 MiB           1       if not customer:
+   149                                                 raise ValueError('Customer not found.')
+   150     68.1 MiB      0.0 MiB           1       if customer.wallet_balance < amount:
+   151                                                 raise ValueError('Insufficient balance.')
+   152     68.1 MiB      0.0 MiB           1       customer.wallet_balance -= amount
+   153     68.1 MiB      0.0 MiB           1       db.session.commit()
+   154     68.1 MiB      0.0 MiB           1       return customer.wallet_balance
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\customer_service\services\customer_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+   132     68.1 MiB     68.1 MiB           1   @profile
+   133                                         def deduct_wallet(username, amount):
+   134                                             """
+   135                                             Deduct a specific amount from a customer's wallet.
+   136                                         
+   137                                             Args:
+   138                                                 username (str): The username of the customer.
+   139                                                 amount (float): The amount to deduct.
+   140                                         
+   141                                             Raises:
+   142                                                 ValueError: If the customer is not found or the balance is insufficient.
+   143                                         
+   144                                             Returns:
+   145                                                 float: The updated wallet balance.
+   146                                             """
+   147     68.1 MiB      0.0 MiB           1       customer = Customer.query.filter_by(username=username).first()
+   148     68.1 MiB      0.0 MiB           1       if not customer:
+   149                                                 raise ValueError('Customer not found.')
+   150     68.1 MiB      0.0 MiB           1       if customer.wallet_balance < amount:
+   151                                                 raise ValueError('Insufficient balance.')
+   152     68.1 MiB      0.0 MiB           1       customer.wallet_balance -= amount
+   153     68.1 MiB      0.0 MiB           1       db.session.commit()
+   154     68.1 MiB      0.0 MiB           1       return customer.wallet_balance
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\customer_service\services\customer_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+   132     68.1 MiB     68.1 MiB           1   @profile
+   133                                         def deduct_wallet(username, amount):
+   134                                             """
+   135                                             Deduct a specific amount from a customer's wallet.
+   136                                         
+   137                                             Args:
+   138                                                 username (str): The username of the customer.
+   139                                                 amount (float): The amount to deduct.
+   140                                         
+   141                                             Raises:
+   142                                                 ValueError: If the customer is not found or the balance is insufficient.
+   143                                         
+   144                                             Returns:
+   145                                                 float: The updated wallet balance.
+   146                                             """
+   147     68.1 MiB      0.0 MiB           1       customer = Customer.query.filter_by(username=username).first()
+   148     68.1 MiB      0.0 MiB           1       if not customer:
+   149                                                 raise ValueError('Customer not found.')
+   150     68.1 MiB      0.0 MiB           1       if customer.wallet_balance < amount:
+   151                                                 raise ValueError('Insufficient balance.')
+   152     68.1 MiB      0.0 MiB           1       customer.wallet_balance -= amount
+   153     68.1 MiB      0.0 MiB           1       db.session.commit()
+   154     68.1 MiB      0.0 MiB           1       return customer.wallet_balance
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\customer_service\services\customer_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+   132     68.1 MiB     68.1 MiB           1   @profile
+   133                                         def deduct_wallet(username, amount):
+   134                                             """
+   135                                             Deduct a specific amount from a customer's wallet.
+   136                                         
+   137                                             Args:
+   138                                                 username (str): The username of the customer.
+   139                                                 amount (float): The amount to deduct.
+   140                                         
+   141                                             Raises:
+   142                                                 ValueError: If the customer is not found or the balance is insufficient.
+   143                                         
+   144                                             Returns:
+   145                                                 float: The updated wallet balance.
+   146                                             """
+   147     68.1 MiB      0.0 MiB           1       customer = Customer.query.filter_by(username=username).first()
+   148     68.1 MiB      0.0 MiB           1       if not customer:
+   149                                                 raise ValueError('Customer not found.')
+   150     68.1 MiB      0.0 MiB           1       if customer.wallet_balance < amount:
+   151                                                 raise ValueError('Insufficient balance.')
+   152     68.1 MiB      0.0 MiB           1       customer.wallet_balance -= amount
+   153     68.1 MiB      0.0 MiB           1       db.session.commit()
+   154     68.1 MiB      0.0 MiB           1       return customer.wallet_balance
+
+
+Memory usage for deduct_wallet: [68.0625, 68.0625, 68.0625, 68.0625, 68.0625]
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\customer_service\services\customer_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+   155     68.1 MiB     68.1 MiB           1   @profile
+   156                                         def authenticate_customer(username, password):
+   157                                             """
+   158                                             Authenticate a customer using username and password.
+   159                                         
+   160                                             Args:
+   161                                                 username (str): The customer's username.
+   162                                                 password (str): The customer's password.
+   163                                         
+   164                                             Returns:
+   165                                                 Customer: The customer object if authentication is successful, else None.
+   166                                             """
+   167     68.1 MiB      0.0 MiB           1       customer = Customer.query.filter_by(username=username).first()
+   168     68.1 MiB      0.0 MiB           1       if not customer or not verify_password(password, customer.password_hash):
+   169                                                 return None
+   170     68.1 MiB      0.0 MiB           1       return customer
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\customer_service\services\customer_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+   155     68.1 MiB     68.1 MiB           1   @profile
+   156                                         def authenticate_customer(username, password):
+   157                                             """
+   158                                             Authenticate a customer using username and password.
+   159                                         
+   160                                             Args:
+   161                                                 username (str): The customer's username.
+   162                                                 password (str): The customer's password.
+   163                                         
+   164                                             Returns:
+   165                                                 Customer: The customer object if authentication is successful, else None.
+   166                                             """
+   167     68.1 MiB      0.0 MiB           1       customer = Customer.query.filter_by(username=username).first()
+   168     68.1 MiB      0.0 MiB           1       if not customer or not verify_password(password, customer.password_hash):
+   169                                                 return None
+   170     68.1 MiB      0.0 MiB           1       return customer
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\customer_service\services\customer_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+   155     68.1 MiB     68.1 MiB           1   @profile
+   156                                         def authenticate_customer(username, password):
+   157                                             """
+   158                                             Authenticate a customer using username and password.
+   159                                         
+   160                                             Args:
+   161                                                 username (str): The customer's username.
+   162                                                 password (str): The customer's password.
+   163                                         
+   164                                             Returns:
+   165                                                 Customer: The customer object if authentication is successful, else None.
+   166                                             """
+   167     68.1 MiB      0.0 MiB           1       customer = Customer.query.filter_by(username=username).first()
+   168     68.1 MiB      0.0 MiB           1       if not customer or not verify_password(password, customer.password_hash):
+   169                                                 return None
+   170     68.1 MiB      0.0 MiB           1       return customer
+
+
+Memory usage for authenticate_customer: [68.06640625, 68.06640625, 76.70703125, 85.20703125, 94.58203125, 100.0703125, 100.0703125, 100.0703125, 100.0703125, 68.06640625]
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\customer_service\services\customer_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    41     67.0 MiB     67.0 MiB           1   @profile
+    42                                         def delete_customer(username):
+    43                                             """
+    44                                             Delete a customer by username.
+    45                                         
+    46                                             Args:
+    47                                                 username (str): The username of the customer to delete.
+    48                                         
+    49                                             Raises:
+    50                                                 ValueError: If the customer is not found.
+    51                                             """
+    52     67.0 MiB      0.0 MiB           1       customer = Customer.query.filter_by(username=username).first()
+    53     67.0 MiB      0.0 MiB           1       if not customer:
+    54                                                 raise ValueError('Customer not found.')
+    55     67.0 MiB      0.0 MiB           1       db.session.delete(customer)
+    56     67.0 MiB      0.0 MiB           1       db.session.commit()
+
+

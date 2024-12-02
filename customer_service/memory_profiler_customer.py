@@ -4,6 +4,7 @@ from services.customer_service import (
     get_all_customers, get_customer_by_username,
     charge_wallet, deduct_wallet, authenticate_customer
 )
+from customers_service import create_app
 
 def memory_profile_functions(app):
     """
@@ -79,4 +80,5 @@ def memory_profile_functions(app):
 
 
 if __name__ == "__main__":
-    memory_profile_functions()
+    app = create_app()
+    memory_profile_functions(app)
