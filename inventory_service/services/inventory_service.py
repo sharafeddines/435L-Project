@@ -1,7 +1,9 @@
 from models.inventory import Inventory
 from utils.database import db
 from sqlalchemy.exc import IntegrityError
+from memory_profiler import profile
 
+@profile
 def add_goods(data):
     """
     Add new goods to the inventory.
@@ -39,6 +41,7 @@ def add_goods(data):
         db.session.rollback()
         raise ValueError("Failed to add goods due to a database integrity error.")
 
+@profile
 def deduct_goods(item_id, count):
     """
     Deduct a specific quantity of goods from the inventory.
@@ -62,6 +65,7 @@ def deduct_goods(item_id, count):
     db.session.commit()
     return goods
 
+@profile
 def update_goods(item_id, update_data):
     """
     Update the details of an inventory item.
@@ -87,6 +91,7 @@ def update_goods(item_id, update_data):
     db.session.commit()
     return goods
 
+@profile
 def get_all_inventory():
     """
     Retrieve all items in the inventory.
