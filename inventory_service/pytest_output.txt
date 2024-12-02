@@ -1,0 +1,21 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.0, pytest-8.3.4, pluggy-1.5.0
+rootdir: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\inventory_service
+plugins: mock-3.14.0
+collected 8 items
+
+test_inventory_bp.py ........                                            [100%]
+
+============================== warnings summary ===============================
+test_inventory_bp.py::test_deduct_goods_success
+test_inventory_bp.py::test_deduct_goods_insufficient_stock
+  C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\inventory_service\services\inventory_service.py:57: LegacyAPIWarning: The Query.get() method is considered legacy as of the 1.x series of SQLAlchemy and becomes a legacy construct in 2.0. The method is now available as Session.get() (deprecated since: 2.0) (Background on SQLAlchemy 2.0 at: https://sqlalche.me/e/b8d9)
+    goods = Inventory.query.get(item_id)
+
+test_inventory_bp.py::test_update_goods_success
+test_inventory_bp.py::test_update_goods_not_found
+  C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\inventory_service\services\inventory_service.py:80: LegacyAPIWarning: The Query.get() method is considered legacy as of the 1.x series of SQLAlchemy and becomes a legacy construct in 2.0. The method is now available as Session.get() (deprecated since: 2.0) (Background on SQLAlchemy 2.0 at: https://sqlalche.me/e/b8d9)
+    goods = Inventory.query.get(item_id)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================== 8 passed, 4 warnings in 1.25s ========================
