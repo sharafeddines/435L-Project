@@ -2,6 +2,7 @@ from line_profiler import LineProfiler
 from services.sales_service import (
     add_sale
 )
+from sales_service import create_app
 
 def profile_functions(app):
     # Initialize the line profiler
@@ -26,4 +27,5 @@ def profile_functions(app):
         profiler.print_stats()
 
 if __name__ == "__main__":
-    profile_functions()
+    app = create_app()
+    profile_functions(app)

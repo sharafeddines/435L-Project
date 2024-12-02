@@ -1,0 +1,138 @@
+attempting connection
+connected
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\sales_service\services\sales_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+     5     69.2 MiB     69.2 MiB           1   @profile
+     6                                         def add_sale(data):
+     7                                             """
+     8                                             Add a new sales record to the database.
+     9                                         
+    10                                             :param data: A dictionary containing the sales details, including:
+    11                                                 - "customer_id" (int): The ID of the customer making the purchase.
+    12                                                 - "product_id" (int): The ID of the product being purchased.
+    13                                                 - "quantity" (int): The quantity of the product purchased.
+    14                                             :type data: dict
+    15                                             :return: The newly created Sales object.
+    16                                             :rtype: Sales
+    17                                             """    
+    18     69.3 MiB      0.1 MiB           2       new_sale = Sales(
+    19     69.2 MiB      0.0 MiB           1           customer_id=data["customer_id"],
+    20     69.2 MiB      0.0 MiB           1           product_id=data["product_id"],
+    21     69.2 MiB      0.0 MiB           1           quantity=data["quantity"],
+    22                                             )
+    23     69.3 MiB      0.0 MiB           1       db.session.add(new_sale)
+    24     69.4 MiB      0.2 MiB           1       db.session.commit()
+    25     69.4 MiB      0.0 MiB           1       return new_sale
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\sales_service\services\sales_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+     5     69.5 MiB     69.5 MiB           1   @profile
+     6                                         def add_sale(data):
+     7                                             """
+     8                                             Add a new sales record to the database.
+     9                                         
+    10                                             :param data: A dictionary containing the sales details, including:
+    11                                                 - "customer_id" (int): The ID of the customer making the purchase.
+    12                                                 - "product_id" (int): The ID of the product being purchased.
+    13                                                 - "quantity" (int): The quantity of the product purchased.
+    14                                             :type data: dict
+    15                                             :return: The newly created Sales object.
+    16                                             :rtype: Sales
+    17                                             """    
+    18     69.5 MiB      0.0 MiB           2       new_sale = Sales(
+    19     69.5 MiB      0.0 MiB           1           customer_id=data["customer_id"],
+    20     69.5 MiB      0.0 MiB           1           product_id=data["product_id"],
+    21     69.5 MiB      0.0 MiB           1           quantity=data["quantity"],
+    22                                             )
+    23     69.5 MiB      0.0 MiB           1       db.session.add(new_sale)
+    24     69.5 MiB      0.0 MiB           1       db.session.commit()
+    25     69.5 MiB      0.0 MiB           1       return new_sale
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\sales_service\services\sales_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+     5     69.5 MiB     69.5 MiB           1   @profile
+     6                                         def add_sale(data):
+     7                                             """
+     8                                             Add a new sales record to the database.
+     9                                         
+    10                                             :param data: A dictionary containing the sales details, including:
+    11                                                 - "customer_id" (int): The ID of the customer making the purchase.
+    12                                                 - "product_id" (int): The ID of the product being purchased.
+    13                                                 - "quantity" (int): The quantity of the product purchased.
+    14                                             :type data: dict
+    15                                             :return: The newly created Sales object.
+    16                                             :rtype: Sales
+    17                                             """    
+    18     69.5 MiB      0.0 MiB           2       new_sale = Sales(
+    19     69.5 MiB      0.0 MiB           1           customer_id=data["customer_id"],
+    20     69.5 MiB      0.0 MiB           1           product_id=data["product_id"],
+    21     69.5 MiB      0.0 MiB           1           quantity=data["quantity"],
+    22                                             )
+    23     69.5 MiB      0.0 MiB           1       db.session.add(new_sale)
+    24     69.5 MiB      0.0 MiB           1       db.session.commit()
+    25     69.5 MiB      0.0 MiB           1       return new_sale
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\sales_service\services\sales_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+     5     69.5 MiB     69.5 MiB           1   @profile
+     6                                         def add_sale(data):
+     7                                             """
+     8                                             Add a new sales record to the database.
+     9                                         
+    10                                             :param data: A dictionary containing the sales details, including:
+    11                                                 - "customer_id" (int): The ID of the customer making the purchase.
+    12                                                 - "product_id" (int): The ID of the product being purchased.
+    13                                                 - "quantity" (int): The quantity of the product purchased.
+    14                                             :type data: dict
+    15                                             :return: The newly created Sales object.
+    16                                             :rtype: Sales
+    17                                             """    
+    18     69.5 MiB      0.0 MiB           2       new_sale = Sales(
+    19     69.5 MiB      0.0 MiB           1           customer_id=data["customer_id"],
+    20     69.5 MiB      0.0 MiB           1           product_id=data["product_id"],
+    21     69.5 MiB      0.0 MiB           1           quantity=data["quantity"],
+    22                                             )
+    23     69.5 MiB      0.0 MiB           1       db.session.add(new_sale)
+    24     69.5 MiB      0.0 MiB           1       db.session.commit()
+    25     69.5 MiB      0.0 MiB           1       return new_sale
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\sales_service\services\sales_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+     5     69.5 MiB     69.5 MiB           1   @profile
+     6                                         def add_sale(data):
+     7                                             """
+     8                                             Add a new sales record to the database.
+     9                                         
+    10                                             :param data: A dictionary containing the sales details, including:
+    11                                                 - "customer_id" (int): The ID of the customer making the purchase.
+    12                                                 - "product_id" (int): The ID of the product being purchased.
+    13                                                 - "quantity" (int): The quantity of the product purchased.
+    14                                             :type data: dict
+    15                                             :return: The newly created Sales object.
+    16                                             :rtype: Sales
+    17                                             """    
+    18     69.5 MiB      0.0 MiB           2       new_sale = Sales(
+    19     69.5 MiB      0.0 MiB           1           customer_id=data["customer_id"],
+    20     69.5 MiB      0.0 MiB           1           product_id=data["product_id"],
+    21     69.5 MiB      0.0 MiB           1           quantity=data["quantity"],
+    22                                             )
+    23     69.5 MiB      0.0 MiB           1       db.session.add(new_sale)
+    24     69.5 MiB      0.0 MiB           1       db.session.commit()
+    25     69.5 MiB      0.0 MiB           1       return new_sale
+
+
+Memory usage for add_sale: [69.4609375, 69.4609375, 69.4609375, 69.4609375, 69.4609375, 69.4609375, 69.4609375, 69.4609375, 69.4609375, 69.4609375, 69.4609375, 69.4609375, 69.4609375, 69.4609375, 69.4609375, 69.4609375, 69.4609375, 69.4609375, 69.4609375, 69.4609375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375, 69.46484375]

@@ -4,6 +4,7 @@ from services.review_service import (
     get_all_reviews_by_product, get_all_reviews_by_customer,
     get_specific_review_details, flag_review, delete_review_admin
 )
+from review_service import create_app
 
 def profile_functions(app):
     # Initialize the line profiler
@@ -62,4 +63,5 @@ def profile_functions(app):
         profiler.print_stats()
 
 if __name__ == "__main__":
-    profile_functions()
+    app = create_app()
+    profile_functions(app)
