@@ -8,6 +8,7 @@ from services.customer_service import (
 
 def profile_functions(app):
     profiler = LineProfiler()
+    # Add all functions to be profiled
     profiler.add_function(register_customer)
     profiler.add_function(delete_customer)
     profiler.add_function(update_customer)
@@ -18,6 +19,7 @@ def profile_functions(app):
     profiler.add_function(authenticate_customer)
     
     def test_cases():
+        # Simulated test data
         data = {
             "full_name": "omar",
             "username": "obk",
@@ -27,16 +29,41 @@ def profile_functions(app):
             "gender": "Male",
             "marital_status": "Single"
         }
+
         try:
+            # Test register_customer
             register_customer(data)
-            get_customer_by_username("obk")
+
+            # Test get_all_customers
+            all_customers = get_all_customers()
+            print(f"Total customers: {len(all_customers)}")
+
+            # Test get_customer_by_username
+            customer = get_customer_by_username("obk")
+            print(f"Customer retrieved: {customer.full_name}")
+
+            # Test update_customer
             update_customer("obk", {"age": 31})
-            charge_wallet("obk", 100)
-            deduct_wallet("obk", 50)
+            
+            # Test charge_wallet
+            new_balance = charge_wallet("obk", 100)
+            print(f"New wallet balance after charging: {new_balance}")
+            
+            # Test deduct_wallet
+            new_balance = deduct_wallet("obk", 50)
+            print(f"New wallet balance after deduction: {new_balance}")
+
+            # Test authenticate_customer
+            authenticated = authenticate_customer("obk", "securepassword")
+            print(f"Authentication successful: {authenticated is not None}")
+            
+            # Test delete_customer
             delete_customer("obk")
+            print("Customer deleted successfully.")
         except Exception as e:
             print(f"Error: {e}")
 
+    # Run the profiler with Flask app context
     with app.app_context():
         profiler.runcall(test_cases)
         profiler.print_stats()
