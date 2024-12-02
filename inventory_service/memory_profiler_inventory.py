@@ -34,10 +34,10 @@ def memory_profile_functions(app):
         try:
             # Add goods to inventory
             existing_inventory = get_all_inventory()
-            if not any(item.name == "Laptop123" for item in existing_inventory):
+            if not any(item.name == "Laptop" for item in existing_inventory):
                 # Add goods to inventory
                 new_item = {
-                    "name": "Laptop123",
+                    "name": "Laptop",
                     "category": "Electronics",
                     "price_per_item": 1500.0,
                     "description": "A high-performance laptop",
