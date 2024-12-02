@@ -9,7 +9,9 @@ from utils.database import check_db_connection
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
-
+from line_profiler import LineProfiler
+import time
+from functools import wraps
 customer_bp = Blueprint('customer_bp', __name__)
 
 limiter = Limiter(
@@ -17,6 +19,8 @@ limiter = Limiter(
     default_limits=["200 per day", "50 per hour"], 
     storage_uri="memory://",  
 )
+
+
 
 @customer_bp.route('/health')
 def health_check():
@@ -41,6 +45,7 @@ def health_check():
 
 @customer_bp.route('/register', methods=['POST'])
 @limiter.limit("10 per minute")  
+
 def register():
     """
     Register a new customer.
@@ -61,6 +66,7 @@ def register():
 
 @customer_bp.route('/<username>', methods=['DELETE'])
 @limiter.limit("5 per minute")
+
 def delete(username):
     """
     Delete a customer by username.
@@ -104,6 +110,7 @@ def update(username):
 
 @customer_bp.route('/', methods=['GET'])
 @limiter.limit("20 per minute")
+
 def get_all():
     """
     Retrieve all customers.
@@ -119,6 +126,7 @@ def get_all():
 
 @customer_bp.route('/<username>', methods=['GET'])
 @limiter.limit("10 per minute")
+
 def get_by_username(username):
     """
     Retrieve customer details by username.
@@ -138,6 +146,7 @@ def get_by_username(username):
 
 @customer_bp.route('/charge', methods=['POST'])
 @limiter.limit("10 per minute")
+
 def charge():
     """
     Charge a customer's wallet.
@@ -161,6 +170,7 @@ def charge():
 
 @customer_bp.route('/deduct', methods=['POST'])
 @limiter.limit("10 per minute")
+
 def deduct():
     """
     Deduct an amount from the customer's wallet.
@@ -187,6 +197,7 @@ def deduct():
 
 @customer_bp.route('/login', methods=['POST'])
 @limiter.limit("5 per minute")
+
 def login():
     """
     Authenticate a customer and provide an access token.
@@ -214,6 +225,7 @@ def login():
 
 @customer_bp.route('/get_user_from_token', methods=['POST'])
 @limiter.limit("5 per minute")
+
 def get_user_from_token_api():
     """
     Retrieve user details from a token.
