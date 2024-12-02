@@ -4,7 +4,6 @@ from utils.security import hash_password, verify_password
 from memory_profiler import profile
 import time
 
-@profile
 def register_customer(data, is_admin=False):
     """
     Register a new customer.
@@ -38,7 +37,6 @@ def register_customer(data, is_admin=False):
     db.session.commit()
     return new_customer
 
-@profile
 def delete_customer(username):
     """
     Delete a customer by username.
@@ -55,7 +53,6 @@ def delete_customer(username):
     db.session.delete(customer)
     db.session.commit()
 
-@profile
 def update_customer(username, data):
     """
     Update the details of a customer.
@@ -82,7 +79,6 @@ def update_customer(username, data):
     db.session.commit()
     return customer
 
-@profile
 def get_all_customers():
     """
     Retrieve all customers.
@@ -92,7 +88,6 @@ def get_all_customers():
     """
     return Customer.query.all()
 
-@profile
 def get_customer_by_username(username):
     """
     Retrieve a customer by username.
@@ -105,7 +100,6 @@ def get_customer_by_username(username):
     """
     return Customer.query.filter_by(username=username).first()
 
-@profile
 def charge_wallet(username, amount):
     """
     Charge a customer's wallet by a specific amount.
@@ -129,7 +123,6 @@ def charge_wallet(username, amount):
     db.session.commit()
     return customer.wallet_balance
 
-@profile
 def deduct_wallet(username, amount):
     """
     Deduct a specific amount from a customer's wallet.
@@ -152,7 +145,7 @@ def deduct_wallet(username, amount):
     customer.wallet_balance -= amount
     db.session.commit()
     return customer.wallet_balance
-@profile
+
 def authenticate_customer(username, password):
     """
     Authenticate a customer using username and password.

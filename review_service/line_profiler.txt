@@ -1,0 +1,208 @@
+attempting connection
+connected
+Timer unit: 1e-07 s
+
+Total time: 0.0222893 s
+File: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\review_service\services\review_service.py
+Function: add_review at line 5
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+     5                                           def add_review(user_id, prod_id, data):
+     6                                               """
+     7                                               Add a new review to the database.
+     8                                           
+     9                                               :param user_id: The ID of the user submitting the review.
+    10                                               :type user_id: int
+    11                                               :param prod_id: The ID of the product being reviewed.
+    12                                               :type prod_id: int
+    13                                               :param data: A dictionary containing review details, including "rating" and optional "description".
+    14                                               :type data: dict
+    15                                               :raises ValueError: If required fields are missing or if a database integrity error occurs.
+    16                                               :return: The newly added review object.
+    17                                               :rtype: Review
+    18                                               """
+    19         1          8.0      8.0      0.0      if user_id == None or prod_id == None:
+    20                                                   raise ValueError("Fields not found.")
+    21         2      20829.0  10414.5      9.3      new_review = Review(
+    22         1          2.0      2.0      0.0          customer_id=user_id,
+    23         1          2.0      2.0      0.0          product_id=prod_id,
+    24         1          2.0      2.0      0.0          rating=data["rating"],
+    25         1          5.0      5.0      0.0          description=data.get("description", "")
+    26                                               )
+    27         1          2.0      2.0      0.0      try:
+    28         1       6882.0   6882.0      3.1          db.session.add(new_review)
+    29         1     195153.0 195153.0     87.6          db.session.commit()
+    30         1          8.0      8.0      0.0          return new_review
+    31                                               except IntegrityError:
+    32                                                   db.session.rollback()
+    33                                                   raise ValueError("Failed to add review due to a database integrity error.")
+
+Total time: 0.0194469 s
+File: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\review_service\services\review_service.py
+Function: update_review at line 35
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    35                                           def update_review(user_id, prod_id ,data):
+    36                                               """
+    37                                               Update an existing review.
+    38                                           
+    39                                               :param user_id: The ID of the user updating the review.
+    40                                               :type user_id: int
+    41                                               :param prod_id: The ID of the product associated with the review.
+    42                                               :type prod_id: int
+    43                                               :param data: A dictionary containing updated review details.
+    44                                               :type data: dict
+    45                                               :raises ValueError: If the review is not found or if a database integrity error occurs.
+    46                                               :return: The updated review object.
+    47                                               :rtype: Review
+    48                                               """
+    49         1         10.0     10.0      0.0      if user_id == None or prod_id == None:
+    50                                                   raise ValueError("Fields not found.")
+    51         1      82200.0  82200.0     42.3      review = Review.query.filter_by(customer_id=user_id, product_id = prod_id).first()
+    52         1          5.0      5.0      0.0      if not review:
+    53                                                   raise ValueError("Review not found.")
+    54         1          2.0      2.0      0.0      try:
+    55         3         22.0      7.3      0.0          for key, value in data.items():
+    56         2         16.0      8.0      0.0              if key == 'product_name':
+    57                                                           setattr(review, 'product_id', prod_id)
+    58                                                       else:
+    59         2        403.0    201.5      0.2                  setattr(review, key, value)
+    60         1     111801.0 111801.0     57.5          db.session.commit()
+    61         1         10.0     10.0      0.0          return review
+    62                                               except IntegrityError:
+    63                                                   db.session.rollback()
+    64                                                   raise ValueError("Failed to update review due to a database integrity error.")
+
+Total time: 0.0127302 s
+File: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\review_service\services\review_service.py
+Function: delete_review at line 66
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    66                                           def delete_review(user_id, prod_id):
+    67                                               """
+    68                                               Delete a review.
+    69                                           
+    70                                               :param user_id: The ID of the user who wrote the review.
+    71                                               :type user_id: int
+    72                                               :param prod_id: The ID of the product associated with the review.
+    73                                               :type prod_id: int
+    74                                               :raises ValueError: If the review is not found.
+    75                                               """
+    76         1      31097.0  31097.0     24.4      review = Review.query.filter_by(customer_id=user_id, product_id = prod_id).first()
+    77         1          7.0      7.0      0.0      if not review:
+    78                                                   raise ValueError('Review not found.')
+    79         1        860.0    860.0      0.7      db.session.delete(review)
+    80         1      95338.0  95338.0     74.9      db.session.commit()
+
+Total time: 0.0004187 s
+File: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\review_service\services\review_service.py
+Function: get_all_reviews_by_product at line 83
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    83                                           def get_all_reviews_by_product(prod_id):
+    84                                               """
+    85                                               Retrieve all unflagged reviews for a specific product.
+    86                                           
+    87                                               :param prod_id: The ID of the product.
+    88                                               :type prod_id: int
+    89                                               :return: A query object containing the reviews.
+    90                                               :rtype: sqlalchemy.orm.query.Query
+    91                                               """
+    92         1       4182.0   4182.0     99.9      reviews = Review.query.filter_by(product_id=prod_id, flagged = False)
+    93         1          5.0      5.0      0.1      return reviews
+
+Total time: 0.0002607 s
+File: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\review_service\services\review_service.py
+Function: get_all_reviews_by_customer at line 95
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    95                                           def get_all_reviews_by_customer(customer_id):
+    96                                               """
+    97                                               Retrieve all unflagged reviews submitted by a specific customer.
+    98                                           
+    99                                               :param customer_id: The ID of the customer.
+   100                                               :type customer_id: int
+   101                                               :return: A query object containing the reviews.
+   102                                               :rtype: sqlalchemy.orm.query.Query
+   103                                               """
+   104         1       2603.0   2603.0     99.8      reviews = Review.query.filter_by(customer_id=customer_id, flagged = False)
+   105         1          4.0      4.0      0.2      return reviews
+
+Total time: 0.004989 s
+File: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\review_service\services\review_service.py
+Function: get_specific_review_details at line 107
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+   107                                           def get_specific_review_details(review, item, customer):
+   108                                               """
+   109                                               Retrieve detailed information about a specific review.
+   110                                           
+   111                                               :param review: The review object.
+   112                                               :type review: Review
+   113                                               :param item: A dictionary containing product information.
+   114                                               :type item: dict
+   115                                               :param customer: A dictionary containing customer information.
+   116                                               :type customer: dict
+   117                                               :return: A dictionary containing detailed review information.
+   118                                               :rtype: dict
+   119                                               """
+   120         1         16.0     16.0      0.0      return {
+   121         1      49735.0  49735.0     99.7          "id": review.id,
+   122         1         48.0     48.0      0.1          "product_id": review.product_id,
+   123         1         23.0     23.0      0.0          "customer_id":review.customer_id,
+   124         1          8.0      8.0      0.0          "username": customer.get("username"), 
+   125         1          6.0      6.0      0.0          "product_name": item.get("name"),
+   126         1         20.0     20.0      0.0          "rating": review.rating,
+   127         1         17.0     17.0      0.0          "description": review.description,
+   128         1         17.0     17.0      0.0          "flagged": review.flagged      
+   129                                               }
+
+Total time: 0.0136123 s
+File: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\review_service\services\review_service.py
+Function: flag_review at line 131
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+   131                                           def flag_review(review_id):
+   132                                               """
+   133                                               Flag a review for administrative attention.
+   134                                           
+   135                                               :param review_id: The ID of the review to be flagged.
+   136                                               :type review_id: int
+   137                                               :raises ValueError: If the review is not found.
+   138                                               :return: The flagged review object.
+   139                                               :rtype: Review
+   140                                               """
+   141         1      41637.0  41637.0     30.6      review = Review.query.filter_by(id = review_id).first()
+   142         1          4.0      4.0      0.0      if not review:
+   143                                                   raise ValueError("No such review exists.")
+   144         1        337.0    337.0      0.2      review.flagged=True
+   145         1      94138.0  94138.0     69.2      db.session.commit()
+   146         1          7.0      7.0      0.0      return review
+
+Total time: 0 s
+File: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\review_service\services\review_service.py
+Function: delete_review_admin at line 148
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+   148                                           def delete_review_admin(review_id):
+   149                                               """
+   150                                               Delete a review as an administrator.
+   151                                           
+   152                                               :param review_id: The ID of the review to be deleted.
+   153                                               :type review_id: int
+   154                                               :raises ValueError: If the review is not found.
+   155                                               """
+   156                                               review = Review.query.filter_by(id = review_id).first()
+   157                                               if not review:
+   158                                                   raise ValueError("No such review exists.")
+   159                                               db.session.delete(review)
+   160                                               db.session.commit()
+

@@ -5,6 +5,7 @@ from services.customer_service import (
     get_all_customers, get_customer_by_username,
     charge_wallet, deduct_wallet, authenticate_customer
 )
+from customers_service import create_app
 
 def profile_functions(app):
     profiler = LineProfiler()
@@ -69,4 +70,5 @@ def profile_functions(app):
         profiler.print_stats()
 
 if __name__ == "__main__":
-    profile_functions()
+    app = create_app()
+    profile_functions(app)

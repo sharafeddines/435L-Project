@@ -1,0 +1,31 @@
+attempting connection
+connected
+Timer unit: 1e-07 s
+
+Total time: 0.0181646 s
+File: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\sales_service\services\sales_service.py
+Function: add_sale at line 4
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+     4                                           def add_sale(data):
+     5                                               """
+     6                                               Add a new sales record to the database.
+     7                                           
+     8                                               :param data: A dictionary containing the sales details, including:
+     9                                                   - "customer_id" (int): The ID of the customer making the purchase.
+    10                                                   - "product_id" (int): The ID of the product being purchased.
+    11                                                   - "quantity" (int): The quantity of the product purchased.
+    12                                               :type data: dict
+    13                                               :return: The newly created Sales object.
+    14                                               :rtype: Sales
+    15                                               """    
+    16         2      20502.0  10251.0     11.3      new_sale = Sales(
+    17         1          4.0      4.0      0.0          customer_id=data["customer_id"],
+    18         1          3.0      3.0      0.0          product_id=data["product_id"],
+    19         1          2.0      2.0      0.0          quantity=data["quantity"],
+    20                                               )
+    21         1       7056.0   7056.0      3.9      db.session.add(new_sale)
+    22         1     154073.0 154073.0     84.8      db.session.commit()
+    23         1          6.0      6.0      0.0      return new_sale
+

@@ -1,0 +1,949 @@
+attempting connection
+connected
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\review_service\services\review_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+     5     69.1 MiB     69.1 MiB           1   @profile
+     6                                         def add_review(user_id, prod_id, data):
+     7                                             """
+     8                                             Add a new review to the database.
+     9                                         
+    10                                             :param user_id: The ID of the user submitting the review.
+    11                                             :type user_id: int
+    12                                             :param prod_id: The ID of the product being reviewed.
+    13                                             :type prod_id: int
+    14                                             :param data: A dictionary containing review details, including "rating" and optional "description".
+    15                                             :type data: dict
+    16                                             :raises ValueError: If required fields are missing or if a database integrity error occurs.
+    17                                             :return: The newly added review object.
+    18                                             :rtype: Review
+    19                                             """
+    20     69.1 MiB      0.0 MiB           1       if user_id == None or prod_id == None:
+    21                                                 raise ValueError("Fields not found.")
+    22     69.2 MiB      0.1 MiB           2       new_review = Review(
+    23     69.1 MiB      0.0 MiB           1           customer_id=user_id,
+    24     69.1 MiB      0.0 MiB           1           product_id=prod_id,
+    25     69.1 MiB      0.0 MiB           1           rating=data["rating"],
+    26     69.1 MiB      0.0 MiB           1           description=data.get("description", "")
+    27                                             )
+    28     69.2 MiB      0.0 MiB           1       try:
+    29     69.2 MiB      0.0 MiB           1           db.session.add(new_review)
+    30     69.4 MiB      0.2 MiB           1           db.session.commit()
+    31     69.4 MiB      0.0 MiB           1           return new_review
+    32                                             except IntegrityError:
+    33                                                 db.session.rollback()
+    34                                                 raise ValueError("Failed to add review due to a database integrity error.")
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\review_service\services\review_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+     5     69.4 MiB     69.4 MiB           1   @profile
+     6                                         def add_review(user_id, prod_id, data):
+     7                                             """
+     8                                             Add a new review to the database.
+     9                                         
+    10                                             :param user_id: The ID of the user submitting the review.
+    11                                             :type user_id: int
+    12                                             :param prod_id: The ID of the product being reviewed.
+    13                                             :type prod_id: int
+    14                                             :param data: A dictionary containing review details, including "rating" and optional "description".
+    15                                             :type data: dict
+    16                                             :raises ValueError: If required fields are missing or if a database integrity error occurs.
+    17                                             :return: The newly added review object.
+    18                                             :rtype: Review
+    19                                             """
+    20     69.4 MiB      0.0 MiB           1       if user_id == None or prod_id == None:
+    21                                                 raise ValueError("Fields not found.")
+    22     69.4 MiB      0.0 MiB           2       new_review = Review(
+    23     69.4 MiB      0.0 MiB           1           customer_id=user_id,
+    24     69.4 MiB      0.0 MiB           1           product_id=prod_id,
+    25     69.4 MiB      0.0 MiB           1           rating=data["rating"],
+    26     69.4 MiB      0.0 MiB           1           description=data.get("description", "")
+    27                                             )
+    28     69.4 MiB      0.0 MiB           1       try:
+    29     69.4 MiB      0.0 MiB           1           db.session.add(new_review)
+    30     69.4 MiB      0.0 MiB           1           db.session.commit()
+    31     69.4 MiB      0.0 MiB           1           return new_review
+    32                                             except IntegrityError:
+    33                                                 db.session.rollback()
+    34                                                 raise ValueError("Failed to add review due to a database integrity error.")
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\review_service\services\review_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+     5     69.4 MiB     69.4 MiB           1   @profile
+     6                                         def add_review(user_id, prod_id, data):
+     7                                             """
+     8                                             Add a new review to the database.
+     9                                         
+    10                                             :param user_id: The ID of the user submitting the review.
+    11                                             :type user_id: int
+    12                                             :param prod_id: The ID of the product being reviewed.
+    13                                             :type prod_id: int
+    14                                             :param data: A dictionary containing review details, including "rating" and optional "description".
+    15                                             :type data: dict
+    16                                             :raises ValueError: If required fields are missing or if a database integrity error occurs.
+    17                                             :return: The newly added review object.
+    18                                             :rtype: Review
+    19                                             """
+    20     69.4 MiB      0.0 MiB           1       if user_id == None or prod_id == None:
+    21                                                 raise ValueError("Fields not found.")
+    22     69.4 MiB      0.0 MiB           2       new_review = Review(
+    23     69.4 MiB      0.0 MiB           1           customer_id=user_id,
+    24     69.4 MiB      0.0 MiB           1           product_id=prod_id,
+    25     69.4 MiB      0.0 MiB           1           rating=data["rating"],
+    26     69.4 MiB      0.0 MiB           1           description=data.get("description", "")
+    27                                             )
+    28     69.4 MiB      0.0 MiB           1       try:
+    29     69.4 MiB      0.0 MiB           1           db.session.add(new_review)
+    30     69.4 MiB      0.0 MiB           1           db.session.commit()
+    31     69.4 MiB      0.0 MiB           1           return new_review
+    32                                             except IntegrityError:
+    33                                                 db.session.rollback()
+    34                                                 raise ValueError("Failed to add review due to a database integrity error.")
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\review_service\services\review_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+     5     69.5 MiB     69.5 MiB           1   @profile
+     6                                         def add_review(user_id, prod_id, data):
+     7                                             """
+     8                                             Add a new review to the database.
+     9                                         
+    10                                             :param user_id: The ID of the user submitting the review.
+    11                                             :type user_id: int
+    12                                             :param prod_id: The ID of the product being reviewed.
+    13                                             :type prod_id: int
+    14                                             :param data: A dictionary containing review details, including "rating" and optional "description".
+    15                                             :type data: dict
+    16                                             :raises ValueError: If required fields are missing or if a database integrity error occurs.
+    17                                             :return: The newly added review object.
+    18                                             :rtype: Review
+    19                                             """
+    20     69.5 MiB      0.0 MiB           1       if user_id == None or prod_id == None:
+    21                                                 raise ValueError("Fields not found.")
+    22     69.5 MiB      0.0 MiB           2       new_review = Review(
+    23     69.5 MiB      0.0 MiB           1           customer_id=user_id,
+    24     69.5 MiB      0.0 MiB           1           product_id=prod_id,
+    25     69.5 MiB      0.0 MiB           1           rating=data["rating"],
+    26     69.5 MiB      0.0 MiB           1           description=data.get("description", "")
+    27                                             )
+    28     69.5 MiB      0.0 MiB           1       try:
+    29     69.5 MiB      0.0 MiB           1           db.session.add(new_review)
+    30     69.5 MiB      0.0 MiB           1           db.session.commit()
+    31     69.5 MiB      0.0 MiB           1           return new_review
+    32                                             except IntegrityError:
+    33                                                 db.session.rollback()
+    34                                                 raise ValueError("Failed to add review due to a database integrity error.")
+
+
+Memory usage for add_review: [69.4375, 69.4375, 69.44140625, 69.44140625, 69.45703125]
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\review_service\services\review_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    36     69.5 MiB     69.5 MiB           1   @profile
+    37                                         def update_review(user_id, prod_id ,data):
+    38                                             """
+    39                                             Update an existing review.
+    40                                         
+    41                                             :param user_id: The ID of the user updating the review.
+    42                                             :type user_id: int
+    43                                             :param prod_id: The ID of the product associated with the review.
+    44                                             :type prod_id: int
+    45                                             :param data: A dictionary containing updated review details.
+    46                                             :type data: dict
+    47                                             :raises ValueError: If the review is not found or if a database integrity error occurs.
+    48                                             :return: The updated review object.
+    49                                             :rtype: Review
+    50                                             """
+    51     69.5 MiB      0.0 MiB           1       if user_id == None or prod_id == None:
+    52                                                 raise ValueError("Fields not found.")
+    53     69.6 MiB      0.1 MiB           1       review = Review.query.filter_by(customer_id=user_id, product_id = prod_id).first()
+    54     69.6 MiB      0.0 MiB           1       if not review:
+    55                                                 raise ValueError("Review not found.")
+    56     69.6 MiB      0.0 MiB           1       try:
+    57     69.6 MiB      0.0 MiB           3           for key, value in data.items():
+    58     69.6 MiB      0.0 MiB           2               if key == 'product_name':
+    59                                                         setattr(review, 'product_id', prod_id)
+    60                                                     else:
+    61     69.6 MiB      0.0 MiB           2                   setattr(review, key, value)
+    62     69.6 MiB      0.0 MiB           1           db.session.commit()
+    63     69.6 MiB      0.0 MiB           1           return review
+    64                                             except IntegrityError:
+    65                                                 db.session.rollback()
+    66                                                 raise ValueError("Failed to update review due to a database integrity error.")
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\review_service\services\review_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    36     69.6 MiB     69.6 MiB           1   @profile
+    37                                         def update_review(user_id, prod_id ,data):
+    38                                             """
+    39                                             Update an existing review.
+    40                                         
+    41                                             :param user_id: The ID of the user updating the review.
+    42                                             :type user_id: int
+    43                                             :param prod_id: The ID of the product associated with the review.
+    44                                             :type prod_id: int
+    45                                             :param data: A dictionary containing updated review details.
+    46                                             :type data: dict
+    47                                             :raises ValueError: If the review is not found or if a database integrity error occurs.
+    48                                             :return: The updated review object.
+    49                                             :rtype: Review
+    50                                             """
+    51     69.6 MiB      0.0 MiB           1       if user_id == None or prod_id == None:
+    52                                                 raise ValueError("Fields not found.")
+    53     69.6 MiB      0.0 MiB           1       review = Review.query.filter_by(customer_id=user_id, product_id = prod_id).first()
+    54     69.6 MiB      0.0 MiB           1       if not review:
+    55                                                 raise ValueError("Review not found.")
+    56     69.6 MiB      0.0 MiB           1       try:
+    57     69.6 MiB      0.0 MiB           3           for key, value in data.items():
+    58     69.6 MiB      0.0 MiB           2               if key == 'product_name':
+    59                                                         setattr(review, 'product_id', prod_id)
+    60                                                     else:
+    61     69.6 MiB      0.0 MiB           2                   setattr(review, key, value)
+    62     69.6 MiB      0.0 MiB           1           db.session.commit()
+    63     69.6 MiB      0.0 MiB           1           return review
+    64                                             except IntegrityError:
+    65                                                 db.session.rollback()
+    66                                                 raise ValueError("Failed to update review due to a database integrity error.")
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\review_service\services\review_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    36     69.6 MiB     69.6 MiB           1   @profile
+    37                                         def update_review(user_id, prod_id ,data):
+    38                                             """
+    39                                             Update an existing review.
+    40                                         
+    41                                             :param user_id: The ID of the user updating the review.
+    42                                             :type user_id: int
+    43                                             :param prod_id: The ID of the product associated with the review.
+    44                                             :type prod_id: int
+    45                                             :param data: A dictionary containing updated review details.
+    46                                             :type data: dict
+    47                                             :raises ValueError: If the review is not found or if a database integrity error occurs.
+    48                                             :return: The updated review object.
+    49                                             :rtype: Review
+    50                                             """
+    51     69.6 MiB      0.0 MiB           1       if user_id == None or prod_id == None:
+    52                                                 raise ValueError("Fields not found.")
+    53     69.6 MiB      0.0 MiB           1       review = Review.query.filter_by(customer_id=user_id, product_id = prod_id).first()
+    54     69.6 MiB      0.0 MiB           1       if not review:
+    55                                                 raise ValueError("Review not found.")
+    56     69.6 MiB      0.0 MiB           1       try:
+    57     69.6 MiB      0.0 MiB           3           for key, value in data.items():
+    58     69.6 MiB      0.0 MiB           2               if key == 'product_name':
+    59                                                         setattr(review, 'product_id', prod_id)
+    60                                                     else:
+    61     69.6 MiB      0.0 MiB           2                   setattr(review, key, value)
+    62     69.6 MiB      0.0 MiB           1           db.session.commit()
+    63     69.6 MiB      0.0 MiB           1           return review
+    64                                             except IntegrityError:
+    65                                                 db.session.rollback()
+    66                                                 raise ValueError("Failed to update review due to a database integrity error.")
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\review_service\services\review_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    36     69.6 MiB     69.6 MiB           1   @profile
+    37                                         def update_review(user_id, prod_id ,data):
+    38                                             """
+    39                                             Update an existing review.
+    40                                         
+    41                                             :param user_id: The ID of the user updating the review.
+    42                                             :type user_id: int
+    43                                             :param prod_id: The ID of the product associated with the review.
+    44                                             :type prod_id: int
+    45                                             :param data: A dictionary containing updated review details.
+    46                                             :type data: dict
+    47                                             :raises ValueError: If the review is not found or if a database integrity error occurs.
+    48                                             :return: The updated review object.
+    49                                             :rtype: Review
+    50                                             """
+    51     69.6 MiB      0.0 MiB           1       if user_id == None or prod_id == None:
+    52                                                 raise ValueError("Fields not found.")
+    53     69.6 MiB      0.0 MiB           1       review = Review.query.filter_by(customer_id=user_id, product_id = prod_id).first()
+    54     69.6 MiB      0.0 MiB           1       if not review:
+    55                                                 raise ValueError("Review not found.")
+    56     69.6 MiB      0.0 MiB           1       try:
+    57     69.6 MiB      0.0 MiB           3           for key, value in data.items():
+    58     69.6 MiB      0.0 MiB           2               if key == 'product_name':
+    59                                                         setattr(review, 'product_id', prod_id)
+    60                                                     else:
+    61     69.6 MiB      0.0 MiB           2                   setattr(review, key, value)
+    62     69.6 MiB      0.0 MiB           1           db.session.commit()
+    63     69.6 MiB      0.0 MiB           1           return review
+    64                                             except IntegrityError:
+    65                                                 db.session.rollback()
+    66                                                 raise ValueError("Failed to update review due to a database integrity error.")
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\review_service\services\review_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    36     69.6 MiB     69.6 MiB           1   @profile
+    37                                         def update_review(user_id, prod_id ,data):
+    38                                             """
+    39                                             Update an existing review.
+    40                                         
+    41                                             :param user_id: The ID of the user updating the review.
+    42                                             :type user_id: int
+    43                                             :param prod_id: The ID of the product associated with the review.
+    44                                             :type prod_id: int
+    45                                             :param data: A dictionary containing updated review details.
+    46                                             :type data: dict
+    47                                             :raises ValueError: If the review is not found or if a database integrity error occurs.
+    48                                             :return: The updated review object.
+    49                                             :rtype: Review
+    50                                             """
+    51     69.6 MiB      0.0 MiB           1       if user_id == None or prod_id == None:
+    52                                                 raise ValueError("Fields not found.")
+    53     69.6 MiB      0.0 MiB           1       review = Review.query.filter_by(customer_id=user_id, product_id = prod_id).first()
+    54     69.6 MiB      0.0 MiB           1       if not review:
+    55                                                 raise ValueError("Review not found.")
+    56     69.6 MiB      0.0 MiB           1       try:
+    57     69.6 MiB      0.0 MiB           3           for key, value in data.items():
+    58     69.6 MiB      0.0 MiB           2               if key == 'product_name':
+    59                                                         setattr(review, 'product_id', prod_id)
+    60                                                     else:
+    61     69.6 MiB      0.0 MiB           2                   setattr(review, key, value)
+    62     69.6 MiB      0.0 MiB           1           db.session.commit()
+    63     69.6 MiB      0.0 MiB           1           return review
+    64                                             except IntegrityError:
+    65                                                 db.session.rollback()
+    66                                                 raise ValueError("Failed to update review due to a database integrity error.")
+
+
+Memory usage for update_review: [69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625, 69.6015625]
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\review_service\services\review_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    85     69.6 MiB     69.6 MiB           1   @profile
+    86                                         def get_all_reviews_by_product(prod_id):
+    87                                             """
+    88                                             Retrieve all unflagged reviews for a specific product.
+    89                                         
+    90                                             :param prod_id: The ID of the product.
+    91                                             :type prod_id: int
+    92                                             :return: A query object containing the reviews.
+    93                                             :rtype: sqlalchemy.orm.query.Query
+    94                                             """
+    95     69.6 MiB      0.0 MiB           1       reviews = Review.query.filter_by(product_id=prod_id, flagged = False)
+    96     69.6 MiB      0.0 MiB           1       return reviews
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\review_service\services\review_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    85     69.6 MiB     69.6 MiB           1   @profile
+    86                                         def get_all_reviews_by_product(prod_id):
+    87                                             """
+    88                                             Retrieve all unflagged reviews for a specific product.
+    89                                         
+    90                                             :param prod_id: The ID of the product.
+    91                                             :type prod_id: int
+    92                                             :return: A query object containing the reviews.
+    93                                             :rtype: sqlalchemy.orm.query.Query
+    94                                             """
+    95     69.6 MiB      0.0 MiB           1       reviews = Review.query.filter_by(product_id=prod_id, flagged = False)
+    96     69.6 MiB      0.0 MiB           1       return reviews
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\review_service\services\review_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    85     69.6 MiB     69.6 MiB           1   @profile
+    86                                         def get_all_reviews_by_product(prod_id):
+    87                                             """
+    88                                             Retrieve all unflagged reviews for a specific product.
+    89                                         
+    90                                             :param prod_id: The ID of the product.
+    91                                             :type prod_id: int
+    92                                             :return: A query object containing the reviews.
+    93                                             :rtype: sqlalchemy.orm.query.Query
+    94                                             """
+    95     69.6 MiB      0.0 MiB           1       reviews = Review.query.filter_by(product_id=prod_id, flagged = False)
+    96     69.6 MiB      0.0 MiB           1       return reviews
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\review_service\services\review_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    85     69.6 MiB     69.6 MiB           1   @profile
+    86                                         def get_all_reviews_by_product(prod_id):
+    87                                             """
+    88                                             Retrieve all unflagged reviews for a specific product.
+    89                                         
+    90                                             :param prod_id: The ID of the product.
+    91                                             :type prod_id: int
+    92                                             :return: A query object containing the reviews.
+    93                                             :rtype: sqlalchemy.orm.query.Query
+    94                                             """
+    95     69.6 MiB      0.0 MiB           1       reviews = Review.query.filter_by(product_id=prod_id, flagged = False)
+    96     69.6 MiB      0.0 MiB           1       return reviews
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\review_service\services\review_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    85     69.6 MiB     69.6 MiB           1   @profile
+    86                                         def get_all_reviews_by_product(prod_id):
+    87                                             """
+    88                                             Retrieve all unflagged reviews for a specific product.
+    89                                         
+    90                                             :param prod_id: The ID of the product.
+    91                                             :type prod_id: int
+    92                                             :return: A query object containing the reviews.
+    93                                             :rtype: sqlalchemy.orm.query.Query
+    94                                             """
+    95     69.6 MiB      0.0 MiB           1       reviews = Review.query.filter_by(product_id=prod_id, flagged = False)
+    96     69.6 MiB      0.0 MiB           1       return reviews
+
+
+Memory usage for get_all_reviews_by_product: [69.625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625]
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\review_service\services\review_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    98     69.6 MiB     69.6 MiB           1   @profile
+    99                                         def get_all_reviews_by_customer(customer_id):
+   100                                             """
+   101                                             Retrieve all unflagged reviews submitted by a specific customer.
+   102                                         
+   103                                             :param customer_id: The ID of the customer.
+   104                                             :type customer_id: int
+   105                                             :return: A query object containing the reviews.
+   106                                             :rtype: sqlalchemy.orm.query.Query
+   107                                             """
+   108     69.6 MiB      0.0 MiB           1       reviews = Review.query.filter_by(customer_id=customer_id, flagged = False)
+   109     69.6 MiB      0.0 MiB           1       return reviews
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\review_service\services\review_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    98     69.6 MiB     69.6 MiB           1   @profile
+    99                                         def get_all_reviews_by_customer(customer_id):
+   100                                             """
+   101                                             Retrieve all unflagged reviews submitted by a specific customer.
+   102                                         
+   103                                             :param customer_id: The ID of the customer.
+   104                                             :type customer_id: int
+   105                                             :return: A query object containing the reviews.
+   106                                             :rtype: sqlalchemy.orm.query.Query
+   107                                             """
+   108     69.6 MiB      0.0 MiB           1       reviews = Review.query.filter_by(customer_id=customer_id, flagged = False)
+   109     69.6 MiB      0.0 MiB           1       return reviews
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\review_service\services\review_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    98     69.6 MiB     69.6 MiB           1   @profile
+    99                                         def get_all_reviews_by_customer(customer_id):
+   100                                             """
+   101                                             Retrieve all unflagged reviews submitted by a specific customer.
+   102                                         
+   103                                             :param customer_id: The ID of the customer.
+   104                                             :type customer_id: int
+   105                                             :return: A query object containing the reviews.
+   106                                             :rtype: sqlalchemy.orm.query.Query
+   107                                             """
+   108     69.6 MiB      0.0 MiB           1       reviews = Review.query.filter_by(customer_id=customer_id, flagged = False)
+   109     69.6 MiB      0.0 MiB           1       return reviews
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\review_service\services\review_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    98     69.6 MiB     69.6 MiB           1   @profile
+    99                                         def get_all_reviews_by_customer(customer_id):
+   100                                             """
+   101                                             Retrieve all unflagged reviews submitted by a specific customer.
+   102                                         
+   103                                             :param customer_id: The ID of the customer.
+   104                                             :type customer_id: int
+   105                                             :return: A query object containing the reviews.
+   106                                             :rtype: sqlalchemy.orm.query.Query
+   107                                             """
+   108     69.6 MiB      0.0 MiB           1       reviews = Review.query.filter_by(customer_id=customer_id, flagged = False)
+   109     69.6 MiB      0.0 MiB           1       return reviews
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\review_service\services\review_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    98     69.6 MiB     69.6 MiB           1   @profile
+    99                                         def get_all_reviews_by_customer(customer_id):
+   100                                             """
+   101                                             Retrieve all unflagged reviews submitted by a specific customer.
+   102                                         
+   103                                             :param customer_id: The ID of the customer.
+   104                                             :type customer_id: int
+   105                                             :return: A query object containing the reviews.
+   106                                             :rtype: sqlalchemy.orm.query.Query
+   107                                             """
+   108     69.6 MiB      0.0 MiB           1       reviews = Review.query.filter_by(customer_id=customer_id, flagged = False)
+   109     69.6 MiB      0.0 MiB           1       return reviews
+
+
+Memory usage for get_all_reviews_by_customer: [69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.62890625, 69.6328125, 69.6328125, 69.6328125]
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\review_service\services\review_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+     5     69.6 MiB     69.6 MiB           1   @profile
+     6                                         def add_review(user_id, prod_id, data):
+     7                                             """
+     8                                             Add a new review to the database.
+     9                                         
+    10                                             :param user_id: The ID of the user submitting the review.
+    11                                             :type user_id: int
+    12                                             :param prod_id: The ID of the product being reviewed.
+    13                                             :type prod_id: int
+    14                                             :param data: A dictionary containing review details, including "rating" and optional "description".
+    15                                             :type data: dict
+    16                                             :raises ValueError: If required fields are missing or if a database integrity error occurs.
+    17                                             :return: The newly added review object.
+    18                                             :rtype: Review
+    19                                             """
+    20     69.6 MiB      0.0 MiB           1       if user_id == None or prod_id == None:
+    21                                                 raise ValueError("Fields not found.")
+    22     69.6 MiB      0.0 MiB           2       new_review = Review(
+    23     69.6 MiB      0.0 MiB           1           customer_id=user_id,
+    24     69.6 MiB      0.0 MiB           1           product_id=prod_id,
+    25     69.6 MiB      0.0 MiB           1           rating=data["rating"],
+    26     69.6 MiB      0.0 MiB           1           description=data.get("description", "")
+    27                                             )
+    28     69.6 MiB      0.0 MiB           1       try:
+    29     69.6 MiB      0.0 MiB           1           db.session.add(new_review)
+    30     69.6 MiB      0.0 MiB           1           db.session.commit()
+    31     69.6 MiB      0.0 MiB           1           return new_review
+    32                                             except IntegrityError:
+    33                                                 db.session.rollback()
+    34                                                 raise ValueError("Failed to add review due to a database integrity error.")
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\review_service\services\review_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+   111     69.6 MiB     69.6 MiB           1   @profile
+   112                                         def get_specific_review_details(review, item, customer):
+   113                                             """
+   114                                             Retrieve detailed information about a specific review.
+   115                                         
+   116                                             :param review: The review object.
+   117                                             :type review: Review
+   118                                             :param item: A dictionary containing product information.
+   119                                             :type item: dict
+   120                                             :param customer: A dictionary containing customer information.
+   121                                             :type customer: dict
+   122                                             :return: A dictionary containing detailed review information.
+   123                                             :rtype: dict
+   124                                             """
+   125     69.7 MiB      0.0 MiB           1       return {
+   126     69.7 MiB      0.0 MiB           1           "id": review.id,
+   127     69.7 MiB      0.0 MiB           1           "product_id": review.product_id,
+   128     69.7 MiB      0.0 MiB           1           "customer_id":review.customer_id,
+   129     69.7 MiB      0.0 MiB           1           "username": customer.get("username"), 
+   130     69.7 MiB      0.0 MiB           1           "product_name": item.get("name"),
+   131     69.7 MiB      0.0 MiB           1           "rating": review.rating,
+   132     69.7 MiB      0.0 MiB           1           "description": review.description,
+   133     69.7 MiB      0.0 MiB           1           "flagged": review.flagged      
+   134                                             }
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\review_service\services\review_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+   111     69.7 MiB     69.7 MiB           1   @profile
+   112                                         def get_specific_review_details(review, item, customer):
+   113                                             """
+   114                                             Retrieve detailed information about a specific review.
+   115                                         
+   116                                             :param review: The review object.
+   117                                             :type review: Review
+   118                                             :param item: A dictionary containing product information.
+   119                                             :type item: dict
+   120                                             :param customer: A dictionary containing customer information.
+   121                                             :type customer: dict
+   122                                             :return: A dictionary containing detailed review information.
+   123                                             :rtype: dict
+   124                                             """
+   125     69.7 MiB      0.0 MiB           1       return {
+   126     69.7 MiB      0.0 MiB           1           "id": review.id,
+   127     69.7 MiB      0.0 MiB           1           "product_id": review.product_id,
+   128     69.7 MiB      0.0 MiB           1           "customer_id":review.customer_id,
+   129     69.7 MiB      0.0 MiB           1           "username": customer.get("username"), 
+   130     69.7 MiB      0.0 MiB           1           "product_name": item.get("name"),
+   131     69.7 MiB      0.0 MiB           1           "rating": review.rating,
+   132     69.7 MiB      0.0 MiB           1           "description": review.description,
+   133     69.7 MiB      0.0 MiB           1           "flagged": review.flagged      
+   134                                             }
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\review_service\services\review_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+   111     69.7 MiB     69.7 MiB           1   @profile
+   112                                         def get_specific_review_details(review, item, customer):
+   113                                             """
+   114                                             Retrieve detailed information about a specific review.
+   115                                         
+   116                                             :param review: The review object.
+   117                                             :type review: Review
+   118                                             :param item: A dictionary containing product information.
+   119                                             :type item: dict
+   120                                             :param customer: A dictionary containing customer information.
+   121                                             :type customer: dict
+   122                                             :return: A dictionary containing detailed review information.
+   123                                             :rtype: dict
+   124                                             """
+   125     69.7 MiB      0.0 MiB           1       return {
+   126     69.7 MiB      0.0 MiB           1           "id": review.id,
+   127     69.7 MiB      0.0 MiB           1           "product_id": review.product_id,
+   128     69.7 MiB      0.0 MiB           1           "customer_id":review.customer_id,
+   129     69.7 MiB      0.0 MiB           1           "username": customer.get("username"), 
+   130     69.7 MiB      0.0 MiB           1           "product_name": item.get("name"),
+   131     69.7 MiB      0.0 MiB           1           "rating": review.rating,
+   132     69.7 MiB      0.0 MiB           1           "description": review.description,
+   133     69.7 MiB      0.0 MiB           1           "flagged": review.flagged      
+   134                                             }
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\review_service\services\review_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+   111     69.7 MiB     69.7 MiB           1   @profile
+   112                                         def get_specific_review_details(review, item, customer):
+   113                                             """
+   114                                             Retrieve detailed information about a specific review.
+   115                                         
+   116                                             :param review: The review object.
+   117                                             :type review: Review
+   118                                             :param item: A dictionary containing product information.
+   119                                             :type item: dict
+   120                                             :param customer: A dictionary containing customer information.
+   121                                             :type customer: dict
+   122                                             :return: A dictionary containing detailed review information.
+   123                                             :rtype: dict
+   124                                             """
+   125     69.7 MiB      0.0 MiB           1       return {
+   126     69.7 MiB      0.0 MiB           1           "id": review.id,
+   127     69.7 MiB      0.0 MiB           1           "product_id": review.product_id,
+   128     69.7 MiB      0.0 MiB           1           "customer_id":review.customer_id,
+   129     69.7 MiB      0.0 MiB           1           "username": customer.get("username"), 
+   130     69.7 MiB      0.0 MiB           1           "product_name": item.get("name"),
+   131     69.7 MiB      0.0 MiB           1           "rating": review.rating,
+   132     69.7 MiB      0.0 MiB           1           "description": review.description,
+   133     69.7 MiB      0.0 MiB           1           "flagged": review.flagged      
+   134                                             }
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\review_service\services\review_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+   111     69.7 MiB     69.7 MiB           1   @profile
+   112                                         def get_specific_review_details(review, item, customer):
+   113                                             """
+   114                                             Retrieve detailed information about a specific review.
+   115                                         
+   116                                             :param review: The review object.
+   117                                             :type review: Review
+   118                                             :param item: A dictionary containing product information.
+   119                                             :type item: dict
+   120                                             :param customer: A dictionary containing customer information.
+   121                                             :type customer: dict
+   122                                             :return: A dictionary containing detailed review information.
+   123                                             :rtype: dict
+   124                                             """
+   125     69.7 MiB      0.0 MiB           1       return {
+   126     69.7 MiB      0.0 MiB           1           "id": review.id,
+   127     69.7 MiB      0.0 MiB           1           "product_id": review.product_id,
+   128     69.7 MiB      0.0 MiB           1           "customer_id":review.customer_id,
+   129     69.7 MiB      0.0 MiB           1           "username": customer.get("username"), 
+   130     69.7 MiB      0.0 MiB           1           "product_name": item.get("name"),
+   131     69.7 MiB      0.0 MiB           1           "rating": review.rating,
+   132     69.7 MiB      0.0 MiB           1           "description": review.description,
+   133     69.7 MiB      0.0 MiB           1           "flagged": review.flagged      
+   134                                             }
+
+
+Memory usage for get_specific_review_details: [69.66015625, 69.66015625, 69.66015625, 69.66015625, 69.66015625, 69.66015625, 69.66015625, 69.66015625, 69.66015625, 69.66015625, 69.66015625, 69.66015625, 69.66015625, 69.66015625, 69.66015625, 69.66015625, 69.66015625, 69.66015625, 69.66015625, 69.66015625]
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\review_service\services\review_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+   136     69.7 MiB     69.7 MiB           1   @profile
+   137                                         def flag_review(review_id):
+   138                                             """
+   139                                             Flag a review for administrative attention.
+   140                                         
+   141                                             :param review_id: The ID of the review to be flagged.
+   142                                             :type review_id: int
+   143                                             :raises ValueError: If the review is not found.
+   144                                             :return: The flagged review object.
+   145                                             :rtype: Review
+   146                                             """
+   147     69.7 MiB      0.0 MiB           1       review = Review.query.filter_by(id = review_id).first()
+   148     69.7 MiB      0.0 MiB           1       if not review:
+   149                                                 raise ValueError("No such review exists.")
+   150     69.7 MiB      0.0 MiB           1       review.flagged=True
+   151     69.7 MiB      0.0 MiB           1       db.session.commit()
+   152     69.7 MiB      0.0 MiB           1       return review
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\review_service\services\review_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+   136     69.7 MiB     69.7 MiB           1   @profile
+   137                                         def flag_review(review_id):
+   138                                             """
+   139                                             Flag a review for administrative attention.
+   140                                         
+   141                                             :param review_id: The ID of the review to be flagged.
+   142                                             :type review_id: int
+   143                                             :raises ValueError: If the review is not found.
+   144                                             :return: The flagged review object.
+   145                                             :rtype: Review
+   146                                             """
+   147     69.7 MiB      0.0 MiB           1       review = Review.query.filter_by(id = review_id).first()
+   148     69.7 MiB      0.0 MiB           1       if not review:
+   149                                                 raise ValueError("No such review exists.")
+   150     69.7 MiB      0.0 MiB           1       review.flagged=True
+   151     69.7 MiB      0.0 MiB           1       db.session.commit()
+   152     69.7 MiB      0.0 MiB           1       return review
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\review_service\services\review_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+   136     69.7 MiB     69.7 MiB           1   @profile
+   137                                         def flag_review(review_id):
+   138                                             """
+   139                                             Flag a review for administrative attention.
+   140                                         
+   141                                             :param review_id: The ID of the review to be flagged.
+   142                                             :type review_id: int
+   143                                             :raises ValueError: If the review is not found.
+   144                                             :return: The flagged review object.
+   145                                             :rtype: Review
+   146                                             """
+   147     69.7 MiB      0.0 MiB           1       review = Review.query.filter_by(id = review_id).first()
+   148     69.7 MiB      0.0 MiB           1       if not review:
+   149                                                 raise ValueError("No such review exists.")
+   150     69.7 MiB      0.0 MiB           1       review.flagged=True
+   151     69.7 MiB      0.0 MiB           1       db.session.commit()
+   152     69.7 MiB      0.0 MiB           1       return review
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\review_service\services\review_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+   136     69.7 MiB     69.7 MiB           1   @profile
+   137                                         def flag_review(review_id):
+   138                                             """
+   139                                             Flag a review for administrative attention.
+   140                                         
+   141                                             :param review_id: The ID of the review to be flagged.
+   142                                             :type review_id: int
+   143                                             :raises ValueError: If the review is not found.
+   144                                             :return: The flagged review object.
+   145                                             :rtype: Review
+   146                                             """
+   147     69.7 MiB      0.0 MiB           1       review = Review.query.filter_by(id = review_id).first()
+   148     69.7 MiB      0.0 MiB           1       if not review:
+   149                                                 raise ValueError("No such review exists.")
+   150     69.7 MiB      0.0 MiB           1       review.flagged=True
+   151     69.7 MiB      0.0 MiB           1       db.session.commit()
+   152     69.7 MiB      0.0 MiB           1       return review
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\review_service\services\review_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+   136     69.7 MiB     69.7 MiB           1   @profile
+   137                                         def flag_review(review_id):
+   138                                             """
+   139                                             Flag a review for administrative attention.
+   140                                         
+   141                                             :param review_id: The ID of the review to be flagged.
+   142                                             :type review_id: int
+   143                                             :raises ValueError: If the review is not found.
+   144                                             :return: The flagged review object.
+   145                                             :rtype: Review
+   146                                             """
+   147     69.7 MiB      0.0 MiB           1       review = Review.query.filter_by(id = review_id).first()
+   148     69.7 MiB      0.0 MiB           1       if not review:
+   149                                                 raise ValueError("No such review exists.")
+   150     69.7 MiB      0.0 MiB           1       review.flagged=True
+   151     69.7 MiB      0.0 MiB           1       db.session.commit()
+   152     69.7 MiB      0.0 MiB           1       return review
+
+
+Memory usage for flag_review: [69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375, 69.71484375]
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\review_service\services\review_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    68     69.7 MiB     69.7 MiB           1   @profile
+    69                                         def delete_review(user_id, prod_id):
+    70                                             """
+    71                                             Delete a review.
+    72                                         
+    73                                             :param user_id: The ID of the user who wrote the review.
+    74                                             :type user_id: int
+    75                                             :param prod_id: The ID of the product associated with the review.
+    76                                             :type prod_id: int
+    77                                             :raises ValueError: If the review is not found.
+    78                                             """
+    79     69.7 MiB      0.0 MiB           1       review = Review.query.filter_by(customer_id=user_id, product_id = prod_id).first()
+    80     69.7 MiB      0.0 MiB           1       if not review:
+    81                                                 raise ValueError('Review not found.')
+    82     69.7 MiB      0.0 MiB           1       db.session.delete(review)
+    83     69.8 MiB      0.0 MiB           1       db.session.commit()
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\review_service\services\review_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    68     69.8 MiB     69.8 MiB           1   @profile
+    69                                         def delete_review(user_id, prod_id):
+    70                                             """
+    71                                             Delete a review.
+    72                                         
+    73                                             :param user_id: The ID of the user who wrote the review.
+    74                                             :type user_id: int
+    75                                             :param prod_id: The ID of the product associated with the review.
+    76                                             :type prod_id: int
+    77                                             :raises ValueError: If the review is not found.
+    78                                             """
+    79     69.8 MiB      0.0 MiB           1       review = Review.query.filter_by(customer_id=user_id, product_id = prod_id).first()
+    80     69.8 MiB      0.0 MiB           1       if not review:
+    81                                                 raise ValueError('Review not found.')
+    82     69.8 MiB      0.0 MiB           1       db.session.delete(review)
+    83     69.8 MiB      0.0 MiB           1       db.session.commit()
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\review_service\services\review_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    68     69.8 MiB     69.8 MiB           1   @profile
+    69                                         def delete_review(user_id, prod_id):
+    70                                             """
+    71                                             Delete a review.
+    72                                         
+    73                                             :param user_id: The ID of the user who wrote the review.
+    74                                             :type user_id: int
+    75                                             :param prod_id: The ID of the product associated with the review.
+    76                                             :type prod_id: int
+    77                                             :raises ValueError: If the review is not found.
+    78                                             """
+    79     69.8 MiB      0.0 MiB           1       review = Review.query.filter_by(customer_id=user_id, product_id = prod_id).first()
+    80     69.8 MiB      0.0 MiB           1       if not review:
+    81                                                 raise ValueError('Review not found.')
+    82     69.8 MiB      0.0 MiB           1       db.session.delete(review)
+    83     69.8 MiB      0.0 MiB           1       db.session.commit()
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\review_service\services\review_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    68     69.8 MiB     69.8 MiB           1   @profile
+    69                                         def delete_review(user_id, prod_id):
+    70                                             """
+    71                                             Delete a review.
+    72                                         
+    73                                             :param user_id: The ID of the user who wrote the review.
+    74                                             :type user_id: int
+    75                                             :param prod_id: The ID of the product associated with the review.
+    76                                             :type prod_id: int
+    77                                             :raises ValueError: If the review is not found.
+    78                                             """
+    79     69.8 MiB      0.0 MiB           1       review = Review.query.filter_by(customer_id=user_id, product_id = prod_id).first()
+    80     69.8 MiB      0.0 MiB           1       if not review:
+    81                                                 raise ValueError('Review not found.')
+    82     69.8 MiB      0.0 MiB           1       db.session.delete(review)
+    83     69.8 MiB      0.0 MiB           1       db.session.commit()
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\review_service\services\review_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    68     69.8 MiB     69.8 MiB           1   @profile
+    69                                         def delete_review(user_id, prod_id):
+    70                                             """
+    71                                             Delete a review.
+    72                                         
+    73                                             :param user_id: The ID of the user who wrote the review.
+    74                                             :type user_id: int
+    75                                             :param prod_id: The ID of the product associated with the review.
+    76                                             :type prod_id: int
+    77                                             :raises ValueError: If the review is not found.
+    78                                             """
+    79     69.8 MiB      0.0 MiB           1       review = Review.query.filter_by(customer_id=user_id, product_id = prod_id).first()
+    80     69.8 MiB      0.0 MiB           1       if not review:
+    81                                                 raise ValueError('Review not found.')
+    82     69.8 MiB      0.0 MiB           1       db.session.delete(review)
+    83     69.8 MiB      0.0 MiB           1       db.session.commit()
+
+
+Memory usage for delete_review: [69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.765625, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125, 69.76953125]
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\review_service\services\review_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+   154     69.8 MiB     69.8 MiB           1   @profile
+   155                                         def delete_review_admin(review_id):
+   156                                             """
+   157                                             Delete a review as an administrator.
+   158                                         
+   159                                             :param review_id: The ID of the review to be deleted.
+   160                                             :type review_id: int
+   161                                             :raises ValueError: If the review is not found.
+   162                                             """
+   163     69.8 MiB      0.0 MiB           1       review = Review.query.filter_by(id = review_id).first()
+   164     69.8 MiB      0.0 MiB           1       if not review:
+   165                                                 raise ValueError("No such review exists.")
+   166     69.8 MiB      0.0 MiB           1       db.session.delete(review)
+   167     69.8 MiB      0.0 MiB           1       db.session.commit()
+
+

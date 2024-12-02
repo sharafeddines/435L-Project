@@ -1,6 +1,5 @@
 from flask import Flask
 from controllers.sales_controller import sales_bp, limiter
-from sales_profiler import profile_functions
 
 from utils.database import db, init_db
 def create_app():
@@ -32,5 +31,4 @@ if __name__ == '__main__':
     """
     app = create_app()
     limiter.init_app(app)
-    profile_functions(app)
     app.run(debug=True, host ="0.0.0.0")

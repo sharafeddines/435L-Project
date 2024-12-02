@@ -1,9 +1,7 @@
 from flask import Flask
 from controllers.customer_controller import customer_bp, limiter
 from services.customer_service import register_customer
-from customer_profiler import profile_functions
 from utils.database import db, init_db
-from memory_profiler_customer import memory_profile_functions
 
 def create_app():
     """
@@ -35,7 +33,5 @@ if __name__ == '__main__':
     """
     app = create_app()
     limiter.init_app(app)
-    profile_functions(app)
-    memory_profile_functions(app)
     app.run(debug=True, host="0.0.0.0")
     

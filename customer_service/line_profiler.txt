@@ -1,0 +1,216 @@
+attempting connection
+connected
+Total customers: 2
+Customer retrieved: omar
+New wallet balance after charging: 100.0
+New wallet balance after deduction: 50.0
+Authentication successful: True
+Customer deleted successfully.
+Timer unit: 1e-07 s
+
+Total time: 0.142115 s
+File: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\customer_service\services\customer_service.py
+Function: register_customer at line 7
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+     7                                           def register_customer(data, is_admin=False):
+     8                                               """
+     9                                               Register a new customer.
+    10                                           
+    11                                               Args:
+    12                                                   data (dict): A dictionary containing customer details such as full_name, 
+    13                                                       username, password, age, address, gender, and marital_status.
+    14                                                   is_admin (bool, optional): Specifies if the customer is an admin. Defaults to False.
+    15                                           
+    16                                               Raises:
+    17                                                   ValueError: If a customer with the provided username already exists.
+    18                                           
+    19                                               Returns:
+    20                                                   Customer: The newly registered customer object.
+    21                                               """
+    22         1     143571.0 143571.0     10.1      if Customer.query.filter_by(username=data['username']).first():
+    23                                                   raise ValueError('Username already exists.')
+    24                                           
+    25         1    1099284.0    1e+06     77.4      password_hash = hash_password(data['password'])
+    26         2       3411.0   1705.5      0.2      new_customer = Customer(
+    27         1         13.0     13.0      0.0          full_name=data['full_name'],
+    28         1          7.0      7.0      0.0          username=data['username'],
+    29         1          6.0      6.0      0.0          password_hash=password_hash,
+    30         1         15.0     15.0      0.0          age=data.get('age'),
+    31         1          7.0      7.0      0.0          address=data.get('address'),
+    32         1          6.0      6.0      0.0          gender=data.get('gender'),
+    33         1          7.0      7.0      0.0          marital_status=data.get('marital_status')
+    34                                               )
+    35         1        143.0    143.0      0.0      new_customer.is_admin = is_admin
+    36         1       1703.0   1703.0      0.1      db.session.add(new_customer)
+    37         1     172967.0 172967.0     12.2      db.session.commit()
+    38         1         10.0     10.0      0.0      return new_customer
+
+Total time: 0.0213637 s
+File: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\customer_service\services\customer_service.py
+Function: delete_customer at line 40
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    40                                           def delete_customer(username):
+    41                                               """
+    42                                               Delete a customer by username.
+    43                                           
+    44                                               Args:
+    45                                                   username (str): The username of the customer to delete.
+    46                                           
+    47                                               Raises:
+    48                                                   ValueError: If the customer is not found.
+    49                                               """
+    50         1      66289.0  66289.0     31.0      customer = Customer.query.filter_by(username=username).first()
+    51         1          5.0      5.0      0.0      if not customer:
+    52                                                   raise ValueError('Customer not found.')
+    53         1       1393.0   1393.0      0.7      db.session.delete(customer)
+    54         1     145950.0 145950.0     68.3      db.session.commit()
+
+Total time: 0.012502 s
+File: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\customer_service\services\customer_service.py
+Function: update_customer at line 56
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    56                                           def update_customer(username, data):
+    57                                               """
+    58                                               Update the details of a customer.
+    59                                           
+    60                                               Args:
+    61                                                   username (str): The username of the customer to update.
+    62                                                   data (dict): A dictionary containing the fields to update.
+    63                                           
+    64                                               Raises:
+    65                                                   ValueError: If the customer is not found.
+    66                                           
+    67                                               Returns:
+    68                                                   Customer: The updated customer object.
+    69                                               """
+    70         1      23541.0  23541.0     18.8      customer = Customer.query.filter_by(username=username).first()
+    71         1          4.0      4.0      0.0      if not customer:
+    72                                                   raise ValueError('Customer not found.')
+    73                                           
+    74         2         18.0      9.0      0.0      for key, value in data.items():
+    75         1          6.0      6.0      0.0          if key == 'password':
+    76                                                       setattr(customer, 'password_hash', hash_password(value))
+    77                                                   else:
+    78         1        419.0    419.0      0.3              setattr(customer, key, value)
+    79         1     101023.0 101023.0     80.8      db.session.commit()
+    80         1          9.0      9.0      0.0      return customer
+
+Total time: 0.0036639 s
+File: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\customer_service\services\customer_service.py
+Function: get_all_customers at line 82
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    82                                           def get_all_customers():
+    83                                               """
+    84                                               Retrieve all customers.
+    85                                           
+    86                                               Returns:
+    87                                                   list: A list of all customer objects.
+    88                                               """
+    89         1      36639.0  36639.0    100.0      return Customer.query.all()
+
+Total time: 0.0027957 s
+File: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\customer_service\services\customer_service.py
+Function: get_customer_by_username at line 91
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    91                                           def get_customer_by_username(username):
+    92                                               """
+    93                                               Retrieve a customer by username.
+    94                                           
+    95                                               Args:
+    96                                                   username (str): The username of the customer to retrieve.
+    97                                           
+    98                                               Returns:
+    99                                                   Customer: The customer object if found, else None.
+   100                                               """
+   101         1      27957.0  27957.0    100.0      return Customer.query.filter_by(username=username).first()
+
+Total time: 0.0176782 s
+File: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\customer_service\services\customer_service.py
+Function: charge_wallet at line 103
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+   103                                           def charge_wallet(username, amount):
+   104                                               """
+   105                                               Charge a customer's wallet by a specific amount.
+   106                                           
+   107                                               Args:
+   108                                                   username (str): The username of the customer.
+   109                                                   amount (float): The amount to add to the wallet.
+   110                                           
+   111                                               Raises:
+   112                                                   ValueError: If the customer is not found or the amount is invalid.
+   113                                           
+   114                                               Returns:
+   115                                                   float: The updated wallet balance.
+   116                                               """
+   117         1      30569.0  30569.0     17.3      customer = Customer.query.filter_by(username=username).first()
+   118         1          5.0      5.0      0.0      if not customer:
+   119                                                   raise ValueError('Customer not found.')
+   120         1          5.0      5.0      0.0      if amount <= 0:
+   121                                                   raise ValueError('Need to charge a positive amount')
+   122         1        445.0    445.0      0.3      customer.wallet_balance += amount
+   123         1      96404.0  96404.0     54.5      db.session.commit()
+   124         1      49354.0  49354.0     27.9      return customer.wallet_balance
+
+Total time: 0.0136475 s
+File: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\customer_service\services\customer_service.py
+Function: deduct_wallet at line 126
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+   126                                           def deduct_wallet(username, amount):
+   127                                               """
+   128                                               Deduct a specific amount from a customer's wallet.
+   129                                           
+   130                                               Args:
+   131                                                   username (str): The username of the customer.
+   132                                                   amount (float): The amount to deduct.
+   133                                           
+   134                                               Raises:
+   135                                                   ValueError: If the customer is not found or the balance is insufficient.
+   136                                           
+   137                                               Returns:
+   138                                                   float: The updated wallet balance.
+   139                                               """
+   140         1      27112.0  27112.0     19.9      customer = Customer.query.filter_by(username=username).first()
+   141         1          4.0      4.0      0.0      if not customer:
+   142                                                   raise ValueError('Customer not found.')
+   143         1         39.0     39.0      0.0      if customer.wallet_balance < amount:
+   144                                                   raise ValueError('Insufficient balance.')
+   145         1        250.0    250.0      0.2      customer.wallet_balance -= amount
+   146         1      83467.0  83467.0     61.2      db.session.commit()
+   147         1      25603.0  25603.0     18.8      return customer.wallet_balance
+
+Total time: 0.136669 s
+File: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\customer_service\services\customer_service.py
+Function: authenticate_customer at line 149
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+   149                                           def authenticate_customer(username, password):
+   150                                               """
+   151                                               Authenticate a customer using username and password.
+   152                                           
+   153                                               Args:
+   154                                                   username (str): The customer's username.
+   155                                                   password (str): The customer's password.
+   156                                           
+   157                                               Returns:
+   158                                                   Customer: The customer object if authentication is successful, else None.
+   159                                               """
+   160         1      28148.0  28148.0      2.1      customer = Customer.query.filter_by(username=username).first()
+   161         1    1338530.0    1e+06     97.9      if not customer or not verify_password(password, customer.password_hash):
+   162                                                   return None
+   163         1         11.0     11.0      0.0      return customer
+
