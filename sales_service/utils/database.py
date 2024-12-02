@@ -21,7 +21,7 @@ def init_db(app):
     global start_time 
     start_time = time.time()
     try:
-        app.config['SQLALCHEMY_DATABASE_URI'] = 'mssql+pyodbc://sa:SO%4012345@127.0.0.1:1433/application?driver=ODBC+Driver+17+for+SQL+Server'
+        app.config['SQLALCHEMY_DATABASE_URI'] = 'mssql+pyodbc://sa:SO%4012345@192.168.1.2:1433/application?driver=ODBC+Driver+17+for+SQL+Server'
     except:
         pass
     print("connected")
