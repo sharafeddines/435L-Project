@@ -1,0 +1,356 @@
+attempting connection
+connected
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\inventory_service\services\inventory_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    94     63.5 MiB     63.5 MiB           1   @profile
+    95                                         def get_all_inventory():
+    96                                             """
+    97                                             Retrieve all items in the inventory.
+    98                                         
+    99                                             Returns:
+   100                                                 list: A list of all `Inventory` objects.
+   101                                             """
+   102     63.7 MiB      0.2 MiB           1       return Inventory.query.all()
+
+
+Item 'Laptop' already exists in inventory.
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\inventory_service\services\inventory_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    94     63.7 MiB     63.7 MiB           1   @profile
+    95                                         def get_all_inventory():
+    96                                             """
+    97                                             Retrieve all items in the inventory.
+    98                                         
+    99                                             Returns:
+   100                                                 list: A list of all `Inventory` objects.
+   101                                             """
+   102     63.7 MiB      0.0 MiB           1       return Inventory.query.all()
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\inventory_service\services\inventory_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    44     64.0 MiB     64.0 MiB           1   @profile
+    45                                         def deduct_goods(item_id, count):
+    46                                             """
+    47                                             Deduct a specific quantity of goods from the inventory.
+    48                                         
+    49                                             Args:
+    50                                                 item_id (int): The ID of the inventory item.
+    51                                                 count (int): The quantity to deduct.
+    52                                         
+    53                                             Raises:
+    54                                                 ValueError: If the item is not found or if the stock is insufficient.
+    55                                         
+    56                                             Returns:
+    57                                                 Inventory: The updated inventory item.
+    58                                             """
+    59     64.0 MiB      0.0 MiB           1       goods = Inventory.query.get(item_id)
+    60     64.0 MiB      0.0 MiB           1       if not goods:
+    61                                                 raise ValueError("Item not found")
+    62     64.0 MiB      0.0 MiB           1       if goods.count_in_stock < count:
+    63                                                 raise ValueError("Insufficient stock")
+    64     64.0 MiB      0.0 MiB           1       goods.count_in_stock -= count
+    65     64.1 MiB      0.1 MiB           1       db.session.commit()
+    66     64.1 MiB      0.0 MiB           1       return goods
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\inventory_service\services\inventory_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    44     64.1 MiB     64.1 MiB           1   @profile
+    45                                         def deduct_goods(item_id, count):
+    46                                             """
+    47                                             Deduct a specific quantity of goods from the inventory.
+    48                                         
+    49                                             Args:
+    50                                                 item_id (int): The ID of the inventory item.
+    51                                                 count (int): The quantity to deduct.
+    52                                         
+    53                                             Raises:
+    54                                                 ValueError: If the item is not found or if the stock is insufficient.
+    55                                         
+    56                                             Returns:
+    57                                                 Inventory: The updated inventory item.
+    58                                             """
+    59     64.2 MiB      0.0 MiB           1       goods = Inventory.query.get(item_id)
+    60     64.2 MiB      0.0 MiB           1       if not goods:
+    61                                                 raise ValueError("Item not found")
+    62     64.2 MiB      0.0 MiB           1       if goods.count_in_stock < count:
+    63                                                 raise ValueError("Insufficient stock")
+    64     64.2 MiB      0.0 MiB           1       goods.count_in_stock -= count
+    65     64.2 MiB      0.0 MiB           1       db.session.commit()
+    66     64.2 MiB      0.0 MiB           1       return goods
+
+
+Memory usage for deduct_goods: [64.13671875, 64.13671875, 64.14453125, 64.17578125, 64.18359375]
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\inventory_service\services\inventory_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    44     64.2 MiB     64.2 MiB           1   @profile
+    45                                         def deduct_goods(item_id, count):
+    46                                             """
+    47                                             Deduct a specific quantity of goods from the inventory.
+    48                                         
+    49                                             Args:
+    50                                                 item_id (int): The ID of the inventory item.
+    51                                                 count (int): The quantity to deduct.
+    52                                         
+    53                                             Raises:
+    54                                                 ValueError: If the item is not found or if the stock is insufficient.
+    55                                         
+    56                                             Returns:
+    57                                                 Inventory: The updated inventory item.
+    58                                             """
+    59     64.2 MiB      0.0 MiB           1       goods = Inventory.query.get(item_id)
+    60     64.2 MiB      0.0 MiB           1       if not goods:
+    61                                                 raise ValueError("Item not found")
+    62     64.2 MiB      0.0 MiB           1       if goods.count_in_stock < count:
+    63                                                 raise ValueError("Insufficient stock")
+    64     64.2 MiB      0.0 MiB           1       goods.count_in_stock -= count
+    65     64.2 MiB      0.0 MiB           1       db.session.commit()
+    66     64.2 MiB      0.0 MiB           1       return goods
+
+
+Deducted 2 units from item ID 4
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\inventory_service\services\inventory_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    68     64.2 MiB     64.2 MiB           1   @profile
+    69                                         def update_goods(item_id, update_data):
+    70                                             """
+    71                                             Update the details of an inventory item.
+    72                                         
+    73                                             Args:
+    74                                                 item_id (int): The ID of the inventory item to update.
+    75                                                 update_data (dict): A dictionary containing the fields to update.
+    76                                         
+    77                                             Raises:
+    78                                                 ValueError: If the item is not found.
+    79                                         
+    80                                             Returns:
+    81                                                 Inventory: The updated inventory item.
+    82                                             """
+    83     64.2 MiB      0.0 MiB           1       goods = Inventory.query.get(item_id)
+    84     64.2 MiB      0.0 MiB           1       if not goods:
+    85                                                 raise ValueError("Item not found")
+    86                                         
+    87     64.2 MiB      0.0 MiB           3       for key, value in update_data.items():
+    88     64.2 MiB      0.0 MiB           2           if hasattr(goods, key):
+    89     64.2 MiB      0.0 MiB           2               setattr(goods, key, value)
+    90                                         
+    91     64.2 MiB      0.0 MiB           1       db.session.commit()
+    92     64.2 MiB      0.0 MiB           1       return goods
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\inventory_service\services\inventory_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    68     64.2 MiB     64.2 MiB           1   @profile
+    69                                         def update_goods(item_id, update_data):
+    70                                             """
+    71                                             Update the details of an inventory item.
+    72                                         
+    73                                             Args:
+    74                                                 item_id (int): The ID of the inventory item to update.
+    75                                                 update_data (dict): A dictionary containing the fields to update.
+    76                                         
+    77                                             Raises:
+    78                                                 ValueError: If the item is not found.
+    79                                         
+    80                                             Returns:
+    81                                                 Inventory: The updated inventory item.
+    82                                             """
+    83     64.2 MiB      0.0 MiB           1       goods = Inventory.query.get(item_id)
+    84     64.2 MiB      0.0 MiB           1       if not goods:
+    85                                                 raise ValueError("Item not found")
+    86                                         
+    87     64.2 MiB      0.0 MiB           3       for key, value in update_data.items():
+    88     64.2 MiB      0.0 MiB           2           if hasattr(goods, key):
+    89     64.2 MiB      0.0 MiB           2               setattr(goods, key, value)
+    90                                         
+    91     64.2 MiB      0.0 MiB           1       db.session.commit()
+    92     64.2 MiB      0.0 MiB           1       return goods
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\inventory_service\services\inventory_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    68     64.2 MiB     64.2 MiB           1   @profile
+    69                                         def update_goods(item_id, update_data):
+    70                                             """
+    71                                             Update the details of an inventory item.
+    72                                         
+    73                                             Args:
+    74                                                 item_id (int): The ID of the inventory item to update.
+    75                                                 update_data (dict): A dictionary containing the fields to update.
+    76                                         
+    77                                             Raises:
+    78                                                 ValueError: If the item is not found.
+    79                                         
+    80                                             Returns:
+    81                                                 Inventory: The updated inventory item.
+    82                                             """
+    83     64.2 MiB      0.0 MiB           1       goods = Inventory.query.get(item_id)
+    84     64.2 MiB      0.0 MiB           1       if not goods:
+    85                                                 raise ValueError("Item not found")
+    86                                         
+    87     64.2 MiB      0.0 MiB           3       for key, value in update_data.items():
+    88     64.2 MiB      0.0 MiB           2           if hasattr(goods, key):
+    89     64.2 MiB      0.0 MiB           2               setattr(goods, key, value)
+    90                                         
+    91     64.2 MiB      0.0 MiB           1       db.session.commit()
+    92     64.2 MiB      0.0 MiB           1       return goods
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\inventory_service\services\inventory_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    68     64.2 MiB     64.2 MiB           1   @profile
+    69                                         def update_goods(item_id, update_data):
+    70                                             """
+    71                                             Update the details of an inventory item.
+    72                                         
+    73                                             Args:
+    74                                                 item_id (int): The ID of the inventory item to update.
+    75                                                 update_data (dict): A dictionary containing the fields to update.
+    76                                         
+    77                                             Raises:
+    78                                                 ValueError: If the item is not found.
+    79                                         
+    80                                             Returns:
+    81                                                 Inventory: The updated inventory item.
+    82                                             """
+    83     64.2 MiB      0.0 MiB           1       goods = Inventory.query.get(item_id)
+    84     64.2 MiB      0.0 MiB           1       if not goods:
+    85                                                 raise ValueError("Item not found")
+    86                                         
+    87     64.2 MiB      0.0 MiB           3       for key, value in update_data.items():
+    88     64.2 MiB      0.0 MiB           2           if hasattr(goods, key):
+    89     64.2 MiB      0.0 MiB           2               setattr(goods, key, value)
+    90                                         
+    91     64.2 MiB      0.0 MiB           1       db.session.commit()
+    92     64.2 MiB      0.0 MiB           1       return goods
+
+
+Memory usage for update_goods: [64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21484375, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.21875, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625, 64.22265625]
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\inventory_service\services\inventory_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    68     64.2 MiB     64.2 MiB           1   @profile
+    69                                         def update_goods(item_id, update_data):
+    70                                             """
+    71                                             Update the details of an inventory item.
+    72                                         
+    73                                             Args:
+    74                                                 item_id (int): The ID of the inventory item to update.
+    75                                                 update_data (dict): A dictionary containing the fields to update.
+    76                                         
+    77                                             Raises:
+    78                                                 ValueError: If the item is not found.
+    79                                         
+    80                                             Returns:
+    81                                                 Inventory: The updated inventory item.
+    82                                             """
+    83     64.2 MiB      0.0 MiB           1       goods = Inventory.query.get(item_id)
+    84     64.2 MiB      0.0 MiB           1       if not goods:
+    85                                                 raise ValueError("Item not found")
+    86                                         
+    87     64.2 MiB      0.0 MiB           3       for key, value in update_data.items():
+    88     64.2 MiB      0.0 MiB           2           if hasattr(goods, key):
+    89     64.2 MiB      0.0 MiB           2               setattr(goods, key, value)
+    90                                         
+    91     64.2 MiB      0.0 MiB           1       db.session.commit()
+    92     64.2 MiB      0.0 MiB           1       return goods
+
+
+Updated item: Laptop, New price: 1400.0
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\inventory_service\services\inventory_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    94     64.2 MiB     64.2 MiB           1   @profile
+    95                                         def get_all_inventory():
+    96                                             """
+    97                                             Retrieve all items in the inventory.
+    98                                         
+    99                                             Returns:
+   100                                                 list: A list of all `Inventory` objects.
+   101                                             """
+   102     64.2 MiB      0.0 MiB           1       return Inventory.query.all()
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\inventory_service\services\inventory_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    94     64.2 MiB     64.2 MiB           1   @profile
+    95                                         def get_all_inventory():
+    96                                             """
+    97                                             Retrieve all items in the inventory.
+    98                                         
+    99                                             Returns:
+   100                                                 list: A list of all `Inventory` objects.
+   101                                             """
+   102     64.2 MiB      0.0 MiB           1       return Inventory.query.all()
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\inventory_service\services\inventory_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    94     64.2 MiB     64.2 MiB           1   @profile
+    95                                         def get_all_inventory():
+    96                                             """
+    97                                             Retrieve all items in the inventory.
+    98                                         
+    99                                             Returns:
+   100                                                 list: A list of all `Inventory` objects.
+   101                                             """
+   102     64.2 MiB      0.0 MiB           1       return Inventory.query.all()
+
+
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\inventory_service\services\inventory_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    94     64.2 MiB     64.2 MiB           1   @profile
+    95                                         def get_all_inventory():
+    96                                             """
+    97                                             Retrieve all items in the inventory.
+    98                                         
+    99                                             Returns:
+   100                                                 list: A list of all `Inventory` objects.
+   101                                             """
+   102     64.2 MiB      0.0 MiB           1       return Inventory.query.all()
+
+
+Memory usage for get_all_inventory: [64.23828125, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875, 64.2421875]
+Filename: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\inventory_service\services\inventory_service.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    94     64.2 MiB     64.2 MiB           1   @profile
+    95                                         def get_all_inventory():
+    96                                             """
+    97                                             Retrieve all items in the inventory.
+    98                                         
+    99                                             Returns:
+   100                                                 list: A list of all `Inventory` objects.
+   101                                             """
+   102     64.2 MiB      0.0 MiB           1       return Inventory.query.all()
+
+
+Total inventory items: 1

@@ -2,7 +2,7 @@ from memory_profiler import memory_usage, profile
 from services.inventory_service import (
     add_goods, deduct_goods, update_goods, get_all_inventory
 )
-
+from inventory_service import create_app
 
 def memory_profile_functions(app):
     """
@@ -76,4 +76,5 @@ def memory_profile_functions(app):
 
 
 if __name__ == "__main__":
-    memory_profile_functions()
+    app = create_app()
+    memory_profile_functions(app)

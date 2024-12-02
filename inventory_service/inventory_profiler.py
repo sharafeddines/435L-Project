@@ -3,6 +3,7 @@ from line_profiler import LineProfiler
 from services.inventory_service import (
     add_goods, deduct_goods, update_goods, get_all_inventory
 )
+from inventory_service import create_app
 
 
 def profile_functions(app):
@@ -51,4 +52,5 @@ def profile_functions(app):
 
 
 if __name__ == "__main__":
-    profile_functions()
+    app = create_app()
+    profile_functions(app)

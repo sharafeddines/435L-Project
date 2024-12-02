@@ -1,8 +1,6 @@
 from flask import Flask
 from controllers.inventory_controller import inventory_bp, limiter
 from utils.database import db, init_db
-from inventory_profiler import profile_functions
-from memory_profiler_inventory import memory_profile_functions
 
 def create_app():
     """
@@ -33,6 +31,4 @@ if __name__ == '__main__':
     """
     app = create_app()
     limiter.init_app(app)
-    profile_functions(app)
-    memory_profile_functions(app)
     app.run(debug=True, host="0.0.0.0")
