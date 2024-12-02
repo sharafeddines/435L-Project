@@ -1,0 +1,9 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.0, pytest-8.3.4, pluggy-1.5.0
+rootdir: C:\Users\User\Desktop\AUB\FALL_24_25\EECE_435L\Project\435L-Project\review_service
+plugins: mock-3.14.0
+collected 8 items
+
+test_review_bp.py ........                                            [100%]
+
+======================== 8 passed in 2.5s ========================

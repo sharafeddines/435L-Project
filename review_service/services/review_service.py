@@ -1,6 +1,5 @@
 from models.review import Review
 from utils.database import db
-from memory_profiler import profile
 
 def add_review(user_id, prod_id, data):
     """
