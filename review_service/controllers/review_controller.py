@@ -76,7 +76,7 @@ def add_review_route():
                 raise ValueError("No such item to review")
             data_customer = data_customer_request.json()
             user_id = data_customer["id"] 
-            url_sales = f"http://172.17.0.5:5000/sales/sales/customer/{user_id}"
+            url_sales = f"http://192.168.1.5:5000/sales/sales/customer/{user_id}"
             try:
                 data_sales_request = sales_breaker.call(requests.get, url_sales)
                 if data_sales_request.status_code != 200:
@@ -208,7 +208,7 @@ def get_all_by_product():
     :return: JSON response with a list of reviews or an error message.
     :rtype: tuple
     """
-    url_inventory = "http://172.17.0.4:5000/inventory/"
+    url_inventory = "http://192.168.1.4:5000/inventory/"
     try:
         data = request.get_json()
         try:
@@ -239,6 +239,7 @@ def get_specific_review():
     :return: JSON response with review details or an error message.
     :rtype: tuple
     """
+    url_customers = "http://192.168.1.3:5000/customers/"
     try:
         data = request.get_json()
         if not data:
@@ -255,7 +256,7 @@ def get_specific_review():
         except pybreaker.CircuitBreakerError:
             raise ValueError("Inventory service unavailable")
         try:
-            data_customer_request = customers_breaker.call(requests.get, url_customers)
+            data_customer_request = customers_breaker.call(requests.get, url_customers, headers=request.headers)
             if data_customer_request.status_code != 200:
                 raise ValueError("Failed to fetch customer data")
             data_customer = data_customer_request.json()
@@ -317,7 +318,7 @@ def delete_review_admin_route():
     :return: JSON response indicating success or an error message.
     :rtype: tuple
     """
-    url_customers = "http://172.17.0.3:5000/customers/get_user_from_token"
+    url_customers = "http://192.168.1.3:5000/customers/get_user_from_token"
     try:
         data = request.get_json()
         try:
